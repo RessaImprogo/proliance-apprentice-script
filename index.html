@@ -4,7 +4,275 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proliance — PA Apprentice Recruiting Script</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f7f6;--bg3:#f0efed;
+  --text:#1a1a1a;--text2:#666;--text3:#999;
+  --border:rgba(0,0,0,0.10);--border2:rgba(0,0,0,0.18);
+  --radius:10px;--radius-sm:6px;
+  --blue-bg:#E6F1FB;--blue:#185FA5;
+  --green-bg:#EAF3DE;--green:#3B6D11;
+  --amber-bg:#FAEEDA;--amber:#BA7517;
+  --red-bg:#FCEBEB;--red:#A32D2D;
+  --purple-bg:#EEEDFE;--purple:#534AB7;
+  --teal-bg:#E1F5EE;--teal:#0F6E56;
+  --gray-bg:#F1EFE8;--gray:#5F5E5A;
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg2)}
+.login-box{background:var(--bg);border:1px solid var(--border2);border-radius:14px;padding:40px 44px;width:360px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.login-logo{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:28px}
+.login-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--text2);margin-bottom:32px}
+.user-btns{display:flex;flex-direction:column;gap:10px}
+.user-btn{padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg);font-size:14px;font-weight:500;font-family:inherit;color:var(--text);cursor:pointer;transition:all .13s}
+.user-btn:hover{background:var(--bg2);border-color:var(--blue);color:var(--blue)}
+
+/* APP */
+#app{display:none;flex-direction:column;position:fixed;inset:0;overflow:hidden}
+#app.visible{display:flex}
+.app-inner{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
+.topbar-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0;flex-wrap:wrap}
+.topbar-right{display:flex;align-items:center;gap:6px}
+.topbar-logo{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);white-space:nowrap}
+.cand-input{border:1px solid var(--border2);border-radius:var(--radius-sm);padding:5px 10px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--text);width:160px;outline:none;transition:border-color .15s}
+.cand-input:focus{border-color:var(--blue)}
+.pill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.flag-bar{display:flex;gap:5px}
+.flag-btn{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--bg);color:var(--text2);font-family:inherit;transition:all .13s}
+.flag-btn[data-color="green"]:hover{background:var(--green-bg);color:var(--green);border-color:var(--green)}
+.flag-btn[data-color="amber"]:hover{background:var(--amber-bg);color:var(--amber);border-color:var(--amber)}
+.flag-btn[data-color="red"]:hover{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+.hist-btn,.logout-btn{padding:5px 12px;border-radius:var(--radius-sm);font-size:12px;font-family:inherit;cursor:pointer;border:1px solid var(--border2);background:var(--bg);color:var(--text2);transition:background .13s}
+.hist-btn:hover,.logout-btn:hover{background:var(--bg3)}
+
+/* FLAGS */
+.flags-strip{padding:5px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:none;flex-wrap:wrap;gap:5px;flex-shrink:0}
+.flags-strip.visible{display:flex}
+.flag-chip{font-size:11px;font-weight:500;padding:2px 9px;border-radius:10px}
+
+/* PROGRESS */
+.prog-bar{height:3px;background:var(--border);flex-shrink:0}
+.prog-fill{height:100%;background:var(--blue);transition:width .3s}
+
+/* SIDEBAR */
+#sidebar{width:220px;min-width:220px;border-right:1px solid var(--border);overflow-y:auto;background:var(--bg);flex-shrink:0}
+.sb-sec{padding:12px 14px 4px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3)}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 10px;margin:1px 6px;border-radius:var(--radius-sm);cursor:pointer;font-size:12.5px;color:var(--text2);transition:background .12s}
+.sb-item:hover{background:var(--bg2)}
+.sb-item.active{background:var(--bg2);color:var(--text);font-weight:600}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:#d0d0cc;flex-shrink:0;transition:background .2s}
+.sb-item.done .sb-dot{background:var(--green)}
+.sb-item.active .sb-dot{background:var(--blue)}
+.sb-rating{margin-left:auto;font-size:11px;font-weight:700}
+.sb-divider{height:1px;background:var(--border);margin:5px 12px}
+
+/* SCROLL */
+#scroll-area{flex:1;overflow-y:auto;padding:22px 26px 60px;background:var(--bg)}
+.step-eye{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.step-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:18px}
+
+/* CARDS */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;position:relative;transition:border-color .15s}
+.card:hover{border-color:var(--border2)}
+.card:hover .edit-hint{opacity:1}
+.edit-hint{position:absolute;top:8px;right:10px;font-size:10px;color:var(--text3);opacity:0;transition:opacity .2s;pointer-events:none}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-bottom:8px;letter-spacing:.04em}
+.t-say{background:var(--blue-bg);color:var(--blue)}
+.t-ask{background:var(--green-bg);color:var(--green)}
+.t-note{background:var(--amber-bg);color:var(--amber)}
+.t-rule{background:var(--red-bg);color:var(--red)}
+.t-listen{background:var(--gray-bg);color:var(--gray)}
+.t-exit{background:var(--red-bg);color:var(--red)}
+.t-branch{background:var(--purple-bg);color:var(--purple)}
+.t-context{background:var(--teal-bg);color:var(--teal)}
+.q-text{font-size:15px;font-weight:600;color:var(--text);line-height:1.65}
+.kv-text{font-size:13px;color:var(--text2);line-height:1.75}
+.kv-text b,.kv-text strong{color:var(--text);font-weight:700}
+.editable{outline:none;border-radius:4px}
+.editable:focus{background:#f0f7ff;outline:2px solid var(--blue);outline-offset:3px}
+
+/* CHOICES */
+.choice-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:10px}
+.choice-q{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:7px}
+.opt-btn{padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text);transition:all .13s}
+.opt-btn:hover{background:var(--bg3)}
+.opt-btn.sel-g{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
+.opt-btn.sel-r{border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:700}
+.opt-btn.sel-a{border-color:var(--amber);background:var(--amber-bg);color:var(--amber);font-weight:700}
+.opt-btn.sel-b{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);font-weight:700}
+
+/* EXIT */
+.exit-block{border-left:3px solid var(--red);background:var(--red-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;margin-top:10px}
+.exit-lbl{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.exit-say{font-size:13px;color:var(--text);line-height:1.7;font-style:italic}
+
+/* RECRUITER NOTES */
+.rec-note{border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;margin-top:8px;font-size:13px;line-height:1.65}
+.rec-note-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+
+/* RATING */
+.rating-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.r-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text2);transition:all .13s}
+.r-btn:hover{background:var(--bg2)}
+.r-s.on{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
+.r-c.on{border-color:var(--amber);background:var(--amber-bg);color:var(--amber);font-weight:700}
+.r-e.on{border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:700}
+
+/* NOTES */
+.notes-lbl{font-size:11px;font-weight:600;color:var(--text3);margin:13px 0 5px}
+textarea{width:100%;border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 11px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);resize:vertical;min-height:64px;line-height:1.6;outline:none;transition:border-color .15s}
+textarea:focus{border-color:var(--blue)}
+
+/* NAV */
+.nav-row{display:flex;gap:9px;margin-top:20px}
+.btn-primary{padding:9px 20px;border-radius:var(--radius-sm);background:#1a1a1a;color:#fff;border:none;font-size:13px;font-family:inherit;font-weight:700;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.82}
+.btn-sec{padding:9px 14px;border-radius:var(--radius-sm);background:transparent;color:var(--text2);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;transition:background .13s}
+.btn-sec:hover{background:var(--bg2)}
+
+/* BUCKET */
+.bucket-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+.bucket-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;cursor:pointer;transition:all .15s}
+.bucket-card:hover{background:var(--bg2)}
+.bucket-card.sel-b1{border-color:var(--green);background:var(--green-bg)}
+.bucket-card.sel-b2,.bucket-card.sel-b3,.bucket-card.sel-b4{border-color:var(--amber);background:var(--amber-bg)}
+.bucket-card.sel-b5,.bucket-card.sel-b6,.bucket-card.sel-b7,.bucket-card.sel-b8{border-color:var(--red);background:var(--red-bg)}
+.bucket-num{font-size:18px;font-weight:700;color:var(--text)}
+.bucket-label{font-size:12px;font-weight:600;color:var(--text);margin-top:2px}
+.bucket-sub{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
+.bucket-action{font-size:11px;margin-top:6px;padding:2px 8px;border-radius:4px;display:inline-block;font-weight:600}
+
+/* DEBRIEF */
+.debrief-q{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px}
+.db-lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+.db-q{font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.55}
+.d-opts{display:flex;flex-wrap:wrap;gap:7px}
+.d-btn{padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text);transition:all .13s}
+.d-btn:hover{background:var(--bg2)}
+.d-g{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
+.d-a{border-color:var(--amber);background:var(--amber-bg);color:var(--amber);font-weight:700}
+.d-r{border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:700}
+.verdict-box{border-radius:var(--radius);padding:18px 20px;margin-top:14px;border:1px solid var(--border)}
+.verdict-pending{font-size:12.5px;color:var(--text3);padding:11px 14px;border:1px dashed var(--border2);border-radius:var(--radius-sm);margin-top:10px}
+
+/* SCORE */
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.sum-card{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px}
+.sum-lbl{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:3px}
+.sum-val{font-size:17px;font-weight:700}
+
+/* PDF + SAVE */
+.pdf-btn{padding:9px 18px;border-radius:var(--radius-sm);background:var(--blue);color:#fff;border:none;font-size:13px;font-family:inherit;font-weight:700;cursor:pointer;margin-top:14px;margin-right:8px;transition:opacity .15s}
+.pdf-btn:hover{opacity:.85}
+.save-btn{padding:9px 18px;border-radius:var(--radius-sm);background:var(--green);color:#fff;border:none;font-size:13px;font-family:inherit;font-weight:700;cursor:pointer;margin-top:14px;transition:opacity .15s}
+.save-btn:hover{opacity:.85}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg);border-radius:var(--radius);padding:26px;width:580px;max-width:94vw;max-height:80vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.14)}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:16px}
+.modal-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);line-height:1}
+.hist-item{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:background .13s}
+.hist-item:hover{background:var(--bg2)}
+.hist-name{font-size:14px;font-weight:700}
+.hist-meta{font-size:12px;color:var(--text2);margin-top:3px}
+.hist-empty{font-size:13px;color:var(--text3);text-align:center;padding:28px}
+
+@media(max-width:640px){#sidebar{display:none}.cand-input{width:110px}}
+
+
+/* LOGIN EXTRAS */
+.login-name-row{display:flex;gap:8px;margin-bottom:10px}
+.login-input{flex:1;padding:11px 14px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s}
+.login-input:focus{border-color:var(--blue)}
+#recent-names{display:none;margin-top:16px}
+.recent-label{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:8px}
+.recent-list{display:flex;flex-wrap:wrap;gap:6px}
+.recent-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);font-size:12px;font-family:inherit;cursor:pointer;color:var(--text2);transition:all .13s}
+.recent-btn:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
+
+/* TOPBAR RECRUITER */
+.recruiter-tag{font-size:11px;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:20px;white-space:nowrap}
+
+/* GATE HEADER */
+.gate-header{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:14px 18px;margin-bottom:18px}
+.gate-badge{background:#1B3A6B;color:#fff;border-radius:6px;padding:8px 14px;font-weight:700;font-size:13px;white-space:nowrap}
+.gate-name{font-weight:700;font-size:15px}
+.gate-sub{font-size:12px;color:var(--text2);margin-top:2px}
+
+/* GATE 1 SIGNALS */
+.signal-box{border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px}
+.pass-box{background:var(--green-bg)}
+.fail-box{background:var(--red-bg)}
+.signal-header{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.pass-header{color:var(--green)}
+.fail-header{color:var(--red)}
+.signal-item{font-size:13px;color:var(--text);padding:4px 0;border-bottom:1px solid rgba(0,0,0,.06);line-height:1.5}
+.pass-lbl{color:var(--green)}
+.fail-lbl{color:var(--red)}
+
+/* GATE 2 */
+.gate2-q-header{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.gate2-q-card{position:relative;padding-left:44px !important}
+.gate2-q-num{position:absolute;left:14px;top:14px;font-size:18px;font-weight:800;color:var(--blue)}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.pf-col{border-radius:var(--radius-sm);padding:10px 12px}
+.pf-pass{background:var(--green-bg)}
+.pf-fail{background:var(--red-bg)}
+.pf-header{font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:7px}
+.pf-pass .pf-header{color:var(--green)}
+.pf-fail .pf-header{color:var(--red)}
+.pf-item{font-size:12.5px;color:var(--text);padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06);line-height:1.5}
+.ref-toggle{background:none;border:1px dashed var(--border2);border-radius:var(--radius-sm);padding:6px 14px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--text2);margin-bottom:6px;transition:all .13s}
+.ref-toggle:hover{background:var(--bg2)}
+.ref-wrap{margin-bottom:10px}
+.ref-box{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:6px}
+.ref-label{font-size:11px;font-weight:700;color:var(--accent,var(--blue));text-transform:uppercase;margin-bottom:6px}
+.ref-item{font-size:12.5px;color:var(--text);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.5}
+
+/* COMMISSION */
+.personalize-hint{font-size:12px;color:var(--amber);background:var(--amber-bg);border-radius:4px;padding:6px 10px;margin-bottom:10px}
+
+/* SOCIAL PROOF */
+.sp-row{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;overflow:hidden}
+.sp-header{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;transition:background .13s}
+.sp-header:hover{background:var(--bg2)}
+.sp-name{font-size:14px;font-weight:700;flex:1}
+.sp-meta{font-size:12px;color:var(--text2)}
+.sp-toggle{font-size:18px;color:var(--text3);font-weight:300;margin-left:auto}
+.sp-detail{padding:10px 12px;font-size:13px;color:var(--text);line-height:1.7;border-top:1px solid var(--border);background:var(--bg2)}
+
+/* UNEMPLOYED REDIRECT */
+.unemployed-redirect{margin:8px 0}
+.redirect-box{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;font-size:13px;color:var(--text)}
+.redirect-link{background:none;border:none;color:var(--blue);font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;text-decoration:underline;padding:0}
+
+/* BRIDGE */
+.bridge-toggle-wrap{margin-bottom:10px}
+
+/* NOTES TOGGLE */
+.notes-toggle{margin-top:16px}
+.notes-toggle-btn{background:none;border:1px dashed var(--border2);border-radius:var(--radius-sm);padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--text3);transition:all .13s}
+.notes-toggle-btn:hover{background:var(--bg2);color:var(--text2)}
+.notes-wrap{margin-top:6px}
+
+/* MISC */
+.context-text{font-size:12.5px;color:var(--text2);margin-bottom:14px;line-height:1.6;font-style:italic}
+.listen-item{font-size:13px;color:var(--text);padding:4px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.beats-title,.exit-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.kv-text{font-size:13px;color:var(--text2);line-height:1.75}
+
+  </style>
 </head>
 <body>
 
@@ -13,8 +281,15 @@
   <div class="login-box">
     <div class="login-logo">Proliance Public Adjusting</div>
     <div class="login-title">Recruiting Call Script</div>
-    <div class="login-sub">PA Apprentice · Select your name to continue</div>
-    <div class="user-btns" id="user-btns"></div>
+    <div class="login-sub">PA Apprentice</div>
+    <div class="login-name-row">
+      <input class="login-input" id="recruiter-input" placeholder="Your name..." autocomplete="off">
+      <button class="user-btn" id="login-btn" style="width:auto;padding:11px 18px">Start</button>
+    </div>
+    <div id="recent-names">
+      <div class="recent-label">Recent</div>
+      <div class="recent-list" id="recent-list"></div>
+    </div>
   </div>
 </div>
 
@@ -23,6 +298,7 @@
   <div class="topbar">
     <div class="topbar-left">
       <span class="topbar-logo">Proliance · PA Apprentice</span>
+      <span class="recruiter-tag" id="recruiter-name-display"></span>
       <input class="cand-input" id="cand-name" placeholder="Candidate name...">
       <span id="employ-pill" class="pill" style="display:none"></span>
       <span id="lane-pill" class="pill" style="display:none"></span>
@@ -56,66 +332,42 @@
 </div>
 
 <script>
-const USERS = ['Recruiter 1', 'Recruiter 2', 'Recruiter 3'];
-
 const STEPS = [
-  // ─── STEP 1: FRAME ───
   {
     id: 'frame',
     label: 'Frame the call',
     section: 'Opening',
     cards: [
-      {
-        type: 'context',
-        text: 'Target: 30–45 seconds. Set the tone before anything else. This is what lowers the guard.'
-      },
-      {
-        type: 'employment',
-        question: 'First — are they currently working or between jobs?',
-        opts: [
-          { label: 'Currently employed', val: 'employed', style: 'g' },
-          { label: 'Not currently employed', val: 'unemployed', style: 'r' },
-          { label: 'Irregular / on-call income', val: 'irregular', style: 'a' },
-        ]
-      },
-      {
-        type: 'say',
-        text: '"Hi, this is [your name] with Proliance. Thanks for taking the time."\n\n"I\'m not the decision maker here — my role is really to slow things down, understand why you\'re exploring this, and help you figure out if this actually makes sense for you right now."\n\n"A lot of people are interested in sales, but interest alone doesn\'t always mean it\'s the right move."\n\n"I\'ll be honest with you as we go — if it aligns, I\'ll tell you. If it doesn\'t, I\'ll tell you that too."'
-      },
-      {
-        type: 'note',
-        text: 'That shift — "I\'m not the decision maker" — is what lowers the guard. People stop performing and start being real. Do not skip it.'
-      },
+      { type: 'context', text: 'Target: 30–45 seconds. This is what lowers the guard.' },
+      { type: 'say', text: '"Hi [candidate], this is [recruiter] with Proliance. Thanks for taking the time."\n\n"I\'m not the decision maker here — my role is really to slow things down, understand why you\'re exploring this, and help you figure out if this actually makes sense for you right now."\n\n"I\'ll be honest with you as we go — if it aligns, I\'ll tell you. If it doesn\'t, I\'ll tell you that too."' },
+      { type: 'rule', text: 'Do not skip this. "I\'m not the decision maker" is what makes them stop performing and start being real.' },
     ]
   },
 
-  // ─── STEP 2: LEARN ───
   {
     id: 'learn',
     label: 'Learn their situation',
     section: 'Opening',
     cards: [
-      { type: 'context', text: 'Target: 2–3 minutes. Ask all three in order. Mirror back exactly what you hear — their words, not your paraphrase.' },
-      { type: 'ask', text: '"Can you walk me through your current or most recent role — what you do there and how long you\'ve been doing it?"' },
+      { type: 'context', text: 'Target: 2–3 minutes. Ask in order. Mirror back their exact words — not your paraphrase.' },
+      {
+        type: 'employment',
+        question: 'Are they currently working or between jobs?',
+        opts: [
+          { label: 'Currently employed', val: 'employed', style: 'g' },
+          { label: 'Not employed', val: 'unemployed', style: 'r' },
+          { label: 'Irregular / on-call', val: 'irregular', style: 'a' },
+        ]
+      },
+      { type: 'unemployed_redirect', text: 'They are not currently employed — go to Lane D before continuing the interview.' },
+      { type: 'ask', text: '"[candidate], can you walk me through your current or most recent role — what you do there and how long you\'ve been doing it?"' },
       { type: 'ask', text: '"What do you like most about it?"' },
       { type: 'ask', text: '"And what\'s not working anymore — what actually made you start looking?"' },
-      {
-        type: 'note',
-        text: 'Mirror back exactly what you heard. Repeat their key words — don\'t paraphrase. This prompts them to go deeper on their own.'
-      },
-      {
-        type: 'rule',
-        text: 'If the answer is vague or painless — name it directly:\n\n"I\'m not hearing anything urgent yet. Does staying where you are another year feel okay — or does something need to change now?"\n\nThen move to Gate 1. Do not probe further.'
-      },
-      {
-        type: 'rating',
-        label: 'Rate the pain signal',
-        key: 'pain'
-      }
+      { type: 'rule', text: 'If the answer is vague — name it and move to Gate 1 anyway:\n\n"I\'m not hearing anything urgent yet. Does staying where you are another year feel okay — or does something need to change now?"\n\nThen proceed to Gate 1. Do not probe further here.' },
+      { type: 'rating', label: 'Pain signal', key: 'pain' }
     ]
   },
 
-  // ─── STEP 3: GATE 1 ───
   {
     id: 'gate1',
     label: 'Gate 1 — Sales identity',
@@ -124,123 +376,85 @@ const STEPS = [
     gateNum: 1,
     gateTitle: 'Did they choose sales — or were they pointed here?',
     cards: [
-      { type: 'context', text: 'This gate must open before you move anywhere. One question. Their answer tells you the bucket.' },
-      { type: 'ask', text: '"You applied for a sales role specifically — of all the directions you could go, what made sales the one you wanted to pursue?"' },
+      { type: 'ask', text: '"[candidate], of all the directions you could go — what made sales the one you wanted to pursue?"' },
       {
-        type: 'listen',
-        items: [
-          'PASS — Named a specific reason they chose sales. Connects to something they want to build, prove, or earn.',
-          'PASS — Applied to similar roles in this space. Still intentional.',
-          'FAIL — "My friend said I\'d be good at it." Someone else pointed them here.',
-          'FAIL — "I\'ve been applying to a lot of things." Sales is one of several options.',
-          'FAIL — "It looked interesting." No real reason. Curious, not committed.'
-        ]
+        type: 'gate1_signals',
+        pass: [
+          'Named a specific reason they chose sales — not a personality trait, a decision.',
+          'Connected it to something they want to build, earn, or prove.',
+          'Has explored or applied to similar roles on their own.',
+        ],
+        fail: [
+          '"I\'m a people person." / "I enjoy talking to people." — personality, not a decision.',
+          '"My friend said I\'d be good at it." / "People say I\'m great with people." — pointed here, not pulled.',
+          '"It looked interesting." / "I\'ve been applying to a lot of things." — exploring, not choosing.',
+          '"I know I have the gift of gab." — trait, not intent.',
+        ],
+        probe: 'If they give a personality answer — probe once:\n\n"That tells me you\'d be comfortable with people — but what made you want sales specifically, not customer service or something else?"',
+        note: 'If after the probe they still can\'t name a specific reason — Gate 1 is closed.'
       },
       {
-        type: 'note',
-        text: 'Someone who arrives at sales on their own is choosing. Someone who was recommended here is exploring. Only one stays when week three is hard.'
-      },
-      {
-        type: 'recruiter_note',
-        ressa: 'If they arrived because someone told them they\'d be good at it — that\'s feedback, not identity. Probe: "But what is it about sales that YOU feel pulled toward — not what others see, but what you see in yourself?" If still nothing — Gate 1 is closed.',
-        sheen: 'Watch for candidates who sound enthusiastic but haven\'t made a real decision. Positive energy is not sales identity. Hold this gate before moving to lane questions.',
-        felize: 'Make the gate explicit — if they seem right but haven\'t named a specific reason, ask directly before proceeding.'
-      },
-      {
-        type: 'explore_exit',
-        label: 'Exploring but genuinely likes sales?',
-        probe: '"It sounds like you\'re still figuring out if sales is the direction. What I\'ve found is that people who do well here have usually already decided this is the path — not testing it. Where are you on that?"',
-        exit: '"We\'re specifically looking for people who\'ve researched this space and are moving toward it with a clear reason. From what you\'ve shared, it sounds like you\'re still figuring out the direction. I don\'t think this is the right timing — but when that becomes clearer, feel free to reach back out."'
+        type: 'exit_block',
+        label: 'EXIT — say verbatim',
+        text: '"We\'re specifically looking for people who\'ve researched this space and are moving toward it with a clear reason — that matters a lot in how people hold up when things get hard. From what you\'ve shared, it sounds like you\'re still figuring out the direction. I don\'t think this is the right timing — but when that becomes clearer, feel free to reach back out."'
       },
       { type: 'gate_pass', key: 'gate1' }
     ]
   },
 
-  // ─── STEP 4: MENU / LANE ───
   {
-    id: 'lane',
-    label: 'Menu + Lane',
+    id: 'lane_questions',
+    label: 'Driver lanes',
     section: 'The Gates',
     cards: [
-      {
-        type: 'context',
-        text: 'Skip the menu if they already told you their driver clearly in Learn. Use it only if they\'re floating. Once they pick a lane — stay in it.'
-      },
-      {
-        type: 'menu',
-        question: 'If they\'re floating — use the menu:',
-        say: '"Most of the time when someone starts looking seriously, there\'s one thing underneath it driving the move. It usually comes down to one of three:"\n\n"One — financial. No matter how hard they work, the paycheck doesn\'t really move."\n\n"Two — growth. It\'s the same routine, and it feels stuck."\n\n"Three — environment. The pace is too slow, too predictable. They want somewhere that demands more."\n\n"Which one feels closest to what\'s actually moving you right now?"'
-      },
+      { type: 'context', text: 'Pick the lane that matches what they told you in Learn. If it\'s unclear — ask: "What\'s the one thing that\'s actually pushing you to make a move right now?" Once you\'re in a lane — stay in it.' },
       {
         type: 'lane_choice',
         question: 'Which lane?',
         opts: [
           { label: 'Lane A — Financial', val: 'A', style: 'b' },
           { label: 'Lane B — Growth', val: 'B', style: 'b' },
-          { label: 'Lane C — Environment', val: 'C', style: 'b' },
-          { label: 'Lane D — Not employed', val: 'D', style: 'a' },
+          { label: 'Lane C — Environment / challenge', val: 'C', style: 'b' },
         ]
-      }
-    ]
-  },
-
-  // ─── STEP 5: LANE QUESTIONS ───
-  {
-    id: 'lane_questions',
-    label: 'Lane questions',
-    section: 'The Gates',
-    cards: [
+      },
       {
         type: 'lane_content',
         lanes: {
           A: [
-            { type: 'ask', text: 'RISK APPETITE: "Two job offers — one is easy, stable, guaranteed pay every two weeks. The other is harder, real risk, but $60K to $100K a year if you put in the work. Which one and why?"' },
-            { type: 'rule', text: 'Stop talking. How quickly and specifically they answer tells you their real relationship with risk.' },
-            { type: 'ask', text: 'ROOT CAUSE: "What\'s going on financially right now that\'s making you look for something different?"\n\n"Is this something you need to change now — or something that would just be nice to change eventually?"' },
-            { type: 'ask', text: 'CONSEQUENCE: "If nothing changed financially over the next 12 months — same income, same structure — would you be okay with that? Or would that actually be a problem?"\n\n"What specifically would you be giving up — what\'s the thing you keep putting off because the money isn\'t there yet?"' },
-            { type: 'note', text: 'Let the silence work. This is where the anchor becomes visible. If they name something specific — that\'s real. If they can\'t — the cost of staying isn\'t real enough yet.' },
+            { type: 'context', text: 'You already know what\'s driving them financially from Learn. This lane deepens that — don\'t repeat, go further.' },
+            { type: 'say', text: 'RISK APPETITE — before asking, set the context:\n\n"[candidate], I want to understand how you think when it comes to risk — because that matters a lot for how this role works."\n\n"If you had two job offers right now — one is easy, stable, guaranteed pay every two weeks. The other is harder, real risk involved, but the upside is significantly higher — $60K to $100K a year if you put in the work."\n\n"Which one do you take — and why?"' },
+            { type: 'rule', text: 'Stop after the question. How fast and specifically they answer tells you their real relationship with risk before you ask anything else.' },
+            { type: 'listen', items: [
+              'Picks option 2 with a specific reason → continue.',
+              'Picks option 2 vaguely → probe: "What specifically about the upside matters to you right now?"',
+              'Picks option 1 or hesitates → "What gives you pause about the risk?" If dispositional safety-seeker → Bucket 7. If real obligations → continue to runway.',
+            ]},
+            { type: 'ask', text: 'DEEPENING FINANCIAL PAIN — you heard why they\'re looking, now find the real cost:\n\n"You mentioned [what they said in Learn]. What I want to understand is — what\'s the real consequence if that doesn\'t change? Like specifically, what gets worse for you personally over the next six months if nothing moves?"' },
+            { type: 'note', text: 'You\'re listening for a fact, not a feeling. "I\'d feel stuck" is a feeling. "I won\'t be able to cover rent when my lease renews in August" is a fact. If it\'s still a feeling after this — probe once: "What specifically would you be giving up?"' },
+            { type: 'ask', text: 'THE ANCHOR:\n\n"What\'s the thing you keep putting off because the money isn\'t there yet — something specific, not a feeling."' },
+            { type: 'ask', text: 'EARNINGS TARGET:\n\n"What would you need to be earning for it to feel like you\'re actually moving forward — do you have a number in your head?"' },
+            { type: 'note', text: 'This anchors their expectation before you present earnings. When you say what our team earns consistently — you\'re answering their number, not pitching a range.' },
           ],
           B: [
-            { type: 'ask', text: 'THE CEILING: "What is your current role actually doing for you in terms of growth right now? And where is it falling short from what you expected?"' },
-            { type: 'ask', text: 'THE CATALYST: "Was there a specific moment — something that happened — that made you realize you needed to make a move?"' },
-            { type: 'note', text: 'Someone with real urgency will have a moment. Someone casually exploring usually won\'t. No moment = higher chance of Bucket 2 or 6.' },
-            { type: 'ask', text: 'WHY SALES: "Of all the ways you could build new skills — what made sales the direction you wanted to go?"' },
-            { type: 'ask', text: 'CONSEQUENCE: "If you don\'t build this over the next year — same place, same role, same skill set — what does that actually mean for you?"' },
+            { type: 'ask', text: 'THE CEILING:\n\n"[candidate], what is your current role actually doing for you in terms of growth right now — and where is it falling short from what you expected?"' },
+            { type: 'ask', text: 'THE CATALYST:\n\n"Was there a specific moment — something that happened — that made you realize you needed to make a move?"' },
+            { type: 'note', text: 'Someone with real urgency will have a moment. Someone casually exploring won\'t. No moment = higher risk of Bucket 2 or 6.' },
+            { type: 'ask', text: 'WHY SALES:\n\n"Of all the ways you could build new skills — what made sales the specific direction you wanted to go?"' },
+            { type: 'ask', text: 'CONSEQUENCE:\n\n"If you don\'t build this over the next year — same place, same role — what does that actually mean for you personally?"' },
           ],
           C: [
-            { type: 'ask', text: 'WHAT\'S MISSING: "What about your current role feels too easy or not pushing you anymore?"' },
-            { type: 'ask', text: 'DEFINE IT: "When you say you want a challenge — what do you actually mean? More pressure, more responsibility, or faster feedback on your performance?"' },
-            { type: 'rule', text: '"Excitement" and "meeting new people" are red flags here. "Pressure" and "accountability" are good signals.' },
-            { type: 'ask', text: 'HISTORY: "When was the last time you put yourself in something uncomfortable — not because you had to, but because you chose to? What did you choose, and what made it hard?"' },
-            { type: 'say', text: 'D2D REALITY CHECK: "I want to be honest about what the challenge actually looks like here. It\'s not variety. Most days look very similar. You\'re knocking doors, getting rejected, and coming back the next day and doing it again. The challenge is showing up consistently when the results are lagging and the novelty is gone."\n\n"What part of that do you think would be hardest for you day-to-day?"' },
+            { type: 'ask', text: 'WHAT\'S MISSING:\n\n"[candidate], what about your current role feels too easy or not pushing you anymore — is it the pace, the level of responsibility, or something else?"' },
+            { type: 'ask', text: 'DEFINE CHALLENGE:\n\n"When you say you want a challenge — what do you actually mean? More pressure, more responsibility, or faster feedback on how you\'re performing?"' },
+            { type: 'rule', text: '"Excitement" and "meeting new people" are red flags. "Pressure" and "accountability" are good signals.' },
+            { type: 'ask', text: 'HISTORY OF DISCOMFORT:\n\n"When was the last time you put yourself into something uncomfortable — not because you had to, but because you chose to? What did you choose and what made it hard?"' },
+            { type: 'say', text: 'D2D REALITY CHECK:\n\n"I want to be honest about what the challenge looks like here. It\'s not variety. Most days look very similar — you\'re knocking doors, getting rejected, and coming back the next day and doing it again. The challenge is showing up consistently when the results are lagging and the novelty is gone."\n\n"What part of that do you think would be hardest for you day-to-day?"' },
+            { type: 'ask', text: 'WHAT SUSTAINS THEM:\n\n"Once the newness is gone — and it goes fast — what do you think would actually keep you going on a hard week? Something specific, not a feeling."' },
           ],
-          D: [
-            { type: 'ask', text: '"What happened with your last role — did you leave, or did the situation change on you?"' },
-            { type: 'note', text: 'Open and neutral. The way they tell it matters as much as the content.' },
-            { type: 'ask', text: '"Is that situation different now — is whatever pushed you out resolved on your end?"' },
-            { type: 'say', text: '"I want to be upfront about something important for you, not just for us. This role is 100% commission from day one. Most people earn between $0 and $300 in their first week while learning the process."\n\n"I\'ve seen genuinely talented people not make it — not because they couldn\'t do the job, but because financial pressure caught up with them before they had a chance to ramp."' },
-            { type: 'ask', text: '"What does your situation look like over the next 30 to 60 days? Do you have something covering your basics while you get started here — or is income something you need right away?"' },
-            {
-              type: 'listen',
-              items: [
-                'Has a buffer (savings, partner income, family support) → viable. Continue.',
-                'Acknowledges risk honestly, has a specific plan → viable.',
-                '"I\'ll figure it out" with nothing specific → Bucket 3. Exit.',
-                'Needs income immediately, no backup → Timing exit.',
-              ]
-            },
-            {
-              type: 'exit_block',
-              label: 'TIMING EXIT — say verbatim',
-              text: '"Everything you\'ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you\'re forced to quit before you have a real chance."\n\n"What I\'d suggest: stabilize your income first — even part-time — so when you come into this, you\'re choosing it, not depending on it. When your situation changes, reach back out — I\'d genuinely want to revisit this with you."'
-            }
-          ]
         }
       }
     ]
   },
 
-  // ─── STEP 6: GATE 2 ───
   {
     id: 'gate2',
     label: 'Gate 2 — Pain + Anchor',
@@ -250,50 +464,25 @@ const STEPS = [
     gateTitle: 'Is the pain structural — and is there a specific anchor?',
     cards: [
       {
-        type: 'context',
-        text: 'You need both before proceeding. Pain without anchor = quits when something easier shows up. Anchor without pain = doesn\'t move urgently enough.'
-      },
-      {
-        type: 'two_col',
-        left: {
-          label: 'Structural pain — IS',
-          color: 'green',
-          items: ['Miguel: body breaking down after 5 years', 'Luigi: car sales tied to election cycles', 'James T: moved out, debt, tip income aging out'],
-        },
-        right: {
-          label: 'Structural pain — IS NOT',
-          color: 'red',
-          items: ['"I feel stuck."', '"I want more."', '"I\'m not growing."', '"I think I can do better."']
-        }
-      },
-      {
-        type: 'two_col',
-        left: {
-          label: 'Anchor — IS',
-          color: 'green',
-          items: ['Miguel: 3 younger siblings who look up to him', 'Luigi: family — recession-proof income for them specifically', 'James T: independence, debt to clear, moved out'],
-        },
-        right: {
-          label: 'Anchor — IS NOT',
-          color: 'red',
-          items: ['"I want to grow."', '"I want to be successful."', '"I want to prove something."', '"I want to make more money."']
-        }
-      },
-      { type: 'ask', text: '"If nothing changes for you in the next 12 months — same situation, same income — what specifically breaks? Not how would you feel. What actually breaks?"' },
-      { type: 'ask', text: '"What\'s the specific thing you keep putting off because of where you are right now — not a feeling, something concrete."' },
-      {
-        type: 'listen',
-        items: [
-          'PASS — Names something concrete that breaks. Names a specific anchor (person, goal, thing).',
-          'FAIL — "I\'d feel stuck." "I\'d be disappointed." Feelings are not anchors.',
-          'FAIL — Can\'t name what they\'re putting off. Nothing is actually at stake.'
+        type: 'gate2_check',
+        questions: [
+          { key: 'g2_pain', ask: '"[candidate], if nothing changes for you in the next 12 months — same situation, same income — what specifically breaks? Not how would you feel. What actually breaks?"' },
+          { key: 'g2_anchor', ask: '"And what\'s the specific thing you keep putting off because of where you are right now — not a feeling, something concrete."' },
+        ],
+        passTitle: 'Both must be present to proceed',
+        passItems: [
+          'Structural pain — a fact that doesn\'t fix itself. Body, paycheck structure, obligations, runway.',
+          'Specific anchor — a person, a goal with a timeline, a concrete thing they keep putting off.',
+        ],
+        failItems: [
+          '"I\'d feel stuck." "I\'d be disappointed." — feelings are not structural pain.',
+          '"I want to grow." "I want to be successful." — directions are not anchors.',
+          'Can\'t name what they\'re putting off — nothing is actually at stake.',
+        ],
+        ref: [
+          { label: 'Real pain', examples: ['Miguel: body breaking down after 5 years of manual labor', 'Luigi: car sales income tied to election cycles — ceiling is industry-wide', 'James T: moved out, debt growing, tip income has a hard ceiling'] },
+          { label: 'Real anchor', examples: ['Miguel: 3 younger siblings who look up to him — named unprompted', 'Luigi: family — building recession-proof income for them specifically', 'James T: independence — debt to clear, moved out, needs income that grows'] },
         ]
-      },
-      {
-        type: 'recruiter_note',
-        ressa: 'Strong pain stories can carry a call without a real anchor underneath. Always probe: "What specifically are you doing this for — outside the job itself? Something concrete." Don\'t move on without it.',
-        sheen: 'Do not move to role overview until you have BOTH pain and anchor. "I want to grow" is not an anchor. "I need to cover my mom\'s rent by October" is an anchor.',
-        felize: 'Make the anchor question explicit every time. If they seem right but haven\'t named something concrete outside the job — ask before proceeding.'
       },
       {
         type: 'exit_block',
@@ -304,199 +493,179 @@ const STEPS = [
     ]
   },
 
-  // ─── STEP 7: GATE 3 ───
   {
     id: 'gate3',
-    label: 'Gate 3 — Commission reality',
+    label: 'Gate 3 — Commission + Runway',
     section: 'The Gates',
     gate: true,
     gateNum: 3,
-    gateTitle: 'Before the role overview — they hear the real structure.',
+    gateTitle: 'Can they survive the ramp — and do they believe they can earn?',
     cards: [
-      { type: 'context', text: 'This fires immediately after Gates 1 and 2. Before the industry story. Before the mission. Before anything else.' },
+      { type: 'context', text: 'Don\'t deliver a generic commission speech. Connect it directly to what they told you. Commission is the solution to their specific situation — frame it that way.' },
       {
-        type: 'say',
-        text: '"Before I tell you what we do — I want to be straight with you about the pay structure, because it matters."\n\n"This is straight commission. No base salary. In the first few weeks while you\'re learning, you may earn very little — some people earn nothing in week one."\n\n"I\'m telling you now because I\'ve seen people who were genuinely talented and motivated not make it — not because they couldn\'t do the job, but because they weren\'t ready for that phase."'
+        type: 'commission_personalized',
+        template: '"[candidate], you mentioned [what they said financially]. I want to show you how this actually solves that — but first I want to be straight with you about how the pay structure works, because it matters."\n\n"This is straight commission. No base. In the first few weeks while you\'re learning the process, you may earn very little. Some people earn almost nothing in week one."\n\n"That\'s the reality. And I\'m telling you now because I\'ve seen talented, motivated people not make it — not because they couldn\'t do the job, but because the financial pressure caught up with them before they had a chance to ramp."',
+        note: 'Insert what they specifically said about their financial situation. Make it personal — not a speech.'
       },
-      { type: 'ask', text: '"Does that kind of structure excite you — or does it make you hesitate a little?"' },
+      { type: 'ask', text: 'RUNWAY:\n\n"So I want to ask you honestly — what does your situation look like over the next 30 to 60 days? What\'s covering your basics while you get started here?"' },
       {
-        type: 'commission_branch',
-        question: 'How do they respond?',
-        opts: [
-          { label: 'Excited — connects to anchor', val: 'excited', style: 'g', note: 'Bucket 1. Continue to role overview.' },
-          { label: 'Real hesitation — names specific obligation', val: 'circumstantial', style: 'a', note: 'Probe for bridge eligibility.' },
-          { label: 'Philosophical — "money will come"', val: 'philosophical', style: 'a', note: 'Yellow flag. Ask runway question.' },
-          { label: 'Wants safety, not upside', val: 'dispositional', style: 'r', note: 'Bucket 7. Exit Speech 1.' },
+        type: 'listen', items: [
+          'Has specific coverage (savings, partner income, part-time, family) → viable. Continue.',
+          'Honest about risk, has a plan → viable. Self-awareness is a good sign.',
+          '"I\'ll figure it out" with no specifics → Bucket 3. Exit Speech 1.',
+          'Needs income immediately, no backup → Timing exit.',
         ]
       },
-      { type: 'ask', text: 'RUNWAY: "Walk me through what your first 30 days looks like financially while you\'re ramping — what\'s covering you?"' },
+      { type: 'ask', text: 'BELIEF CHECK:\n\n"With the right training and mentorship — do you believe you can be earning by week two or three? Or do you think it\'ll take you longer to find your footing?"' },
+      { type: 'note', text: 'You\'re not asking if they\'re confident. You\'re watching if they\'re honest. Someone who says "honestly probably a few weeks" with a specific reason is more trustworthy than someone who immediately says "oh definitely week one."' },
       {
-        type: 'listen',
-        items: [
-          'Has specific plan (savings, partner income, family support) → viable. Proceed.',
-          '"I\'ll figure it out" with nothing specific → Bucket 3. Exit Speech 1.',
-          'Needs income immediately → Timing exit.',
+        type: 'push_pull',
+        say: '"Here\'s what I can tell you — we will train you. You\'ll be in the field with a mentor from day one. You won\'t be figuring this out alone."\n\n"We\'ve had people come from [background match] with zero sales experience and be earning consistently by week three."\n\n"The training is there. The support is there. The question isn\'t whether we can get you there — it\'s whether you can hold on long enough to get there."',
+        ask: '"Based on everything — do you believe you can do that?"'
+      },
+      {
+        type: 'social_proof_mini',
+        note: 'Click a name to show their story. Use the one that matches this candidate\'s background.',
+        roster: [
+          { name: 'Michelle', background: 'Bartender — Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She understood people — but had never sold anything. Within her first month she was setting appointments consistently. She\'s now a licensed public adjuster leading her own team. The transition wasn\'t easy — but she held on through the slow weeks because she had a real reason to.' },
+          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice — $800–$900/week consistently', story: 'Mimi came from the food industry. Same energy you need for D2D — on your feet, dealing with people all day, handling rejection with a smile. She\'s now earning $800 to $900 a week and outperforming most of the team. She figured out the rhythm faster than almost anyone.' },
+          { name: 'Sean', background: 'Warehouse — no sales background', role: 'Team Lead — promoted in under a month', story: 'Sean came from the warehouse with zero sales experience and zero D2D background. He just showed up every day and did the work. Within a month he was being trained for leadership. He\'s now a team lead with people under him. The only thing that separated him was consistency — he never stopped showing up.' },
         ]
       },
       {
         type: 'bridge_box',
         title: 'Salary bridge — for the right candidate only',
-        qualify: ['Naturally good at sales — you can hear it in how they communicate.', 'Real hunger — specific obligations, named anchor.', 'Commission is a logistics barrier, not a motivation gap.', 'Explicitly willing to transition to full commission.'],
-        disqualify: ['Wants predictability or safety — not real obligations.', 'Commission resistance feels dispositional.', 'Cannot articulate why they believe they can succeed on commission.', 'Missing anchor — Shahram lesson: bridge delays exit but doesn\'t prevent it.']
+        qualify: ['All three gates open — pain, identity, anchor all confirmed.', 'Naturally good at sales — you can hear it in how they communicate.', 'Commission is a logistics barrier due to real obligations — not because they want safety.', 'Explicitly willing to transition to full commission.'],
+        disqualify: ['Wants safety or predictability — dispositional, not circumstantial.', 'Missing anchor — bridge delays exit but doesn\'t prevent it. Shahram lesson.', 'Cannot articulate why they believe they can succeed on commission.']
       },
       { type: 'gate_pass', key: 'gate3' }
     ]
   },
 
-  // ─── STEP 8: BUCKET ───
+  {
+    id: 'lane_d',
+    label: 'Lane D — Not employed',
+    section: 'The Gates',
+    cards: [
+      { type: 'context', text: 'This lane fires automatically when "not currently employed" is selected at the start. Run this before the gates. If they pass — continue to Gate 1. If they fail — timing exit immediately.' },
+      { type: 'ask', text: '"[candidate], what happened with your last role — did you leave, or did the situation change on you?"' },
+      { type: 'note', text: 'Neutral tone. The way they tell it matters as much as the content.' },
+      { type: 'ask', text: '"Is that situation different now — is whatever pushed you out resolved on your end?"' },
+      { type: 'say', text: '"I want to be upfront about something important for you, not just for us. This role is 100% commission from day one. Most people earn between $0 and $300 in their first week while learning the process."\n\n"I\'ve seen genuinely talented people not make it — not because they couldn\'t do the job, but because financial pressure caught up with them before they had a chance to ramp."' },
+      { type: 'ask', text: '"What does your situation look like over the next 30 to 60 days? Do you have something covering your basics while you get started — or is income something you need right away?"' },
+      { type: 'listen', items: [
+        'Has coverage (savings, partner, family support, benefits) → viable. Continue to Gate 1.',
+        'Honest about risk, has a specific plan → viable.',
+        '"I\'ll figure it out" with nothing specific → Bucket 3. Timing exit.',
+        'Needs income immediately, no backup → Timing exit.',
+      ]},
+      { type: 'exit_block', label: 'TIMING EXIT — say verbatim', text: '"Everything you\'ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you\'re forced to quit before you have a real chance."\n\n"What I\'d suggest: stabilize your income first — even part-time — so when you come into this, you\'re choosing it, not depending on it. When your situation changes, reach back out — I\'d genuinely want to revisit this with you."' },
+    ]
+  },
+
   {
     id: 'bucket',
     label: 'Assign bucket',
     section: 'Decision',
     cards: [
-      { type: 'context', text: 'This decision happens in your head — do not narrate it to the candidate. Assign the bucket, then act immediately.' },
+      { type: 'context', text: 'Assign the bucket internally. Do not narrate it to the candidate. Act immediately.' },
       {
         type: 'bucket_picker',
         buckets: [
-          { num: 1, label: 'Move forward', sub: 'Chose sales intentionally. Names consequence of staying. Chosen discomfort before.', action: 'Send homework now', cls: 'sel-b1' },
+          { num: 1, label: 'Move forward', sub: 'Chose sales intentionally. Names consequence of staying. Has chosen discomfort before.', action: 'Send homework now', cls: 'sel-b1' },
           { num: 2, label: 'Interested, not urgent', sub: '"I\'d be fine either way." Nothing breaks if they wait.', action: 'Exit Speech 1', cls: 'sel-b2' },
-          { num: 3, label: 'Too busy / overloaded', sub: 'Juggling school, other jobs. Treats this as side project.', action: 'Exit Speech 1', cls: 'sel-b3' },
-          { num: 4, label: 'Underestimates the role', sub: 'Overconfidence without specifics. No D2D acknowledgment.', action: 'Exit Speech 1', cls: 'sel-b4' },
-          { num: 5, label: 'Too agreeable / mirroring', sub: 'Repeats your language. "That makes sense" to everything.', action: 'Exit Speech 2', cls: 'sel-b5' },
-          { num: 6, label: 'Exploring / backup option', sub: 'Multiple industries. Sales is one of several options.', action: 'Exit Speech 3', cls: 'sel-b6' },
-          { num: 7, label: 'Avoidance / fear', sub: 'Needs guarantees. Over-intellectualizing. Hesitates around rejection.', action: 'Exit Speech 3', cls: 'sel-b7' },
-          { num: 8, label: 'No clear direction', sub: '"I just want something different." Wants out but doesn\'t know toward what.', action: 'Exit Speech 3', cls: 'sel-b8' },
+          { num: 3, label: 'Too busy / overloaded', sub: 'Juggling too much. Treats this as a side project.', action: 'Exit Speech 1', cls: 'sel-b3' },
+          { num: 4, label: 'Underestimates the role', sub: 'Overconfident without specifics. No D2D acknowledgment.', action: 'Exit Speech 1', cls: 'sel-b4' },
+          { num: 5, label: 'Too agreeable', sub: 'Mirrors your language. "That makes sense" to everything.', action: 'Exit Speech 2', cls: 'sel-b5' },
+          { num: 6, label: 'Exploring', sub: 'Sales is one of several options. No specific pull.', action: 'Exit Speech 3', cls: 'sel-b6' },
+          { num: 7, label: 'Avoidance / fear', sub: 'Needs guarantees. Hesitates around rejection and risk.', action: 'Exit Speech 3', cls: 'sel-b7' },
+          { num: 8, label: 'No direction', sub: '"I just want something different." No clear move toward anything.', action: 'Exit Speech 3', cls: 'sel-b8' },
         ]
       },
       {
         type: 'exit_speeches',
         speeches: [
-          {
-            num: 1,
-            label: 'Exit Speech 1 — Readiness / capacity (Buckets 2, 3, 4)',
-            text: '"That makes sense — and honestly, when things aren\'t uncomfortable yet, it\'s harder to commit to something demanding."\n\n"Sales requires choosing discomfort on purpose. Without a strong reason behind it, most people lose momentum once it gets hard."\n\n"I don\'t want to move you forward before that\'s solid. Let\'s pause here — if after sitting with it you feel clear that this is something you want to step into intentionally, you can reach back out and we can revisit."'
-          },
-          {
-            num: 2,
-            label: 'Exit Speech 2 — Mirroring / too agreeable (Bucket 5)',
-            text: '"I want to pause and be honest with you."\n\n"I\'m hearing a lot of agreement — but I\'m not hearing a decision that\'s actually coming from you yet. Door-to-door works best when someone already has a personal reason for choosing it, not one they discover during the interview."\n\n"I don\'t want to move you forward unless that decision is solid. Let\'s pause here."'
-          },
-          {
-            num: 3,
-            label: 'Exit Speech 3 — Exploring / avoidance / no direction (Buckets 6, 7, 8)',
-            text: '"From what you\'ve shared, it sounds like you know you want to leave your current situation — but you haven\'t fully landed on what you\'re actually moving toward."\n\n"What usually happens when someone steps into a demanding role without that clarity is they realize a week or two in they didn\'t really choose it — they just wanted out."\n\n"Let\'s pause here. Take some time to get clear on what you actually want your next chapter to look like. If and when that becomes clear, you\'re welcome to reach back out."'
-          }
+          { num: 1, label: 'Exit Speech 1 — Buckets 2, 3, 4', text: '"That makes sense — and honestly, when things aren\'t uncomfortable yet, it\'s harder to commit to something demanding."\n\n"Sales requires choosing discomfort on purpose. Without a strong reason behind it, most people lose momentum once it gets hard."\n\n"I don\'t want to move you forward before that\'s solid. Let\'s pause here — if after sitting with it you feel clear that this is something you want to step into intentionally, you can reach back out and we can revisit."' },
+          { num: 2, label: 'Exit Speech 2 — Bucket 5', text: '"I want to pause and be honest with you."\n\n"I\'m hearing a lot of agreement — but I\'m not hearing a decision that\'s actually coming from you yet. Door-to-door works best when someone already has a personal reason for choosing it, not one they discover during the interview."\n\n"I don\'t want to move you forward unless that decision is solid. Let\'s pause here."' },
+          { num: 3, label: 'Exit Speech 3 — Buckets 6, 7, 8', text: '"From what you\'ve shared, it sounds like you know you want to leave your current situation — but you haven\'t fully landed on what you\'re actually moving toward."\n\n"What usually happens when someone steps into a demanding role without that clarity is they realize a week or two in they didn\'t really choose it — they just wanted out."\n\n"Let\'s pause here. Take some time to get clear on what you actually want your next chapter to look like. When that becomes clear, you\'re welcome to reach back out."' },
         ]
       }
     ]
   },
 
-  // ─── STEP 9: ROLE OVERVIEW ───
   {
     id: 'role',
     label: 'Role overview',
     section: 'Role Overview',
     bucket1Only: true,
     cards: [
-      { type: 'context', text: 'Bucket 1 only. All three gates must be open before this section. Target: 8–10 minutes.' },
+      { type: 'context', text: 'Bucket 1 only. All three gates must be open before this section.' },
       {
         type: 'beats',
-        title: 'Industry & mission — four beats, always in this order',
+        title: 'Industry & mission — four beats, in order',
         beats: [
-          { label: 'Beat 1 — The right', text: '"A lot of homeowners don\'t know that when there are storm damages on their roof, their sidings or gutters — majority of the cost to fix or replace that should be covered by their insurance. Homeowners should not pay out of pocket. That\'s what the insurance is there for."' },
-          { label: 'Beat 2 — The problem', text: '"But the reality is most homeowners don\'t even know that. And instead of stepping in, insurance companies drag the process, make it slow and confusing — and in most cases, they\'ll deny claims even when there\'s visible damage."' },
+          { label: 'Beat 1 — The right', text: '"A lot of homeowners don\'t know that when there are storm damages on their roof — the majority of the cost to fix or replace that should be covered by their insurance. Homeowners should not pay out of pocket. That\'s what the insurance is there for."' },
+          { label: 'Beat 2 — The problem', text: '"But the reality is most homeowners don\'t know that. And instead of stepping in, insurance companies drag the process, make it confusing — and in most cases, they\'ll deny claims even when there\'s visible damage."' },
           { label: 'Beat 3 — The solution', text: '"This is where we come in. We guide homeowners through the entire process — from inspection, to paperwork, all the way through construction. And if the insurance company denies the claim, we step in and fight for them."' },
-          { label: 'Beat 4 — The meaning', text: '"To some it\'s just a job. But the more you\'re out there, on the front lines, you really see how much this actually helps people. They don\'t have to come out of pocket — that\'s money they can use for groceries, for savings, for things that actually matter."' },
+          { label: 'Beat 4 — The meaning', text: '"To some it\'s just a job. But the more you\'re out there, on the front lines, you really see how much this helps people. They don\'t have to come out of pocket — that\'s money they can use for groceries, for savings, for things that actually matter."' },
         ]
       },
-      { type: 'ask', text: '"How does that land for you? Because some people hear this and feel the mission. Others hear about a sales job. Which one are you feeling right now?"' },
-      {
-        type: 'say',
-        text: 'D2D FRAME:\n"Every company has its own process. Ours happens to be door-to-door — and I want to tell you why. We\'ve done cold calling. We\'ve done social media — those work. But they\'re slower. You\'re waiting. You don\'t control when things happen."\n\n"With door-to-door, you show up, you take action, and you get an answer right away. Sometimes that same day. And that\'s why it works for us."'
-      },
-      {
-        type: 'say',
-        text: 'DAY TO DAY:\n"At the start, your role is focused. You go door-to-door in areas where we know there\'s been storm damage. You start conversations and offer a free roof inspection, and when someone\'s interested — you schedule it."\n\n"You\'re not doing this alone. You\'re paired with a mentor who\'s in the field with you. When you set an appointment, they do the inspection and close the deal. Same day."\n\n"Leaders here don\'t manage from a desk. They\'re out there. That\'s the culture."'
-      },
-      { type: 'ask', text: '"A lot of people picture sales differently than this — what did you expect, and how does this compare?"' },
-      { type: 'ask', text: '"What\'s harder for you personally — starting a conversation with a complete stranger, or letting go and moving on quickly when someone says they\'re not interested?"' },
+      { type: 'ask', text: '"How does that land for you, [candidate]? Some people hear this and feel the mission. Others hear about a sales job. Which one are you feeling right now?"' },
+      { type: 'say', text: 'DAY TO DAY:\n"At the start, your role is focused. You go door-to-door in areas where we know there\'s been storm damage. You offer a free roof inspection — when someone\'s interested, you schedule it."\n\n"You\'re not doing this alone. You\'re paired with a mentor in the field with you. When you set an appointment, they do the inspection and close the deal. Same day."\n\n"Leaders here don\'t manage from a desk. They\'re out there. That\'s the culture."' },
+      { type: 'ask', text: '"What\'s harder for you personally — starting a conversation with a complete stranger, or letting go quickly when someone says no?"' },
       {
         type: 'growth_investment',
-        say: '"Here at Proliance, growth is not a slogan on a wall — it\'s actually what we care about most. Recently we had two members of our team pass their examination as Licensed Public Adjusters."',
-        ask: '"If you become part of the team and you\'re out there — what kind of growth do you want to see in yourself?"',
+        say: '"Here at Proliance, growth is not a slogan — it\'s what we actually care about most. Recently we had two members pass their examination as Licensed Public Adjusters."',
+        ask: '"[candidate], if you become part of the team — what kind of growth do you want to see in yourself?"',
         note: '"I\'ll take note of that — I want our team to know exactly how to support you."',
-        followup: '"And what if you\'re already really good at that — what would you do with that skill set then? Do you want to be in leadership one day?"'
+        followup: '"And what if you\'re already great at that — what would you do with that skill set? Do you want to be in leadership one day?"'
       },
       {
-        type: 'social_proof',
-        title: 'Matched social proof — two sentences, exact background match',
-        note: 'Only use if you have a genuine match. A close match delivered authentically beats a perfect story delivered generically.',
+        type: 'social_proof_mini',
+        note: 'Click a name. Use the one that matches this candidate\'s background.',
         roster: [
-          { name: 'Michelle', background: 'Bartender (Red Lobster)', role: 'Licensed PA + Team Lead', line: '"She used to bartend. She\'s now a licensed public adjuster leading her own team."' },
-          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice — $800–$900/week', line: '"She came from the food industry. She\'s earning $800 a week and outperforming most of the team."' },
-          { name: 'Sean', background: 'Warehouse / no sales background', role: 'Team Lead — promoted in 1 month', line: '"He came from the warehouse with zero sales experience. Within a month he was leading people."' },
+          { name: 'Michelle', background: 'Bartender — Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She understood people — but had never sold anything. Within her first month she was setting appointments consistently. She\'s now a licensed public adjuster leading her own team.' },
+          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice — $800–$900/week', story: 'Mimi came from the food industry. Same energy you need for D2D — on your feet all day, handling rejection with a smile. She\'s now earning $800 to $900 a week and outperforming most of the team.' },
+          { name: 'Sean', background: 'Warehouse — no sales background', role: 'Team Lead — promoted in under a month', story: 'Sean came from the warehouse with zero sales experience. He just showed up every day and did the work. Within a month he was being trained for leadership. The only thing that separated him was consistency.' },
         ]
       },
-      {
-        type: 'pay',
-        say: '"Pay is straight commission. For every appointment you set that signs — meaning after the inspection the homeowner signs the contract — you earn between $200 and $300."\n\n"Our team on the lower end consistently earns $600 to $1,000 a week. If you commit to the non-negotiable — one signed appointment a week — that\'s $1,000 to $1,500. Our commission rate is about twice the industry average."\n\n"We pay weekly. No ceiling."\n\n"Everyone starts at the apprentice level. Consistency and initiative move you into leadership. At that point you\'re closing deals yourself — 5 to 7% on jobs that average $25,000 to $30,000."'
-      },
-      { type: 'ask', text: '"Does that land where you need it to — based on what you told me earlier?"' },
+      { type: 'pay', text: '"Pay is straight commission. For every appointment you set that signs — you earn between $200 and $300."\n\n"Our team on the lower end consistently earns $600 to $1,000 a week. If you commit to one signed appointment a week — that\'s $1,000 to $1,500. Our commission rate is about twice the industry average."\n\n"We pay weekly. No ceiling."\n\n"Everyone starts at the apprentice level. Consistency and initiative move you into leadership — at that point you\'re closing deals yourself at 5 to 7% on jobs that average $25,000 to $30,000."' },
+      { type: 'ask', text: '"[candidate], does that land where you need it to — based on what you told me earlier?"' },
       { type: 'rule', text: 'Stop after the question. The right candidate doesn\'t need convincing. If they ask for more — give it. Do not over-explain.' },
-      { type: 'ask', text: 'FIT CHECK: "Based on everything we\'ve talked about — does this feel like it fits how you operate? Or would this be a stretch right now?"' },
-      { type: 'ask', text: 'LOGISTICS: "We\'re based in Westmont — can you get there consistently? This is full-time, around 40 hours a week in the field. Does that work for you right now?"' },
+      { type: 'ask', text: 'LOGISTICS:\n"We\'re based in Westmont — can you get there consistently? This is full-time, around 40 hours a week in the field. Does that work for you right now?"' },
     ]
   },
 
-  // ─── STEP 10: HOMEWORK ───
   {
     id: 'homework',
     label: 'Homework send',
     section: 'Close',
     cards: [
-      { type: 'context', text: 'Three paths based on where they landed. Read the decision rules before choosing.' },
+      { type: 'context', text: 'Three paths. Read the rules before choosing.' },
       {
         type: 'hw_paths',
         paths: [
-          {
-            label: 'Path 1 — Clear Bucket 1 (send during the call)',
-            color: 'green',
-            say: '"Before we wrap up — I\'m going to send you our Instagram page right now. It\'s a documentary of what we actually do in the field. Real rejections, how we turn no into yes. Real moments, not a highlight reel."\n\n"After you watch it — I need you to text me back today before 4pm. One question: did anything change for you after watching, and what specifically?"',
-            rule: 'If they won\'t confirm the 4pm deadline — do not send. A hungry candidate confirms immediately. "I\'ll try" or "probably" = Bucket 2 → Exit Speech 1.'
-          },
-          {
-            label: 'Path 2 — 50/50 (second call protocol)',
-            color: 'amber',
-            say: '"I think there\'s something here, but I want to make sure before we go further."\n\n"I\'m going to send you our Instagram page. Watch the videos — and text me back before 4pm today with one thing: did anything change for you after watching, and what specifically?"\n\n"If your answer tells me this is genuinely something you want to step into — I\'ll call you back and we\'ll move forward."',
-            rule: 'Specific engaged answer → Bucket 1, proceed. Vague ("looks good") → Bucket 2, Exit Speech 1. No response by 4pm → Bucket 6, no follow-up needed.'
-          },
-          {
-            label: 'Path 3 — Buckets 2–8 (exit speech only)',
-            color: 'red',
-            say: 'Exit speech → end call → no homework sent. Full stop.',
-            rule: null
-          }
+          { label: 'Path 1 — Clear Bucket 1 (send during the call)', color: 'green', say: '"Before we wrap up — I\'m going to send you our Instagram page right now. It\'s a documentary of what we actually do in the field. Real rejections, how we turn no into yes. Real moments, not a highlight reel."\n\n"After you watch it — I need you to text me back today before 4pm. One question: did anything change for you after watching, and what specifically?"', rule: 'If they won\'t confirm the 4pm deadline — do not send. "I\'ll try" or "probably" = Bucket 2 → Exit Speech 1.' },
+          { label: 'Path 2 — 50/50 (second call protocol)', color: 'amber', say: '"I think there\'s something here, but I want to make sure before we go further."\n\n"I\'m sending you our Instagram page. Watch it — text me back before 4pm today: did anything change, and what specifically?"\n\n"If your answer tells me this is genuinely something you want to step into — I\'ll call you back and we\'ll move forward."', rule: 'Specific engaged answer → Bucket 1, proceed. Vague → Bucket 2, Exit Speech 1. No response by 4pm → Bucket 6, done.' },
+          { label: 'Path 3 — Buckets 2–8', color: 'red', say: 'Exit speech → end call → no homework sent.', rule: null }
         ]
       }
     ]
   },
 
-  // ─── STEP 11: DEBRIEF ───
   {
     id: 'debrief',
-    label: 'Debrief + verdict',
+    label: 'Debrief',
     section: 'Close',
     cards: [
-      { type: 'context', text: 'Quick self-assessment after the call ends. Use this to build pattern recognition over time.' },
+      { type: 'context', text: 'Quick self-assessment after the call. Builds pattern recognition over time.' },
       {
         type: 'debrief_questions',
         questions: [
-          { key: 'db_pain', label: 'Pain signal', q: 'Did they name something structural — or just feelings?', opts: ['Structural — real problem', 'Vague — feelings only', 'Mixed'] },
-          { key: 'db_anchor', label: 'Anchor', q: 'Did they name a specific person, goal, or concrete thing outside the job?', opts: ['Yes — specific', 'Sort of — unclear', 'No anchor named'] },
+          { key: 'db_pain', label: 'Pain signal', q: 'Did they name something structural — or just feelings?', opts: ['Structural — real problem', 'Mixed', 'Vague — feelings only'] },
+          { key: 'db_anchor', label: 'Anchor', q: 'Did they name a specific person, goal, or concrete thing?', opts: ['Yes — specific and named', 'Sort of — unclear', 'No anchor named'] },
           { key: 'db_identity', label: 'Sales identity', q: 'Did they choose sales — or were they pointed here?', opts: ['Chose it — specific reason', 'Exploring / recommended', 'Unclear'] },
-          { key: 'db_commission', label: 'Commission reaction', q: 'How did they respond to straight commission?', opts: ['Excited — connected to anchor', 'Circumstantial hesitation', 'Philosophical', 'Avoidance / safety-seeking'] },
-          { key: 'db_gate1', label: 'Gate 1', q: 'Did Gate 1 open cleanly?', opts: ['Open — clear pass', 'Borderline', 'Closed — exited'] },
-          { key: 'db_gate2', label: 'Gate 2', q: 'Did Gate 2 open cleanly?', opts: ['Open — both pain and anchor', 'Pain only', 'Anchor only', 'Neither — exited'] },
+          { key: 'db_commission', label: 'Commission reaction', q: 'How did they respond to straight commission?', opts: ['Excited — connected to anchor', 'Circumstantial hesitation', 'Philosophical', 'Avoidance'] },
         ]
       },
       {
@@ -519,1026 +688,598 @@ const STEPS = [
 
 // ─── STATE ───────────────────────────────────────────────────────
 let state = {
-  user: null,
-  currentStep: 0,
-  answers: {},
-  flags: [],
-  notes: {},
-  candName: '',
-  startTime: null,
+  recruiter: null, candidate: '', currentStep: 0,
+  answers: {}, flags: [], notes: {}, startTime: null,
 };
 
+function s(text) {
+  if (!text) return text;
+  return text.replace(/\[candidate\]/g, state.candidate||'[candidate]').replace(/\[recruiter\]/g, state.recruiter||'[recruiter]');
+}
+
 function saveState() {
-  if (!state.user) return;
-  localStorage.setItem('pla_state_' + state.user, JSON.stringify(state));
+  if (!state.recruiter) return;
+  localStorage.setItem('pla_state_'+state.recruiter, JSON.stringify(state));
 }
 
-function loadState(user) {
-  const raw = localStorage.getItem('pla_state_' + user);
-  if (raw) {
-    try { Object.assign(state, JSON.parse(raw)); } catch(e) {}
-  }
+function loadState(recruiter) {
+  const raw = localStorage.getItem('pla_state_'+recruiter);
+  if (raw) { try { Object.assign(state, JSON.parse(raw)); } catch(e) {} }
 }
 
-function getHistory(user) {
-  const raw = localStorage.getItem('pla_history_' + user);
-  try { return JSON.parse(raw) || []; } catch(e) { return []; }
+function getHistory(r) {
+  try { return JSON.parse(localStorage.getItem('pla_history_'+r))||[]; } catch(e) { return []; }
 }
 
 function saveToHistory() {
-  if (!state.user) return;
-  const hist = getHistory(state.user);
-  const entry = {
-    id: Date.now(),
-    name: state.candName || 'Unnamed candidate',
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
-    verdict: state.answers.verdict || null,
-    bucket: state.answers.bucket || null,
-    answers: { ...state.answers },
-    flags: [...state.flags],
-    notes: { ...state.notes },
-  };
-  hist.unshift(entry);
-  if (hist.length > 40) hist.length = 40;
-  localStorage.setItem('pla_history_' + state.user, JSON.stringify(hist));
+  if (!state.recruiter) return;
+  const hist = getHistory(state.recruiter);
+  hist.unshift({ id:Date.now(), name:state.candidate||'Unnamed', date:new Date().toLocaleDateString(), time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), verdict:state.answers.verdict||null, bucket:state.answers.bucket||null, answers:{...state.answers}, flags:[...state.flags], notes:{...state.notes} });
+  if (hist.length>40) hist.length=40;
+  localStorage.setItem('pla_history_'+state.recruiter, JSON.stringify(hist));
 }
 
 // ─── LOGIN ───────────────────────────────────────────────────────
 function initLogin() {
-  const wrap = document.getElementById('user-btns');
-  USERS.forEach(u => {
-    const btn = document.createElement('button');
-    btn.className = 'user-btn';
-    btn.textContent = u;
-    btn.onclick = () => loginAs(u);
-    wrap.appendChild(btn);
-  });
+  const inp = document.getElementById('recruiter-input');
+  document.getElementById('login-btn').onclick = () => {
+    const name = inp.value.trim();
+    if (!name) { inp.style.borderColor='var(--red)'; return; }
+    inp.style.borderColor='';
+    loginAs(name);
+  };
+  inp.addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('login-btn').click(); });
+  const recent = JSON.parse(localStorage.getItem('pla_recent_names')||'[]');
+  if (recent.length) {
+    const wrap = document.getElementById('recent-names');
+    wrap.style.display = 'block';
+    recent.slice(0,4).forEach(n => {
+      const b = document.createElement('button'); b.className='recent-btn'; b.textContent=n;
+      b.onclick = () => { inp.value=n; loginAs(n); };
+      document.getElementById('recent-list').appendChild(b);
+    });
+  }
 }
 
-function loginAs(user) {
-  state.user = user;
-  loadState(user);
-  document.getElementById('login-screen').style.display = 'none';
-  const app = document.getElementById('app');
-  app.classList.add('visible');
+function loginAs(name) {
+  state.recruiter = name;
+  const recent = JSON.parse(localStorage.getItem('pla_recent_names')||'[]').filter(n=>n!==name);
+  recent.unshift(name);
+  localStorage.setItem('pla_recent_names', JSON.stringify(recent.slice(0,6)));
+  loadState(name);
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('visible');
   initApp();
 }
 
 function logout() {
   saveState();
-  state = { user: null, currentStep: 0, answers: {}, flags: [], notes: {}, candName: '', startTime: null };
+  state = { recruiter:null, candidate:'', currentStep:0, answers:{}, flags:[], notes:{}, startTime:null };
   document.getElementById('app').classList.remove('visible');
-  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('recruiter-input').value='';
 }
 
-// ─── INIT APP ───────────────────────────────────────────────────
+// ─── INIT APP ────────────────────────────────────────────────────
 function initApp() {
-  state.startTime = state.startTime || Date.now();
-  buildSidebar();
-  renderStep(state.currentStep);
-
-  const inp = document.getElementById('cand-name');
-  inp.value = state.candName || '';
-  inp.addEventListener('input', () => {
-    state.candName = inp.value;
+  state.startTime = state.startTime||Date.now();
+  document.getElementById('recruiter-name-display').textContent = state.recruiter;
+  const candInp = document.getElementById('cand-name');
+  candInp.value = state.candidate||'';
+  candInp.addEventListener('input', () => {
+    state.candidate = candInp.value.trim();
     saveState();
+    renderStep(state.currentStep);
   });
-
   document.getElementById('new-btn').onclick = newInterview;
-
-  document.querySelectorAll('.flag-btn').forEach(btn => {
-    btn.addEventListener('click', () => addFlag(btn.dataset.color));
-  });
-
-  renderFlags();
-  updateProgress();
+  document.querySelectorAll('.flag-btn').forEach(btn => btn.addEventListener('click', () => addFlag(btn.dataset.color)));
+  buildSidebar(); renderStep(state.currentStep); renderFlags(); updateProgress();
 }
 
 function newInterview() {
   if (!confirm('Start a new interview? Current session will be saved to history.')) return;
   saveToHistory();
-  state.currentStep = 0;
-  state.answers = {};
-  state.flags = [];
-  state.notes = {};
-  state.candName = '';
-  state.startTime = Date.now();
-  document.getElementById('cand-name').value = '';
-  document.getElementById('employ-pill').style.display = 'none';
-  document.getElementById('lane-pill').style.display = 'none';
-  saveState();
-  buildSidebar();
-  renderStep(0);
-  updateProgress();
-  renderFlags();
+  state.currentStep=0; state.answers={}; state.flags=[]; state.notes={}; state.candidate=''; state.startTime=Date.now();
+  document.getElementById('cand-name').value='';
+  document.getElementById('employ-pill').style.display='none';
+  document.getElementById('lane-pill').style.display='none';
+  saveState(); buildSidebar(); renderStep(0); updateProgress(); renderFlags();
 }
 
-// ─── SIDEBAR ───────────────────────────────────────────────────
+// ─── SIDEBAR ─────────────────────────────────────────────────────
 function buildSidebar() {
-  const sb = document.getElementById('sidebar');
-  sb.innerHTML = '';
-  let lastSection = null;
-  STEPS.forEach((step, i) => {
-    if (step.section !== lastSection) {
-      if (lastSection) {
-        const div = document.createElement('div');
-        div.className = 'sb-divider';
-        sb.appendChild(div);
-      }
-      const sec = document.createElement('div');
-      sec.className = 'sb-sec';
-      sec.textContent = step.section;
-      sb.appendChild(sec);
-      lastSection = step.section;
+  const sb = document.getElementById('sidebar'); sb.innerHTML='';
+  let lastSection=null;
+  STEPS.forEach((step,i) => {
+    if (step.section!==lastSection) {
+      if (lastSection) { const d=document.createElement('div'); d.className='sb-divider'; sb.appendChild(d); }
+      const sec=document.createElement('div'); sec.className='sb-sec'; sec.textContent=step.section; sb.appendChild(sec);
+      lastSection=step.section;
     }
-    const item = document.createElement('div');
-    item.className = 'sb-item' + (i === state.currentStep ? ' active' : '') + (isStepDone(i) ? ' done' : '');
-    item.id = 'sb-' + i;
-    item.dataset.step = i;
-
-    const dot = document.createElement('span');
-    dot.className = 'sb-dot';
-    item.appendChild(dot);
-
-    const lbl = document.createElement('span');
-    lbl.textContent = step.label;
-    item.appendChild(lbl);
-
+    const item=document.createElement('div');
+    item.className='sb-item'+(i===state.currentStep?' active':'')+(i<state.currentStep?' done':'');
+    item.id='sb-'+i; item.dataset.step=i;
+    const dot=document.createElement('span'); dot.className='sb-dot'; item.appendChild(dot);
+    const lbl=document.createElement('span'); lbl.textContent=step.label; item.appendChild(lbl);
     if (step.gate) {
-      const passed = state.answers['gate' + step.gateNum + '_passed'];
-      const rating = document.createElement('span');
-      rating.className = 'sb-rating';
-      rating.textContent = passed === 'yes' ? '✓' : passed === 'no' ? '✗' : '';
-      rating.style.color = passed === 'yes' ? 'var(--green)' : 'var(--red)';
-      item.appendChild(rating);
+      const passed=state.answers['gate'+step.gateNum+'_passed'];
+      const r=document.createElement('span'); r.className='sb-rating';
+      r.textContent=passed==='yes'?'✓':passed==='no'?'✗':'';
+      r.style.color=passed==='yes'?'var(--green)':'var(--red)'; item.appendChild(r);
     }
-
-    item.onclick = () => goStep(i);
-    sb.appendChild(item);
+    item.onclick=()=>goStep(i); sb.appendChild(item);
   });
-}
-
-function isStepDone(i) {
-  return i < state.currentStep;
 }
 
 function updateSidebar() {
   document.querySelectorAll('.sb-item').forEach(el => {
-    const i = parseInt(el.dataset.step);
-    el.className = 'sb-item' + (i === state.currentStep ? ' active' : '') + (isStepDone(i) ? ' done' : '');
-    const step = STEPS[i];
-    if (step && step.gate) {
-      const passed = state.answers['gate' + step.gateNum + '_passed'];
-      const rating = el.querySelector('.sb-rating');
-      if (rating) {
-        rating.textContent = passed === 'yes' ? '✓' : passed === 'no' ? '✗' : '';
-        rating.style.color = passed === 'yes' ? 'var(--green)' : 'var(--red)';
-      }
+    const i=parseInt(el.dataset.step);
+    el.className='sb-item'+(i===state.currentStep?' active':'')+(i<state.currentStep?' done':'');
+    const step=STEPS[i];
+    if (step&&step.gate) {
+      const passed=state.answers['gate'+step.gateNum+'_passed'];
+      const r=el.querySelector('.sb-rating');
+      if (r) { r.textContent=passed==='yes'?'✓':passed==='no'?'✗':''; r.style.color=passed==='yes'?'var(--green)':'var(--red)'; }
     }
   });
 }
 
 function goStep(i) {
-  state.currentStep = i;
-  saveState();
-  buildSidebar();
-  renderStep(i);
-  updateProgress();
-  document.getElementById('scroll-area').scrollTop = 0;
+  state.currentStep=i; saveState(); buildSidebar(); renderStep(i); updateProgress();
+  document.getElementById('scroll-area').scrollTop=0;
 }
 
-// ─── PROGRESS ─────────────────────────────────────────────────
 function updateProgress() {
-  const pct = Math.round((state.currentStep / (STEPS.length - 1)) * 100);
-  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-fill').style.width=Math.round((state.currentStep/(STEPS.length-1))*100)+'%';
 }
 
-// ─── FLAGS ────────────────────────────────────────────────────
+// ─── FLAGS ────────────────────────────────────────────────────────
 function addFlag(color) {
-  const text = prompt('Add a note for this flag:');
-  if (!text) return;
-  state.flags.push({ color, text, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
-  saveState();
-  renderFlags();
+  const text=prompt('Flag note:'); if(!text) return;
+  state.flags.push({color,text,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  saveState(); renderFlags();
 }
 
 function renderFlags() {
-  const strip = document.getElementById('flags-strip');
-  strip.innerHTML = '';
+  const strip=document.getElementById('flags-strip'); strip.innerHTML='';
   if (!state.flags.length) { strip.classList.remove('visible'); return; }
   strip.classList.add('visible');
-  state.flags.forEach((f, i) => {
-    const chip = document.createElement('span');
-    chip.className = 'flag-chip';
-    chip.style.background = f.color === 'green' ? 'var(--green-bg)' : f.color === 'amber' ? 'var(--amber-bg)' : 'var(--red-bg)';
-    chip.style.color = f.color === 'green' ? 'var(--green)' : f.color === 'amber' ? 'var(--amber)' : 'var(--red)';
-    chip.textContent = f.time + ' — ' + f.text;
-    chip.title = 'Click to remove';
-    chip.style.cursor = 'pointer';
-    chip.onclick = () => { state.flags.splice(i, 1); saveState(); renderFlags(); };
+  state.flags.forEach((f,i) => {
+    const chip=document.createElement('span'); chip.className='flag-chip';
+    chip.style.cssText=`background:${f.color==='green'?'var(--green-bg)':f.color==='amber'?'var(--amber-bg)':'var(--red-bg)'};color:${f.color==='green'?'var(--green)':f.color==='amber'?'var(--amber)':'var(--red)'};cursor:pointer`;
+    chip.textContent=f.time+' — '+f.text; chip.title='Click to remove';
+    chip.onclick=()=>{state.flags.splice(i,1);saveState();renderFlags();};
     strip.appendChild(chip);
   });
 }
 
-// ─── STEP RENDERING ──────────────────────────────────────────
+// ─── RENDER STEP ─────────────────────────────────────────────────
 function renderStep(idx) {
-  const area = document.getElementById('scroll-area');
-  area.innerHTML = '';
-  const step = STEPS[idx];
-  if (!step) return;
+  const area=document.getElementById('scroll-area'); area.innerHTML='';
+  const step=STEPS[idx]; if(!step) return;
 
-  const eyebrow = document.createElement('div');
-  eyebrow.className = 'step-eye';
-  eyebrow.textContent = step.section + ' · Step ' + (idx + 1) + ' of ' + STEPS.length;
-  area.appendChild(eyebrow);
+  const eyebrow=document.createElement('div'); eyebrow.className='step-eye';
+  eyebrow.textContent=step.section+' · Step '+(idx+1)+' of '+STEPS.length; area.appendChild(eyebrow);
 
   if (step.gate) {
-    const gHeader = document.createElement('div');
-    gHeader.style.cssText = 'background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px';
-    gHeader.innerHTML = `<div style="background:#1B3A6B;color:#fff;border-radius:6px;padding:8px 14px;font-weight:700;font-size:13px;white-space:nowrap">GATE ${step.gateNum}</div><div><div style="font-weight:700;font-size:15px">${step.label.split('—')[1]?.trim() || step.label}</div><div style="font-size:12px;color:var(--text2);margin-top:2px">${step.gateTitle}</div></div>`;
-    area.appendChild(gHeader);
+    const gh=document.createElement('div'); gh.className='gate-header';
+    gh.innerHTML=`<div class="gate-badge">GATE ${step.gateNum}</div><div class="gate-info"><div class="gate-name">${step.label.split('—')[1]?.trim()||step.label}</div><div class="gate-sub">${step.gateTitle}</div></div>`;
+    area.appendChild(gh);
   } else {
-    const title = document.createElement('div');
-    title.className = 'step-title';
-    title.textContent = step.label;
-    area.appendChild(title);
+    const title=document.createElement('div'); title.className='step-title'; title.textContent=step.label; area.appendChild(title);
   }
 
-  step.cards.forEach(card => {
-    area.appendChild(renderCard(card, step));
-  });
+  step.cards.forEach(card=>area.appendChild(renderCard(card,step)));
 
-  // Nav buttons
-  const nav = document.createElement('div');
-  nav.className = 'nav-row';
-  if (idx > 0) {
-    const back = document.createElement('button');
-    back.className = 'btn-sec';
-    back.textContent = '← Back';
-    back.onclick = () => goStep(idx - 1);
-    nav.appendChild(back);
-  }
-  if (idx < STEPS.length - 1) {
-    const next = document.createElement('button');
-    next.className = 'btn-primary';
-    next.textContent = idx === STEPS.length - 2 ? 'Debrief →' : 'Next →';
-    next.onclick = () => goStep(idx + 1);
-    nav.appendChild(next);
-  }
+  // Notes toggle
+  const key='notes_'+step.id;
+  const hasNote=!!state.notes[key];
+  const nt=document.createElement('div'); nt.className='notes-toggle';
+  const ntBtn=document.createElement('button'); ntBtn.className='notes-toggle-btn';
+  ntBtn.textContent=hasNote?'📝 Notes (saved)':'+ Add notes';
+  const nw=document.createElement('div'); nw.className='notes-wrap'; nw.id='notes-'+step.id; nw.style.display=hasNote?'block':'none';
+  const ta=document.createElement('textarea'); ta.placeholder='Notes for this step...'; ta.value=state.notes[key]||'';
+  ta.addEventListener('input',()=>{state.notes[key]=ta.value;saveState();ntBtn.textContent='📝 Notes (saved)';});
+  nw.appendChild(ta); nt.appendChild(ntBtn); area.appendChild(nt); area.appendChild(nw);
+  ntBtn.onclick=()=>{const o=nw.style.display!=='none';nw.style.display=o?'none':'block';ntBtn.textContent=o?(hasNote||state.notes[key]?'📝 Notes (saved)':'+ Add notes'):'− Hide notes';};
+
+  const nav=document.createElement('div'); nav.className='nav-row';
+  if (idx>0) { const b=document.createElement('button'); b.className='btn-sec'; b.textContent='← Back'; b.onclick=()=>goStep(idx-1); nav.appendChild(b); }
+  if (idx<STEPS.length-1) { const b=document.createElement('button'); b.className='btn-primary'; b.textContent=idx===STEPS.length-2?'Debrief →':'Next →'; b.onclick=()=>goStep(idx+1); nav.appendChild(b); }
   area.appendChild(nav);
 }
 
-// ─── CARD RENDERERS ──────────────────────────────────────────
-function renderCard(card, step) {
-  const wrap = document.createElement('div');
-
+// ─── CARD RENDERERS ──────────────────────────────────────────────
+function renderCard(card) {
   switch(card.type) {
-    case 'context': return renderContext(card);
-    case 'say': return renderTag('say', 'SAY', card.text);
-    case 'ask': return renderTag('ask', 'ASK', card.text);
-    case 'note': return renderTag('note', 'NOTE', card.text);
-    case 'rule': return renderTag('rule', 'RULE', card.text);
-    case 'listen': return renderListen(card);
-    case 'exit_block': return renderExitBlock(card);
-    case 'recruiter_note': return renderRecruiterNote(card);
-    case 'employment': return renderEmployment(card);
-    case 'menu': return renderMenu(card);
-    case 'lane_choice': return renderLaneChoice(card);
-    case 'lane_content': return renderLaneContent(card);
-    case 'commission_branch': return renderCommissionBranch(card);
-    case 'bridge_box': return renderBridgeBox(card);
-    case 'gate_pass': return renderGatePass(card);
-    case 'bucket_picker': return renderBucketPicker(card);
-    case 'exit_speeches': return renderExitSpeeches(card);
-    case 'beats': return renderBeats(card);
-    case 'growth_investment': return renderGrowthInvestment(card);
-    case 'social_proof': return renderSocialProof(card);
-    case 'pay': return renderTag('say', 'PAY STRUCTURE', card.say || card.text);
-    case 'hw_paths': return renderHWPaths(card);
-    case 'debrief_questions': return renderDebrief(card);
-    case 'verdict': return renderVerdict(card);
-    case 'notes_area': return renderNotesArea(card);
-    case 'save_export': return renderSaveExport();
-    case 'explore_exit': return renderExploreExit(card);
-    case 'rating': return renderRating(card);
-    case 'two_col': return renderTwoCol(card);
-    case 'bridge_box': return renderBridgeBox(card);
-    default: return wrap;
+    case 'context': return mkContext(card.text);
+    case 'say': return mkTag('say','SAY',s(card.text));
+    case 'ask': return mkTag('ask','ASK',s(card.text));
+    case 'note': return mkTag('note','NOTE',s(card.text));
+    case 'rule': return mkTag('rule','RULE',s(card.text));
+    case 'pay': return mkTag('say','PAY STRUCTURE',s(card.text));
+    case 'listen': return mkListen(card);
+    case 'exit_block': return mkExitBlock(card);
+    case 'employment': return mkEmployment(card);
+    case 'unemployed_redirect': return mkUnemployedRedirect();
+    case 'lane_choice': return mkLaneChoice(card);
+    case 'lane_content': return mkLaneContent(card);
+    case 'gate1_signals': return mkGate1Signals(card);
+    case 'gate2_check': return mkGate2Check(card);
+    case 'commission_personalized': return mkCommissionPersonalized(card);
+    case 'push_pull': return mkPushPull(card);
+    case 'social_proof_mini': return mkSocialProof(card);
+    case 'bridge_box': return mkBridgeBox(card);
+    case 'gate_pass': return mkGatePass(card);
+    case 'bucket_picker': return mkBucketPicker(card);
+    case 'exit_speeches': return mkExitSpeeches(card);
+    case 'beats': return mkBeats(card);
+    case 'growth_investment': return mkGrowthInvestment(card);
+    case 'hw_paths': return mkHWPaths(card);
+    case 'debrief_questions': return mkDebrief(card);
+    case 'verdict': return mkVerdict(card);
+    case 'notes_area': return mkNotesArea(card);
+    case 'save_export': return mkSaveExport();
+    case 'rating': return mkRating(card);
+    default: return document.createElement('div');
   }
 }
 
-function renderContext(card) {
-  const p = document.createElement('p');
-  p.style.cssText = 'font-size:12.5px;color:var(--text2);margin-bottom:14px;line-height:1.6;font-style:italic';
-  p.textContent = card.text;
-  return p;
+function mkContext(text) {
+  const p=document.createElement('p'); p.className='context-text'; p.textContent=text; return p;
 }
 
-function renderTag(type, label, text) {
-  const card = document.createElement('div');
-  card.className = 'card';
-  const tag = document.createElement('span');
-  tag.className = 'tag t-' + type;
-  tag.textContent = label;
-  card.appendChild(tag);
-  const hint = document.createElement('span');
-  hint.className = 'edit-hint';
-  hint.textContent = 'click to edit';
-  card.appendChild(hint);
-  const p = document.createElement('div');
-  p.className = 'q-text editable';
-  p.contentEditable = true;
-  p.style.whiteSpace = 'pre-wrap';
-  p.textContent = text;
-  card.appendChild(p);
-  return card;
+function mkTag(type,label,text) {
+  const c=document.createElement('div'); c.className='card';
+  const t=document.createElement('span'); t.className='tag t-'+type; t.textContent=label; c.appendChild(t);
+  const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap'; p.textContent=text; c.appendChild(p);
+  return c;
 }
 
-function renderListen(card) {
-  const wrap = document.createElement('div');
-  wrap.className = 'card';
-  const tag = document.createElement('span');
-  tag.className = 'tag t-listen';
-  tag.textContent = 'LISTEN FOR';
-  wrap.appendChild(tag);
-  card.items.forEach(item => {
-    const p = document.createElement('div');
-    p.className = 'kv-text editable';
-    p.contentEditable = true;
-    p.style.cssText = 'padding:4px 0;border-bottom:1px solid var(--border)';
-    const isPass = item.startsWith('PASS');
-    const isFail = item.startsWith('FAIL');
-    if (isPass) p.innerHTML = '<strong style="color:var(--green)">PASS</strong> ' + item.slice(5);
-    else if (isFail) p.innerHTML = '<strong style="color:var(--red)">FAIL</strong> ' + item.slice(5);
-    else p.textContent = item;
-    wrap.appendChild(p);
+function mkListen(card) {
+  const w=document.createElement('div'); w.className='card';
+  const t=document.createElement('span'); t.className='tag t-listen'; t.textContent='LISTEN FOR'; w.appendChild(t);
+  card.items.forEach(item=>{
+    const p=document.createElement('div'); p.className='listen-item';
+    if(item.startsWith('PASS')) p.innerHTML='<strong class="pass-lbl">PASS</strong> '+item.slice(5);
+    else if(item.startsWith('FAIL')) p.innerHTML='<strong class="fail-lbl">FAIL</strong> '+item.slice(5);
+    else p.textContent=item;
+    w.appendChild(p);
   });
-  return wrap;
+  return w;
 }
 
-function renderExitBlock(card) {
-  const wrap = document.createElement('div');
-  const eb = document.createElement('div');
-  eb.className = 'exit-block';
-  const lbl = document.createElement('div');
-  lbl.className = 'exit-lbl';
-  lbl.textContent = card.label || 'EXIT — say verbatim';
-  eb.appendChild(lbl);
-  const say = document.createElement('div');
-  say.className = 'exit-say editable';
-  say.contentEditable = true;
-  say.style.whiteSpace = 'pre-wrap';
-  say.textContent = card.text;
-  eb.appendChild(say);
-  wrap.appendChild(eb);
-  return wrap;
+function mkExitBlock(card) {
+  const w=document.createElement('div');
+  const eb=document.createElement('div'); eb.className='exit-block';
+  const lbl=document.createElement('div'); lbl.className='exit-lbl'; lbl.textContent=card.label||'EXIT — say verbatim'; eb.appendChild(lbl);
+  const say=document.createElement('div'); say.className='exit-say editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap'; say.textContent=s(card.text); eb.appendChild(say);
+  w.appendChild(eb); return w;
 }
 
-function renderRecruiterNote(card) {
-  const wrap = document.createElement('div');
-  const user = state.user;
-  const idx = USERS.indexOf(user); const text = idx === 0 ? card.ressa : idx === 1 ? card.sheen : card.felize;
-  if (!text) return wrap;
-  const colorList = [['var(--blue-bg)', 'var(--blue)'], ['var(--green-bg)', 'var(--green)'], ['var(--amber-bg)', 'var(--amber)']];
-  const userIdx = USERS.indexOf(user);
-  const [bg, col] = colorList[userIdx] || ['var(--bg2)', 'var(--text2)'];
-  const note = document.createElement('div');
-  note.className = 'rec-note';
-  note.style.cssText = `background:${bg};border-left:3px solid ${col};`;
-  const lbl = document.createElement('div');
-  lbl.className = 'rec-note-lbl';
-  lbl.style.color = col;
-  lbl.textContent = 'RECRUITER NOTE';
-  note.appendChild(lbl);
-  const p = document.createElement('div');
-  p.style.cssText = 'font-size:13px;color:var(--text);line-height:1.65';
-  p.textContent = text;
-  note.appendChild(p);
-  wrap.appendChild(note);
-  return wrap;
-}
-
-function renderEmployment(card) {
-  const wrap = document.createElement('div');
-  wrap.className = 'choice-card';
-  const q = document.createElement('div');
-  q.className = 'choice-q';
-  q.textContent = card.question;
-  wrap.appendChild(q);
-  const opts = document.createElement('div');
-  opts.className = 'opts';
-  card.opts.forEach(o => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.textContent = o.label;
-    const cls = { g: 'sel-g', r: 'sel-r', a: 'sel-a', b: 'sel-b' }[o.style] || 'sel-b';
-    if (state.answers.employment === o.val) btn.classList.add(cls);
-    btn.onclick = () => {
-      opts.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-g','sel-r','sel-a','sel-b'));
-      btn.classList.add(cls);
-      state.answers.employment = o.val;
-      // Show pill
-      const pill = document.getElementById('employ-pill');
-      pill.style.display = 'inline-block';
-      pill.style.background = o.style === 'g' ? 'var(--green-bg)' : o.style === 'r' ? 'var(--red-bg)' : 'var(--amber-bg)';
-      pill.style.color = o.style === 'g' ? 'var(--green)' : o.style === 'r' ? 'var(--red)' : 'var(--amber)';
-      pill.textContent = o.label;
-      saveState();
+function mkEmployment(card) {
+  const w=document.createElement('div'); w.className='choice-card';
+  const q=document.createElement('div'); q.className='choice-q'; q.textContent=card.question; w.appendChild(q);
+  const opts=document.createElement('div'); opts.className='opts';
+  card.opts.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.label;
+    const cls={g:'sel-g',r:'sel-r',a:'sel-a'}[o.style]||'sel-b';
+    if(state.answers.employment===o.val) btn.classList.add(cls);
+    btn.onclick=()=>{
+      opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-g','sel-r','sel-a','sel-b'));
+      btn.classList.add(cls); state.answers.employment=o.val;
+      const pill=document.getElementById('employ-pill');
+      pill.style.display='inline-block';
+      pill.style.background=o.style==='g'?'var(--green-bg)':o.style==='r'?'var(--red-bg)':'var(--amber-bg)';
+      pill.style.color=o.style==='g'?'var(--green)':o.style==='r'?'var(--red)':'var(--amber)';
+      pill.textContent=o.label; saveState();
+      const rd=document.querySelector('.unemployed-redirect');
+      if(rd) rd.style.display=(o.val==='unemployed'||o.val==='irregular')?'block':'none';
     };
     opts.appendChild(btn);
   });
-  wrap.appendChild(opts);
-  return wrap;
+  w.appendChild(opts); return w;
 }
 
-function renderMenu(card) {
-  const wrap = document.createElement('div');
-  const c = document.createElement('div');
-  c.className = 'card';
-  const tag = document.createElement('span');
-  tag.className = 'tag t-note';
-  tag.textContent = 'MENU (if they\'re floating)';
-  c.appendChild(tag);
-  const p = document.createElement('div');
-  p.className = 'kv-text editable';
-  p.contentEditable = true;
-  p.style.whiteSpace = 'pre-wrap';
-  p.textContent = card.say;
-  c.appendChild(p);
-  wrap.appendChild(c);
-  return wrap;
+function mkUnemployedRedirect() {
+  const w=document.createElement('div'); w.className='unemployed-redirect';
+  w.style.display=(state.answers.employment==='unemployed'||state.answers.employment==='irregular')?'block':'none';
+  w.innerHTML=`<div class="redirect-box">⚠ <strong>Not currently employed</strong> — go to <button class="redirect-link" onclick="goToLaneD()">Lane D</button> before continuing.</div>`;
+  return w;
 }
 
-function renderLaneChoice(card) {
-  const wrap = document.createElement('div');
-  wrap.className = 'choice-card';
-  const q = document.createElement('div');
-  q.className = 'choice-q';
-  q.textContent = card.question;
-  wrap.appendChild(q);
-  const opts = document.createElement('div');
-  opts.className = 'opts';
-  card.opts.forEach(o => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.textContent = o.label;
-    if (state.answers.lane === o.val) btn.classList.add('sel-b');
-    btn.onclick = () => {
-      opts.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-b'));
-      btn.classList.add('sel-b');
-      state.answers.lane = o.val;
-      const pill = document.getElementById('lane-pill');
-      pill.style.display = 'inline-block';
-      pill.style.background = 'var(--blue-bg)';
-      pill.style.color = 'var(--blue)';
-      pill.textContent = o.label;
-      saveState();
+function goToLaneD() {
+  const idx=STEPS.findIndex(st=>st.id==='lane_d'); if(idx>=0) goStep(idx);
+}
+
+let currentLanes={};
+function mkLaneChoice(card) {
+  const w=document.createElement('div'); w.className='choice-card';
+  const q=document.createElement('div'); q.className='choice-q'; q.textContent=card.question; w.appendChild(q);
+  const opts=document.createElement('div'); opts.className='opts';
+  card.opts.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.label;
+    if(state.answers.lane===o.val) btn.classList.add('sel-b');
+    btn.onclick=()=>{
+      opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-b','sel-g','sel-r','sel-a'));
+      btn.classList.add('sel-b'); state.answers.lane=o.val;
+      const pill=document.getElementById('lane-pill');
+      pill.style.display='inline-block'; pill.style.background='var(--blue-bg)'; pill.style.color='var(--blue)';
+      pill.textContent=o.label; saveState();
+      const lc=document.querySelector('.lane-content-area');
+      if(lc){const nl=mkLaneContent({type:'lane_content',lanes:currentLanes}); nl.className='lane-content-area'; lc.replaceWith(nl);}
     };
     opts.appendChild(btn);
   });
-  wrap.appendChild(opts);
-  return wrap;
+  w.appendChild(opts); return w;
 }
 
-function renderLaneContent(card) {
-  const wrap = document.createElement('div');
-  const lane = state.answers.lane;
-  if (!lane) {
-    const note = document.createElement('p');
-    note.style.cssText = 'font-size:13px;color:var(--text3);font-style:italic;padding:12px 0';
-    note.textContent = 'Select a lane above to see the questions for that lane.';
-    wrap.appendChild(note);
-    return wrap;
-  }
-  const content = card.lanes[lane] || [];
-  content.forEach(c => wrap.appendChild(renderCard(c, null)));
-  return wrap;
+function mkLaneContent(card) {
+  currentLanes=card.lanes;
+  const w=document.createElement('div'); w.className='lane-content-area';
+  const lane=state.answers.lane;
+  if(!lane){const n=document.createElement('p');n.className='context-text';n.textContent='Select a lane above to see the questions.';w.appendChild(n);return w;}
+  (card.lanes[lane]||[]).forEach(c=>w.appendChild(renderCard(c)));
+  return w;
 }
 
-function renderCommissionBranch(card) {
-  const wrap = document.createElement('div');
-  wrap.className = 'choice-card';
-  const q = document.createElement('div');
-  q.className = 'choice-q';
-  q.textContent = card.question;
-  wrap.appendChild(q);
-  const opts = document.createElement('div');
-  opts.className = 'opts';
-  opts.style.flexDirection = 'column';
-  card.opts.forEach(o => {
-    const row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%';
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.style.textAlign = 'left';
-    btn.textContent = o.label;
-    const cls = { g: 'sel-g', r: 'sel-r', a: 'sel-a', b: 'sel-b' }[o.style] || 'sel-b';
-    if (state.answers.commission_react === o.val) btn.classList.add(cls);
-    const noteEl = document.createElement('span');
-    noteEl.style.cssText = 'font-size:12px;color:var(--text2)';
-    noteEl.textContent = o.note;
-    btn.onclick = () => {
-      opts.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-g','sel-r','sel-a','sel-b'));
-      btn.classList.add(cls);
-      state.answers.commission_react = o.val;
-      saveState();
-    };
-    row.appendChild(btn);
-    row.appendChild(noteEl);
-    opts.appendChild(row);
+function mkGate1Signals(card) {
+  const w=document.createElement('div');
+  const pb=document.createElement('div'); pb.className='signal-box pass-box';
+  const ph=document.createElement('div'); ph.className='signal-header pass-header'; ph.textContent='✓ PASS — what it sounds like'; pb.appendChild(ph);
+  card.pass.forEach(item=>{const p=document.createElement('div');p.className='signal-item';p.textContent=item;pb.appendChild(p);}); w.appendChild(pb);
+  const fb=document.createElement('div'); fb.className='signal-box fail-box';
+  const fh=document.createElement('div'); fh.className='signal-header fail-header'; fh.textContent='✗ FAIL — what it sounds like'; fb.appendChild(fh);
+  card.fail.forEach(item=>{const p=document.createElement('div');p.className='signal-item';p.textContent=item;fb.appendChild(p);}); w.appendChild(fb);
+  const probe=document.createElement('div'); probe.className='card';
+  const pt=document.createElement('span'); pt.className='tag t-note'; pt.textContent='IF PERSONALITY ANSWER — probe once'; probe.appendChild(pt);
+  const pp=document.createElement('div'); pp.className='q-text editable'; pp.contentEditable=true; pp.style.whiteSpace='pre-wrap'; pp.textContent=card.probe; probe.appendChild(pp);
+  const pn=document.createElement('div'); pn.className='context-text'; pn.style.marginTop='8px'; pn.textContent=card.note; probe.appendChild(pn);
+  w.appendChild(probe); return w;
+}
+
+function mkGate2Check(card) {
+  const w=document.createElement('div');
+  const qh=document.createElement('div'); qh.className='gate2-q-header'; qh.textContent='Ask both — need answers to both before proceeding'; w.appendChild(qh);
+  card.questions.forEach((q,i)=>{
+    const qb=document.createElement('div'); qb.className='card gate2-q-card';
+    const num=document.createElement('span'); num.className='gate2-q-num'; num.textContent='Q'+(i+1); qb.appendChild(num);
+    const ask=document.createElement('div'); ask.className='q-text editable'; ask.contentEditable=true; ask.style.whiteSpace='pre-wrap'; ask.textContent=s(q.ask); qb.appendChild(ask);
+    w.appendChild(qb);
   });
-  wrap.appendChild(opts);
-  return wrap;
+  const pg=document.createElement('div'); pg.className='pf-grid';
+  const pc=document.createElement('div'); pc.className='pf-col pf-pass';
+  const ph=document.createElement('div'); ph.className='pf-header'; ph.textContent='✓ Both must be present'; pc.appendChild(ph);
+  card.passItems.forEach(item=>{const p=document.createElement('div');p.className='pf-item';p.textContent=item;pc.appendChild(p);});
+  const fc=document.createElement('div'); fc.className='pf-col pf-fail';
+  const fh=document.createElement('div'); fh.className='pf-header'; fh.textContent='✗ These are not enough'; fc.appendChild(fh);
+  card.failItems.forEach(item=>{const p=document.createElement('div');p.className='pf-item';p.textContent=item;fc.appendChild(p);});
+  pg.appendChild(pc); pg.appendChild(fc); w.appendChild(pg);
+  const rt=document.createElement('button'); rt.className='ref-toggle'; rt.textContent='+ Show real examples';
+  const rw=document.createElement('div'); rw.className='ref-wrap'; rw.style.display='none';
+  rt.onclick=()=>{const o=rw.style.display!=='none';rw.style.display=o?'none':'block';rt.textContent=o?'+ Show real examples':'− Hide examples';};
+  card.ref.forEach(r=>{
+    const rb=document.createElement('div'); rb.className='ref-box';
+    const rl=document.createElement('div'); rl.className='ref-label'; rl.textContent=r.label; rb.appendChild(rl);
+    r.examples.forEach(ex=>{const p=document.createElement('div');p.className='ref-item';p.textContent=ex;rb.appendChild(p);});
+    rw.appendChild(rb);
+  });
+  w.appendChild(rt); w.appendChild(rw); return w;
 }
 
-function renderBridgeBox(card) {
-  const wrap = document.createElement('div');
-  wrap.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:10px';
-  const title = document.createElement('div');
-  title.style.cssText = 'background:var(--bg2);padding:10px 14px;font-size:12px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border)';
-  title.textContent = card.title || 'Salary bridge';
-  wrap.appendChild(title);
-  const cols = document.createElement('div');
-  cols.style.cssText = 'display:grid;grid-template-columns:1fr 1fr';
-  const qualify = document.createElement('div');
-  qualify.style.cssText = 'padding:12px 14px;border-right:1px solid var(--border)';
-  const ql = document.createElement('div');
-  ql.style.cssText = 'font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;text-transform:uppercase';
-  ql.textContent = 'Qualifies';
-  qualify.appendChild(ql);
-  (card.qualify || []).forEach(t => {
-    const p = document.createElement('div');
-    p.style.cssText = 'font-size:12px;color:var(--text);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.5';
-    p.textContent = '✓ ' + t;
-    qualify.appendChild(p);
-  });
-  const disqualify = document.createElement('div');
-  disqualify.style.cssText = 'padding:12px 14px';
-  const dl = document.createElement('div');
-  dl.style.cssText = 'font-size:11px;font-weight:700;color:var(--red);margin-bottom:8px;text-transform:uppercase';
-  dl.textContent = 'Does not qualify';
-  disqualify.appendChild(dl);
-  (card.disqualify || []).forEach(t => {
-    const p = document.createElement('div');
-    p.style.cssText = 'font-size:12px;color:var(--text);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.5';
-    p.textContent = '✗ ' + t;
-    disqualify.appendChild(p);
-  });
-  cols.appendChild(qualify);
-  cols.appendChild(disqualify);
-  wrap.appendChild(cols);
-  return wrap;
+function mkCommissionPersonalized(card) {
+  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card';
+  const t=document.createElement('span'); t.className='tag t-say'; t.textContent='SAY — personalize with what they told you'; c.appendChild(t);
+  const h=document.createElement('div'); h.className='personalize-hint'; h.textContent='💡 Replace [what they said financially] with their actual words from this call.'; c.appendChild(h);
+  const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap'; p.textContent=s(card.template); c.appendChild(p);
+  if(card.note){const n=document.createElement('div');n.className='context-text';n.style.marginTop='8px';n.textContent=card.note;c.appendChild(n);}
+  w.appendChild(c); return w;
 }
 
-function renderGatePass(card) {
-  const wrap = document.createElement('div');
-  wrap.className = 'choice-card';
-  wrap.style.background = 'var(--bg2)';
-  const q = document.createElement('div');
-  q.className = 'choice-q';
-  q.textContent = 'Gate result:';
-  wrap.appendChild(q);
-  const opts = document.createElement('div');
-  opts.className = 'opts';
-  [{ label: '✓ Gate open — continue', val: 'yes', style: 'g' }, { label: '✗ Gate closed — exit', val: 'no', style: 'r' }].forEach(o => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.textContent = o.label;
-    const cls = o.style === 'g' ? 'sel-g' : 'sel-r';
-    const key = card.key + '_passed';
-    if (state.answers[key] === o.val) btn.classList.add(cls);
-    btn.onclick = () => {
-      opts.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-g','sel-r'));
-      btn.classList.add(cls);
-      state.answers[key] = o.val;
-      saveState();
-      updateSidebar();
-    };
+function mkPushPull(card) {
+  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card'; c.style.borderLeft='3px solid var(--purple)';
+  const t=document.createElement('span'); t.className='tag'; t.style.cssText='background:var(--purple-bg);color:var(--purple)'; t.textContent='PUSH / PULL'; c.appendChild(t);
+  const say=document.createElement('div'); say.className='q-text editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap'; say.textContent=s(card.say); c.appendChild(say);
+  const at=document.createElement('span'); at.className='tag t-ask'; at.style.marginTop='10px'; at.textContent='ASK'; c.appendChild(at);
+  const ask=document.createElement('div'); ask.className='q-text editable'; ask.contentEditable=true; ask.textContent=s(card.ask); c.appendChild(ask);
+  w.appendChild(c); return w;
+}
+
+function mkSocialProof(card) {
+  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card';
+  const t=document.createElement('span'); t.className='tag t-context'; t.textContent='SOCIAL PROOF'; c.appendChild(t);
+  const n=document.createElement('div'); n.className='context-text'; n.style.marginBottom='10px'; n.textContent=card.note; c.appendChild(n);
+  card.roster.forEach(r=>{
+    const row=document.createElement('div'); row.className='sp-row';
+    const hdr=document.createElement('div'); hdr.className='sp-header';
+    hdr.innerHTML=`<div class="sp-name">${r.name}</div><div class="sp-meta">${r.background} → ${r.role}</div><span class="sp-toggle">+</span>`;
+    const det=document.createElement('div'); det.className='sp-detail'; det.style.display='none'; det.textContent=r.story;
+    hdr.onclick=()=>{const o=det.style.display!=='none';det.style.display=o?'none':'block';hdr.querySelector('.sp-toggle').textContent=o?'+':'−';};
+    row.appendChild(hdr); row.appendChild(det); c.appendChild(row);
+  });
+  w.appendChild(c); return w;
+}
+
+function mkBridgeBox(card) {
+  const w=document.createElement('div'); w.className='bridge-toggle-wrap';
+  const t=document.createElement('button'); t.className='ref-toggle'; t.textContent='+ Salary bridge criteria';
+  const inner=document.createElement('div'); inner.style.display='none';
+  t.onclick=()=>{const o=inner.style.display!=='none';inner.style.display=o?'none':'block';t.textContent=o?'+ Salary bridge criteria':'− Salary bridge criteria';};
+  const g=document.createElement('div'); g.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px';
+  const qc=document.createElement('div'); qc.className='pf-col pf-pass';
+  const qh=document.createElement('div'); qh.className='pf-header'; qh.textContent='✓ Qualifies'; qc.appendChild(qh);
+  (card.qualify||[]).forEach(tx=>{const p=document.createElement('div');p.className='pf-item';p.textContent=tx;qc.appendChild(p);});
+  const dc=document.createElement('div'); dc.className='pf-col pf-fail';
+  const dh=document.createElement('div'); dh.className='pf-header'; dh.textContent='✗ Does not qualify'; dc.appendChild(dh);
+  (card.disqualify||[]).forEach(tx=>{const p=document.createElement('div');p.className='pf-item';p.textContent=tx;dc.appendChild(p);});
+  g.appendChild(qc); g.appendChild(dc); inner.appendChild(g); w.appendChild(t); w.appendChild(inner); return w;
+}
+
+function mkGatePass(card) {
+  const w=document.createElement('div'); w.className='choice-card'; w.style.background='var(--bg2)';
+  const q=document.createElement('div'); q.className='choice-q'; q.textContent='Gate result:'; w.appendChild(q);
+  const opts=document.createElement('div'); opts.className='opts';
+  [{label:'✓ Gate open — continue',val:'yes',style:'g'},{label:'✗ Gate closed — exit',val:'no',style:'r'}].forEach(o=>{
+    const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.label;
+    const cls=o.style==='g'?'sel-g':'sel-r'; const key=card.key+'_passed';
+    if(state.answers[key]===o.val) btn.classList.add(cls);
+    btn.onclick=()=>{opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-g','sel-r'));btn.classList.add(cls);state.answers[key]=o.val;saveState();updateSidebar();};
     opts.appendChild(btn);
   });
-  wrap.appendChild(opts);
-  return wrap;
+  w.appendChild(opts); return w;
 }
 
-function renderBucketPicker(card) {
-  const wrap = document.createElement('div');
-  const grid = document.createElement('div');
-  grid.className = 'bucket-grid';
-  card.buckets.forEach(b => {
-    const bc = document.createElement('div');
-    bc.className = 'bucket-card';
-    const selCls = 'sel-b' + b.num;
-    if (state.answers.bucket === b.num) bc.classList.add(selCls);
-    bc.innerHTML = `<div class="bucket-num">${b.num}</div><div class="bucket-label">${b.label}</div><div class="bucket-sub">${b.sub}</div>`;
-    const action = document.createElement('span');
-    action.className = 'bucket-action';
-    action.style.background = b.num === 1 ? 'var(--green-bg)' : b.num <= 4 ? 'var(--amber-bg)' : 'var(--red-bg)';
-    action.style.color = b.num === 1 ? 'var(--green)' : b.num <= 4 ? 'var(--amber)' : 'var(--red)';
-    action.textContent = b.action;
-    bc.appendChild(action);
-    bc.onclick = () => {
-      grid.querySelectorAll('.bucket-card').forEach(c => c.className = 'bucket-card');
-      bc.classList.add(selCls);
-      state.answers.bucket = b.num;
-      saveState();
-    };
-    grid.appendChild(bc);
+function mkBucketPicker(card) {
+  const w=document.createElement('div'); const g=document.createElement('div'); g.className='bucket-grid';
+  card.buckets.forEach(b=>{
+    const bc=document.createElement('div'); bc.className='bucket-card';
+    const sc='sel-b'+b.num; if(state.answers.bucket===b.num) bc.classList.add(sc);
+    bc.innerHTML=`<div class="bucket-num">${b.num}</div><div class="bucket-label">${b.label}</div><div class="bucket-sub">${b.sub}</div>`;
+    const a=document.createElement('span'); a.className='bucket-action';
+    a.style.cssText=`background:${b.num===1?'var(--green-bg)':b.num<=4?'var(--amber-bg)':'var(--red-bg)'};color:${b.num===1?'var(--green)':b.num<=4?'var(--amber)':'var(--red)'}`;
+    a.textContent=b.action; bc.appendChild(a);
+    bc.onclick=()=>{g.querySelectorAll('.bucket-card').forEach(c=>c.className='bucket-card');bc.classList.add(sc);state.answers.bucket=b.num;saveState();};
+    g.appendChild(bc);
   });
-  wrap.appendChild(grid);
-  return wrap;
+  w.appendChild(g); return w;
 }
 
-function renderExitSpeeches(card) {
-  const wrap = document.createElement('div');
-  const title = document.createElement('div');
-  title.style.cssText = 'font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 8px';
-  title.textContent = 'Exit speeches — use verbatim';
-  wrap.appendChild(title);
-  card.speeches.forEach(s => {
-    const eb = document.createElement('div');
-    eb.className = 'exit-block';
-    eb.style.marginBottom = '10px';
-    const lbl = document.createElement('div');
-    lbl.className = 'exit-lbl';
-    lbl.textContent = s.label;
-    eb.appendChild(lbl);
-    const say = document.createElement('div');
-    say.className = 'exit-say editable';
-    say.contentEditable = true;
-    say.style.whiteSpace = 'pre-wrap';
-    say.textContent = s.text;
-    eb.appendChild(say);
-    wrap.appendChild(eb);
+function mkExitSpeeches(card) {
+  const w=document.createElement('div');
+  const title=document.createElement('div'); title.className='exit-title'; title.textContent='Exit speeches — use verbatim'; w.appendChild(title);
+  card.speeches.forEach(speech=>{
+    const eb=document.createElement('div'); eb.className='exit-block'; eb.style.marginBottom='10px';
+    const lbl=document.createElement('div'); lbl.className='exit-lbl'; lbl.textContent=speech.label; eb.appendChild(lbl);
+    const say=document.createElement('div'); say.className='exit-say editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap'; say.textContent=speech.text; eb.appendChild(say);
+    w.appendChild(eb);
   });
-  return wrap;
+  return w;
 }
 
-function renderBeats(card) {
-  const wrap = document.createElement('div');
-  const title = document.createElement('div');
-  title.style.cssText = 'font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px';
-  title.textContent = card.title;
-  wrap.appendChild(title);
-  card.beats.forEach(b => {
-    const c = document.createElement('div');
-    c.className = 'card';
-    const lbl = document.createElement('span');
-    lbl.className = 'tag t-say';
-    lbl.textContent = b.label;
-    c.appendChild(lbl);
-    const p = document.createElement('div');
-    p.className = 'q-text editable';
-    p.contentEditable = true;
-    p.style.whiteSpace = 'pre-wrap';
-    p.textContent = b.text;
-    c.appendChild(p);
-    wrap.appendChild(c);
+function mkBeats(card) {
+  const w=document.createElement('div');
+  const title=document.createElement('div'); title.className='beats-title'; title.textContent=card.title; w.appendChild(title);
+  card.beats.forEach(b=>{
+    const c=document.createElement('div'); c.className='card';
+    const l=document.createElement('span'); l.className='tag t-say'; l.textContent=b.label; c.appendChild(l);
+    const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap'; p.textContent=s(b.text); c.appendChild(p);
+    w.appendChild(c);
   });
-  return wrap;
+  return w;
 }
 
-function renderGrowthInvestment(card) {
-  const wrap = document.createElement('div');
-  const c = document.createElement('div');
-  c.className = 'card';
-  c.style.borderLeft = '3px solid var(--purple)';
-  const tag = document.createElement('span');
-  tag.className = 'tag';
-  tag.style.cssText = 'background:var(--purple-bg);color:var(--purple)';
-  tag.textContent = 'GROWTH INVESTMENT MOMENT';
-  c.appendChild(tag);
-  [{ label: 'SAY', text: card.say, cls: 't-say' }, { label: 'ASK', text: card.ask, cls: 't-ask' }, { label: 'NOTE', text: card.note, cls: 't-note' }, { label: 'FOLLOW UP', text: card.followup, cls: 't-ask' }].forEach(item => {
-    const lbl = document.createElement('span');
-    lbl.className = 'tag ' + item.cls;
-    lbl.textContent = item.label;
-    c.appendChild(lbl);
-    const p = document.createElement('div');
-    p.className = 'kv-text editable';
-    p.contentEditable = true;
-    p.style.cssText = 'white-space:pre-wrap;margin-bottom:10px';
-    p.textContent = item.text;
-    c.appendChild(p);
+function mkGrowthInvestment(card) {
+  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card'; c.style.borderLeft='3px solid var(--purple)';
+  const t=document.createElement('span'); t.className='tag'; t.style.cssText='background:var(--purple-bg);color:var(--purple)'; t.textContent='GROWTH INVESTMENT MOMENT'; c.appendChild(t);
+  [{label:'SAY',text:card.say,cls:'t-say'},{label:'ASK',text:card.ask,cls:'t-ask'},{label:'NOTE',text:card.note,cls:'t-note'},{label:'FOLLOW UP',text:card.followup,cls:'t-ask'}].forEach(item=>{
+    const l=document.createElement('span'); l.className='tag '+item.cls; l.textContent=item.label; c.appendChild(l);
+    const p=document.createElement('div'); p.className='kv-text editable'; p.contentEditable=true; p.style.cssText='white-space:pre-wrap;margin-bottom:10px'; p.textContent=s(item.text); c.appendChild(p);
   });
-  wrap.appendChild(c);
-  return wrap;
+  w.appendChild(c); return w;
 }
 
-function renderSocialProof(card) {
-  const wrap = document.createElement('div');
-  const c = document.createElement('div');
-  c.className = 'card';
-  const tag = document.createElement('span');
-  tag.className = 'tag t-context';
-  tag.textContent = 'MATCHED SOCIAL PROOF';
-  c.appendChild(tag);
-  const note = document.createElement('div');
-  note.style.cssText = 'font-size:12px;color:var(--text2);margin-bottom:10px;font-style:italic';
-  note.textContent = card.note;
-  c.appendChild(note);
-  card.roster.forEach(r => {
-    const row = document.createElement('div');
-    row.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:7px;cursor:pointer;transition:background .13s';
-    row.innerHTML = `<div style="font-size:13px;font-weight:700">${r.name} — ${r.background}</div><div style="font-size:12px;color:var(--text2);margin:2px 0">${r.role}</div><div style="font-size:13px;font-style:italic;color:var(--blue);margin-top:5px">${r.line}</div>`;
-    row.onclick = () => { row.style.background = 'var(--blue-bg)'; setTimeout(() => row.style.background = '', 800); };
-    c.appendChild(row);
+function mkHWPaths(card) {
+  const w=document.createElement('div');
+  card.paths.forEach(p=>{
+    const cols={green:['var(--green-bg)','var(--green)'],amber:['var(--amber-bg)','var(--amber)'],red:['var(--red-bg)','var(--red)']};
+    const [bg,col]=cols[p.color]||['var(--bg2)','var(--text2)'];
+    const box=document.createElement('div'); box.style.cssText=`border-left:3px solid ${col};background:${bg};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;margin-bottom:10px`;
+    const lbl=document.createElement('div'); lbl.style.cssText=`font-size:11px;font-weight:700;color:${col};text-transform:uppercase;margin-bottom:6px`; lbl.textContent=p.label; box.appendChild(lbl);
+    const say=document.createElement('div'); say.style.cssText='font-size:13px;color:var(--text);line-height:1.7;font-style:italic;white-space:pre-wrap'; say.textContent=s(p.say); box.appendChild(say);
+    if(p.rule){const r=document.createElement('div');r.style.cssText='font-size:12px;color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08)';r.textContent='⚠ '+p.rule;box.appendChild(r);}
+    w.appendChild(box);
   });
-  wrap.appendChild(c);
-  return wrap;
+  return w;
 }
 
-function renderHWPaths(card) {
-  const wrap = document.createElement('div');
-  card.paths.forEach(p => {
-    const colors = { green: ['var(--green-bg)', 'var(--green)'], amber: ['var(--amber-bg)', 'var(--amber)'], red: ['var(--red-bg)', 'var(--red)'] };
-    const [bg, col] = colors[p.color] || ['var(--bg2)', 'var(--text2)'];
-    const box = document.createElement('div');
-    box.style.cssText = `border-left:3px solid ${col};background:${bg};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;margin-bottom:10px`;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = `font-size:11px;font-weight:700;color:${col};text-transform:uppercase;margin-bottom:6px`;
-    lbl.textContent = p.label;
-    box.appendChild(lbl);
-    const say = document.createElement('div');
-    say.style.cssText = 'font-size:13px;color:var(--text);line-height:1.7;font-style:italic;white-space:pre-wrap';
-    say.textContent = p.say;
-    box.appendChild(say);
-    if (p.rule) {
-      const rule = document.createElement('div');
-      rule.style.cssText = 'font-size:12px;color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08)';
-      rule.textContent = '⚠ ' + p.rule;
-      box.appendChild(rule);
-    }
-    wrap.appendChild(box);
-  });
-  return wrap;
-}
-
-function renderDebrief(card) {
-  const wrap = document.createElement('div');
-  card.questions.forEach(q => {
-    const dq = document.createElement('div');
-    dq.className = 'debrief-q';
-    const lbl = document.createElement('div');
-    lbl.className = 'db-lbl';
-    lbl.textContent = q.label;
-    dq.appendChild(lbl);
-    const qText = document.createElement('div');
-    qText.className = 'db-q';
-    qText.textContent = q.q;
-    dq.appendChild(qText);
-    const opts = document.createElement('div');
-    opts.className = 'd-opts';
-    q.opts.forEach((o, oi) => {
-      const btn = document.createElement('button');
-      btn.className = 'd-btn';
-      btn.textContent = o;
-      const cls = oi === 0 ? 'd-g' : oi === q.opts.length - 1 ? 'd-r' : 'd-a';
-      if (state.answers[q.key] === o) btn.classList.add(cls);
-      btn.onclick = () => {
-        opts.querySelectorAll('.d-btn').forEach(b => b.classList.remove('d-g','d-a','d-r'));
-        btn.classList.add(cls);
-        state.answers[q.key] = o;
-        saveState();
-        updateVerdict();
-      };
+function mkDebrief(card) {
+  const w=document.createElement('div');
+  card.questions.forEach(q=>{
+    const dq=document.createElement('div'); dq.className='debrief-q';
+    const lbl=document.createElement('div'); lbl.className='db-lbl'; lbl.textContent=q.label; dq.appendChild(lbl);
+    const qt=document.createElement('div'); qt.className='db-q'; qt.textContent=q.q; dq.appendChild(qt);
+    const opts=document.createElement('div'); opts.className='d-opts';
+    q.opts.forEach((o,oi)=>{
+      const btn=document.createElement('button'); btn.className='d-btn'; btn.textContent=o;
+      const cls=oi===0?'d-g':oi===q.opts.length-1?'d-r':'d-a';
+      if(state.answers[q.key]===o) btn.classList.add(cls);
+      btn.onclick=()=>{opts.querySelectorAll('.d-btn').forEach(b=>b.classList.remove('d-g','d-a','d-r'));btn.classList.add(cls);state.answers[q.key]=o;saveState();};
       opts.appendChild(btn);
     });
-    dq.appendChild(opts);
-    wrap.appendChild(dq);
+    dq.appendChild(opts); w.appendChild(dq);
   });
-  return wrap;
+  return w;
 }
 
-function renderVerdict(card) {
-  const wrap = document.createElement('div');
-  const title = document.createElement('div');
-  title.style.cssText = 'font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 8px';
-  title.textContent = 'Final verdict';
-  wrap.appendChild(title);
-  const opts = document.createElement('div');
-  opts.className = 'd-opts';
-  opts.id = 'verdict-opts';
-  card.verdicts.forEach(v => {
-    const btn = document.createElement('button');
-    btn.className = 'd-btn';
-    btn.textContent = v.label;
-    const cls = { green: 'd-g', amber: 'd-a', red: 'd-r' }[v.color] || 'd-a';
-    if (state.answers.verdict === v.val) btn.classList.add(cls);
-    btn.onclick = () => {
-      opts.querySelectorAll('.d-btn').forEach(b => b.classList.remove('d-g','d-a','d-r'));
-      btn.classList.add(cls);
-      state.answers.verdict = v.val;
-      saveState();
-    };
+function mkVerdict(card) {
+  const w=document.createElement('div');
+  const title=document.createElement('div'); title.className='exit-title'; title.textContent='Final verdict'; w.appendChild(title);
+  const opts=document.createElement('div'); opts.className='d-opts';
+  card.verdicts.forEach(v=>{
+    const btn=document.createElement('button'); btn.className='d-btn'; btn.textContent=v.label;
+    const cls={green:'d-g',amber:'d-a',red:'d-r'}[v.color]||'d-a';
+    if(state.answers.verdict===v.val) btn.classList.add(cls);
+    btn.onclick=()=>{opts.querySelectorAll('.d-btn').forEach(b=>b.classList.remove('d-g','d-a','d-r'));btn.classList.add(cls);state.answers.verdict=v.val;saveState();};
     opts.appendChild(btn);
   });
-  wrap.appendChild(opts);
-  return wrap;
+  w.appendChild(opts); return w;
 }
 
-function updateVerdict() { /* auto-suggestions could go here */ }
-
-function renderNotesArea(card) {
-  const wrap = document.createElement('div');
-  const lbl = document.createElement('div');
-  lbl.className = 'notes-lbl';
-  lbl.textContent = card.label || 'Notes';
-  wrap.appendChild(lbl);
-  const ta = document.createElement('textarea');
-  ta.placeholder = 'Add your notes here...';
-  ta.value = state.notes[card.key] || '';
-  ta.addEventListener('input', () => {
-    state.notes[card.key] = ta.value;
-    saveState();
-  });
-  wrap.appendChild(ta);
-  return wrap;
+function mkNotesArea(card) {
+  const w=document.createElement('div');
+  const lbl=document.createElement('div'); lbl.className='notes-lbl'; lbl.textContent=card.label||'Notes'; w.appendChild(lbl);
+  const ta=document.createElement('textarea'); ta.placeholder='Add your notes here...'; ta.value=state.notes[card.key]||'';
+  ta.addEventListener('input',()=>{state.notes[card.key]=ta.value;saveState();}); w.appendChild(ta); return w;
 }
 
-function renderSaveExport() {
-  const wrap = document.createElement('div');
-  wrap.style.cssText = 'margin-top:18px;padding-top:18px;border-top:1px solid var(--border)';
-  const saveBtn = document.createElement('button');
-  saveBtn.className = 'save-btn';
-  saveBtn.textContent = '💾 Save to history';
-  saveBtn.onclick = () => {
-    saveToHistory();
-    saveState();
-    alert('Saved! You can view this in History.');
-  };
-  wrap.appendChild(saveBtn);
-  const pdfBtn = document.createElement('button');
-  pdfBtn.className = 'pdf-btn';
-  pdfBtn.textContent = '⬇ Export summary';
-  pdfBtn.onclick = exportSummary;
-  wrap.appendChild(pdfBtn);
-  return wrap;
+function mkSaveExport() {
+  const w=document.createElement('div'); w.style.cssText='margin-top:18px;padding-top:18px;border-top:1px solid var(--border)';
+  const sb=document.createElement('button'); sb.className='save-btn'; sb.textContent='💾 Save to history';
+  sb.onclick=()=>{saveToHistory();saveState();alert('Saved!');};
+  const pb=document.createElement('button'); pb.className='pdf-btn'; pb.textContent='⬇ Export summary';
+  pb.onclick=exportSummary;
+  w.appendChild(sb); w.appendChild(pb); return w;
 }
 
-function renderExploreExit(card) {
-  const wrap = document.createElement('div');
-  const box = document.createElement('div');
-  box.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:10px';
-  const hdr = document.createElement('div');
-  hdr.style.cssText = 'background:var(--bg2);padding:9px 14px;font-size:12px;font-weight:700;color:var(--text2);border-bottom:1px solid var(--border)';
-  hdr.textContent = 'Exploring but genuinely likes sales? — probe first';
-  box.appendChild(hdr);
-  const body = document.createElement('div');
-  body.style.cssText = 'padding:12px 14px';
-  const pl = document.createElement('div');
-  pl.style.cssText = 'font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:5px';
-  pl.textContent = 'Probe';
-  body.appendChild(pl);
-  const pText = document.createElement('div');
-  pText.style.cssText = 'font-size:13px;font-style:italic;color:var(--text);margin-bottom:12px;line-height:1.65';
-  pText.textContent = card.probe;
-  body.appendChild(pText);
-  const el = document.createElement('div');
-  el.className = 'exit-lbl';
-  el.textContent = 'If still unclear — exit verbatim';
-  body.appendChild(el);
-  const eText = document.createElement('div');
-  eText.className = 'exit-say editable';
-  eText.contentEditable = true;
-  eText.style.whiteSpace = 'pre-wrap';
-  eText.textContent = card.exit;
-  body.appendChild(eText);
-  box.appendChild(body);
-  wrap.appendChild(box);
-  return wrap;
-}
-
-function renderRating(card) {
-  const wrap = document.createElement('div');
-  const lbl = document.createElement('div');
-  lbl.className = 'notes-lbl';
-  lbl.textContent = card.label;
-  wrap.appendChild(lbl);
-  const row = document.createElement('div');
-  row.className = 'rating-row';
-  [{ label: '🟢 Strong', cls: 'r-s' }, { label: '🟡 Mixed', cls: 'r-c' }, { label: '🔴 Weak', cls: 'r-e' }].forEach(r => {
-    const btn = document.createElement('button');
-    btn.className = 'r-btn ' + r.cls;
-    btn.textContent = r.label;
-    if (state.answers['rating_' + card.key] === r.label) btn.classList.add('on');
-    btn.onclick = () => {
-      row.querySelectorAll('.r-btn').forEach(b => b.classList.remove('on'));
-      btn.classList.add('on');
-      state.answers['rating_' + card.key] = r.label;
-      saveState();
-    };
+function mkRating(card) {
+  const w=document.createElement('div');
+  const lbl=document.createElement('div'); lbl.className='notes-lbl'; lbl.textContent=card.label; w.appendChild(lbl);
+  const row=document.createElement('div'); row.className='rating-row';
+  [{label:'🟢 Strong',cls:'r-s'},{label:'🟡 Mixed',cls:'r-c'},{label:'🔴 Weak',cls:'r-e'}].forEach(r=>{
+    const btn=document.createElement('button'); btn.className='r-btn '+r.cls; btn.textContent=r.label;
+    if(state.answers['rating_'+card.key]===r.label) btn.classList.add('on');
+    btn.onclick=()=>{row.querySelectorAll('.r-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');state.answers['rating_'+card.key]=r.label;saveState();};
     row.appendChild(btn);
   });
-  wrap.appendChild(row);
-  return wrap;
+  w.appendChild(row); return w;
 }
 
-function renderTwoCol(card) {
-  const wrap = document.createElement('div');
-  wrap.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px';
-  [card.left, card.right].forEach(col => {
-    const box = document.createElement('div');
-    const colors = { green: ['var(--green-bg)', 'var(--green)'], red: ['var(--red-bg)', 'var(--red)'], amber: ['var(--amber-bg)', 'var(--amber)'], blue: ['var(--blue-bg)', 'var(--blue)'] };
-    const [bg, col_color] = colors[col.color] || ['var(--bg2)', 'var(--text2)'];
-    box.style.cssText = `background:${bg};border-radius:var(--radius-sm);padding:10px 12px`;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = `font-size:11px;font-weight:700;color:${col_color};text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px`;
-    lbl.textContent = col.label;
-    box.appendChild(lbl);
-    col.items.forEach(item => {
-      const p = document.createElement('div');
-      p.style.cssText = 'font-size:12.5px;color:var(--text);padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06);line-height:1.5';
-      p.textContent = item;
-      box.appendChild(p);
-    });
-    wrap.appendChild(box);
-  });
-  return wrap;
-}
-
-// ─── EXPORT ───────────────────────────────────────────────────
 function exportSummary() {
-  const lines = [];
-  lines.push('PROLIANCE — PA APPRENTICE CALL SUMMARY');
-  lines.push('Recruiter: ' + state.user);
-  lines.push('Candidate: ' + (state.candName || 'Unnamed'));
-  lines.push('Date: ' + new Date().toLocaleDateString());
-  lines.push('');
-  lines.push('EMPLOYMENT: ' + (state.answers.employment || '—'));
-  lines.push('LANE: ' + (state.answers.lane || '—'));
-  lines.push('GATE 1: ' + (state.answers.gate1_passed || '—'));
-  lines.push('GATE 2: ' + (state.answers.gate2_passed || '—'));
-  lines.push('GATE 3: ' + (state.answers.gate3_passed || '—'));
-  lines.push('BUCKET: ' + (state.answers.bucket || '—'));
-  lines.push('VERDICT: ' + (state.answers.verdict || '—'));
-  lines.push('');
-  lines.push('DEBRIEF:');
-  lines.push('  Pain: ' + (state.answers.db_pain || '—'));
-  lines.push('  Anchor: ' + (state.answers.db_anchor || '—'));
-  lines.push('  Identity: ' + (state.answers.db_identity || '—'));
-  lines.push('  Commission: ' + (state.answers.db_commission || '—'));
-  lines.push('');
-  if (state.flags.length) {
-    lines.push('FLAGS:');
-    state.flags.forEach(f => lines.push('  [' + f.color.toUpperCase() + '] ' + f.time + ': ' + f.text));
-    lines.push('');
-  }
-  if (state.notes.final_notes) {
-    lines.push('NOTES:');
-    lines.push(state.notes.final_notes);
-  }
-  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = (state.candName || 'candidate').replace(/\s+/g, '_') + '_call_summary.txt';
-  a.click();
+  const lines=['PROLIANCE — PA APPRENTICE CALL SUMMARY','Recruiter: '+state.recruiter,'Candidate: '+(state.candidate||'Unnamed'),'Date: '+new Date().toLocaleDateString(),'','EMPLOYMENT: '+(state.answers.employment||'—'),'LANE: '+(state.answers.lane||'—'),'GATE 1: '+(state.answers.gate1_passed||'—'),'GATE 2: '+(state.answers.gate2_passed||'—'),'GATE 3: '+(state.answers.gate3_passed||'—'),'BUCKET: '+(state.answers.bucket||'—'),'VERDICT: '+(state.answers.verdict||'—'),''];
+  if(state.flags.length){lines.push('FLAGS:');state.flags.forEach(f=>lines.push('  ['+f.color.toUpperCase()+'] '+f.time+': '+f.text));lines.push('');}
+  if(state.notes.final_notes){lines.push('NOTES:');lines.push(state.notes.final_notes);}
+  const blob=new Blob([lines.join('\n')],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=(state.candidate||'candidate').replace(/\s+/g,'_')+'_call_summary.txt'; a.click();
   URL.revokeObjectURL(url);
 }
 
-// ─── HISTORY MODAL ────────────────────────────────────────────
 function openHistory() {
-  const modal = document.getElementById('hist-modal');
-  modal.classList.add('open');
-  const list = document.getElementById('hist-list');
-  list.innerHTML = '';
-  const hist = getHistory(state.user);
-  if (!hist.length) {
-    list.innerHTML = '<div class="hist-empty">No saved interviews yet.</div>';
-    return;
-  }
-  hist.forEach(entry => {
-    const item = document.createElement('div');
-    item.className = 'hist-item';
-    const verdictColors = { bucket1: '#3B6D11', fifty: '#BA7517', exit1: '#A32D2D', exit2: '#A32D2D', exit3: '#A32D2D', timing: '#BA7517' };
-    const verdictColor = verdictColors[entry.verdict] || '#999';
-    item.innerHTML = `
-      <div class="hist-name">${entry.name}</div>
-      <div class="hist-meta">${entry.date} at ${entry.time}${entry.verdict ? ' · <span style="color:' + verdictColor + ';font-weight:700">' + entry.verdict + '</span>' : ''}${entry.bucket ? ' · Bucket ' + entry.bucket : ''}</div>
-    `;
-    item.onclick = () => {
-      if (confirm('Load this interview? Current session will be saved.')) {
-        saveToHistory();
-        state.answers = entry.answers || {};
-        state.flags = entry.flags || [];
-        state.notes = entry.notes || {};
-        state.candName = entry.name || '';
-        document.getElementById('cand-name').value = state.candName;
-        closeHistory();
-        saveState();
-        renderStep(state.currentStep);
-        renderFlags();
-      }
-    };
+  document.getElementById('hist-modal').classList.add('open');
+  const list=document.getElementById('hist-list'); list.innerHTML='';
+  const hist=getHistory(state.recruiter);
+  if(!hist.length){list.innerHTML='<div class="hist-empty">No saved interviews yet.</div>';return;}
+  hist.forEach(entry=>{
+    const item=document.createElement('div'); item.className='hist-item';
+    const vc={bucket1:'var(--green)',fifty:'var(--amber)',exit1:'var(--red)',exit2:'var(--red)',exit3:'var(--red)',timing:'var(--amber)'}[entry.verdict]||'#999';
+    item.innerHTML=`<div class="hist-name">${entry.name}</div><div class="hist-meta">${entry.date} at ${entry.time}${entry.verdict?` · <span style="color:${vc};font-weight:700">${entry.verdict}</span>`:''}${entry.bucket?' · Bucket '+entry.bucket:''}</div>`;
+    item.onclick=()=>{if(confirm('Load this interview?')){saveToHistory();state.answers=entry.answers||{};state.flags=entry.flags||[];state.notes=entry.notes||{};state.candidate=entry.name||'';document.getElementById('cand-name').value=state.candidate;closeHistory();saveState();renderStep(state.currentStep);renderFlags();}};
     list.appendChild(item);
   });
 }
 
-function closeHistory() {
-  document.getElementById('hist-modal').classList.remove('open');
-}
+function closeHistory(){ document.getElementById('hist-modal').classList.remove('open'); }
 
-// ─── BOOT ─────────────────────────────────────────────────────
 initLogin();
 
 </script>
