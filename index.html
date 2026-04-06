@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proliance — PA Apprentice Recruiting Script</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Proliance Public Adjusting</div>
+    <div class="login-title">Recruiting Call Script</div>
+    <div class="login-sub">PA Apprentice · Select your name to continue</div>
+    <div class="user-btns" id="user-btns"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-logo">Proliance · PA Apprentice</span>
+      <input class="cand-input" id="cand-name" placeholder="Candidate name...">
+      <span id="employ-pill" class="pill" style="display:none"></span>
+      <span id="lane-pill" class="pill" style="display:none"></span>
+      <div class="flag-bar">
+        <button class="flag-btn" data-color="green">+ Green</button>
+        <button class="flag-btn" data-color="amber">+ Yellow</button>
+        <button class="flag-btn" data-color="red">+ Red</button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="hist-btn" onclick="openHistory()">History</button>
+      <button class="hist-btn" id="new-btn">+ New</button>
+      <button class="logout-btn" onclick="logout()">Log out</button>
+    </div>
+  </div>
+  <div class="flags-strip" id="flags-strip"></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="app-inner">
+    <div id="sidebar"></div>
+    <div id="scroll-area"></div>
+  </div>
+</div>
+
+<!-- HISTORY MODAL -->
+<div class="modal-overlay" id="hist-modal" onclick="if(event.target===this)closeHistory()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHistory()">×</button>
+    <div class="modal-title">Your interviews</div>
+    <div id="hist-list"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
