@@ -212,12 +212,9 @@ textarea:focus{border-color:var(--blue)}
 .fail-header{color:var(--red)}
 .signal-item{font-size:13px;color:var(--text);padding:4px 0;border-bottom:1px solid rgba(0,0,0,.06);line-height:1.5}
 .signal-example{font-size:12px;color:var(--text2);font-style:italic;padding:4px 0 6px 10px;border-left:2px solid rgba(0,0,0,.1);margin:2px 0 6px;line-height:1.55}
-.pass-lbl{color:var(--green)}
-.fail-lbl{color:var(--red)}
 .gate2-q-header{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
 .gate2-q-card{position:relative;padding-left:44px !important}
 .gate2-q-num{position:absolute;left:14px;top:14px;font-size:18px;font-weight:800;color:var(--blue)}
-.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .pf-col{border-radius:var(--radius-sm);padding:10px 12px}
 .pf-pass{background:var(--green-bg)}
 .pf-fail{background:var(--red-bg)}
@@ -225,7 +222,7 @@ textarea:focus{border-color:var(--blue)}
 .pf-pass .pf-header{color:var(--green)}
 .pf-fail .pf-header{color:var(--red)}
 .pf-item{font-size:12.5px;color:var(--text);padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06);line-height:1.5}
-.ref-toggle{background:none;border:1px dashed var(--border2);border-radius:var(--radius-sm);padding:6px 14px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--text2);margin-bottom:6px;transition:all .13s}
+.ref-toggle{background:none;border:1px dashed var(--border2);border-radius:var(--radius-sm);padding:6px 14px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--text2);margin-bottom:6px;transition:all .13s;display:inline-block}
 .ref-toggle:hover{background:var(--bg2)}
 .ref-box{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:6px}
 .ref-label{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:6px}
@@ -237,15 +234,12 @@ textarea:focus{border-color:var(--blue)}
 .sp-meta{font-size:12px;color:var(--text2)}
 .sp-toggle{font-size:18px;color:var(--text3);font-weight:300;margin-left:auto}
 .sp-detail{padding:10px 12px;font-size:13px;color:var(--text);line-height:1.7;border-top:1px solid var(--border);background:var(--bg2)}
-.unemployed-redirect{margin:8px 0}
-.redirect-box{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;font-size:13px;color:var(--text)}
-.redirect-link{background:none;border:none;color:var(--blue);font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;text-decoration:underline;padding:0}
 .notes-toggle{margin-top:16px}
 .notes-toggle-btn{background:none;border:1px dashed var(--border2);border-radius:var(--radius-sm);padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--text3);transition:all .13s}
 .notes-toggle-btn:hover{background:var(--bg2);color:var(--text2)}
 .notes-wrap{margin-top:6px}
 .context-text{font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.6;font-style:italic;padding:6px 10px;background:var(--bg2);border-radius:4px;border-left:2px solid var(--border2)}
-.listen-item{font-size:13px;color:var(--text);padding:4px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.listen-toggle-row{cursor:default}
 .beats-title,.exit-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
 .kv-text{font-size:13px;color:var(--text2);line-height:1.75}
 
@@ -320,26 +314,11 @@ const STEPS = [
     label: 'Learn their situation',
     section: 'Opening',
     cards: [
-      { type: 'context', text: 'Target: 2–3 minutes. Ask in order. Mirror back their exact words — not your paraphrase.' },
-      {
-        type: 'employment',
-        question: 'Are they currently working or between jobs?',
-        opts: [
-          { label: 'Currently employed', val: 'employed', style: 'g' },
-          { label: 'Not employed', val: 'unemployed', style: 'r' },
-          { label: 'Irregular / on-call', val: 'irregular', style: 'a' },
-        ]
-      },
-      { type: 'unemployed_redirect' },
-      { type: 'say', text: '"So to begin, I want to understand your situation a little bit better — can you walk me through your current or most recent role, what you do there and how long you\'ve been doing it?"' },
-      { type: 'ask', text: '"What do you like most about it?"' },
-      { type: 'ask', text: '"And what\'s not working anymore — what actually made you start looking?"' },
-      { type: 'rule', text: 'If the answer is vague — name it, then move to Gate 1 anyway:\n\n"I\'m not hearing anything urgent yet. Does staying where you are another year feel okay — or does something need to change now?"\n\nThen proceed. Do not probe further here.' },
-      { type: 'rating', label: 'Pain signal', key: 'pain' }
+      { type: 'learn_branch' }
     ]
   },
 
-  // ─── STEP 3: GATE 1 ───
+    // ─── STEP 3: GATE 1 ───
   {
     id: 'gate1',
     label: 'Gate 1 — Sales identity',
@@ -926,6 +905,8 @@ function renderCard(card) {
     case 'notes_area': return mkNotesArea(card);
     case 'save_export': return mkSaveExport();
     case 'rating': return mkRating(card);
+    case 'learn_branch': return mkLearnBranch();
+    case 'rule_toggle': return mkRuleToggle(card);
     case 'divider_label': return mkDividerLabel(card.text);
     case 'lane_menu_toggle': return mkLaneMenuToggle();
     case 'gate1_signals': return mkGate1Signals(card);
@@ -951,11 +932,31 @@ function mkListen(card) {
   const w=document.createElement('div'); w.className='card';
   const t=document.createElement('span'); t.className='tag t-listen'; t.textContent='LISTEN FOR'; w.appendChild(t);
   card.items.forEach(item=>{
-    const p=document.createElement('div'); p.className='listen-item';
-    if(item.startsWith('PASS')) p.innerHTML='<strong class="pass-lbl">PASS</strong> '+item.slice(5);
-    else if(item.startsWith('FAIL')) p.innerHTML='<strong class="fail-lbl">FAIL</strong> '+item.slice(5);
-    else p.textContent=item;
-    w.appendChild(p);
+    const isPass=item.startsWith('PASS'), isFail=item.startsWith('FAIL');
+    const row=document.createElement('div'); row.className='listen-toggle-row';
+    const color=isPass?'var(--green)':isFail?'var(--red)':'var(--text2)';
+    const bg=isPass?'var(--green-bg)':isFail?'var(--red-bg)':'var(--bg2)';
+    const labelText=isPass?'PASS':isFail?'FAIL':'→';
+    const bodyText=isPass?item.slice(5):isFail?item.slice(5):item;
+    // Split on — or : to get short label vs detail
+    const dashIdx=bodyText.indexOf(' — ');
+    const hasDetail=dashIdx>-1;
+    const shortText=hasDetail?bodyText.slice(0,dashIdx):bodyText;
+    const detailText=hasDetail?bodyText.slice(dashIdx+3):null;
+    row.style.cssText=`border-bottom:1px solid var(--border);padding:5px 0`;
+    if (!hasDetail) {
+      row.innerHTML=`<span style="font-size:11px;font-weight:800;color:${color};margin-right:6px">${labelText}</span><span style="font-size:13px;color:var(--text)">${shortText}</span>`;
+    } else {
+      const btn=document.createElement('div');
+      btn.style.cssText=`display:flex;align-items:center;gap:6px;cursor:pointer;padding:2px 0`;
+      btn.innerHTML=`<span style="font-size:11px;font-weight:800;color:${color}">${labelText}</span><span style="font-size:13px;color:var(--text);flex:1">${shortText}</span><span class="listen-chevron" style="font-size:12px;color:var(--text3)">▸</span>`;
+      const detail=document.createElement('div');
+      detail.style.cssText=`display:none;font-size:12.5px;color:var(--text2);padding:5px 8px;margin-top:3px;background:${bg};border-radius:4px;line-height:1.55`;
+      detail.textContent=detailText;
+      btn.onclick=()=>{const o=detail.style.display!=='none';detail.style.display=o?'none':'block';btn.querySelector('.listen-chevron').textContent=o?'▸':'▾';};
+      row.appendChild(btn); row.appendChild(detail);
+    }
+    w.appendChild(row);
   });
   return w;
 }
@@ -1296,25 +1297,38 @@ function mkLaneMenuToggle() {
 
 function mkGate1Signals(card) {
   const w = document.createElement('div');
-  const pb = document.createElement('div'); pb.className = 'signal-box pass-box';
-  const ph = document.createElement('div'); ph.className = 'signal-header pass-header'; ph.textContent = '✓ PASS — what it sounds like'; pb.appendChild(ph);
-  card.pass.forEach(item => {
-    const p = document.createElement('div'); p.className = 'signal-item';
-    p.textContent = item.signal; pb.appendChild(p);
-    if (item.example) {
-      const ex = document.createElement('div'); ex.className = 'signal-example'; ex.textContent = item.example; pb.appendChild(ex);
-    }
-  });
-  w.appendChild(pb);
-  const fb = document.createElement('div'); fb.className = 'signal-box fail-box';
-  const fh = document.createElement('div'); fh.className = 'signal-header fail-header'; fh.textContent = '✗ FAIL — what it sounds like'; fb.appendChild(fh);
-  card.fail.forEach(item => { const p = document.createElement('div'); p.className = 'signal-item'; p.textContent = item; fb.appendChild(p); });
-  w.appendChild(fb);
-  const probe = document.createElement('div'); probe.className = 'card';
-  const pt = document.createElement('span'); pt.className = 'tag t-note'; pt.textContent = 'IF PERSONALITY ANSWER — probe once'; probe.appendChild(pt);
-  const pp = document.createElement('div'); pp.className = 'q-text editable'; pp.contentEditable = true; pp.style.whiteSpace = 'pre-wrap'; pp.textContent = card.probe; probe.appendChild(pp);
-  const pn = document.createElement('div'); pn.className = 'context-text'; pn.style.marginTop = '8px'; pn.textContent = card.note; probe.appendChild(pn);
-  w.appendChild(probe);
+
+  function mkSection(btnLabel, btnColor, btnBg, buildFn) {
+    const wrap = document.createElement('div'); wrap.style.marginBottom = '7px';
+    const btn = document.createElement('button');
+    btn.style.cssText = `width:100%;text-align:left;padding:9px 14px;border-radius:var(--radius-sm);border:1px solid ${btnColor};background:${btnBg};font-size:12px;font-weight:700;color:${btnColor};font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center`;
+    btn.innerHTML = btnLabel + '<span style="font-size:16px;font-weight:300">+</span>';
+    const inner = document.createElement('div');
+    inner.style.cssText = `display:none;border:1px solid ${btnColor};border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:12px 14px;background:${btnBg}`;
+    buildFn(inner);
+    btn.onclick = () => { const o = inner.style.display !== 'none'; inner.style.display = o ? 'none' : 'block'; btn.querySelector('span').textContent = o ? '+' : '−'; };
+    wrap.appendChild(btn); wrap.appendChild(inner); return wrap;
+  }
+
+  // Pass
+  w.appendChild(mkSection('✓ PASS — what it sounds like', 'var(--green)', 'var(--green-bg)', (inner) => {
+    card.pass.forEach(item => {
+      const p = document.createElement('div'); p.className = 'signal-item'; p.textContent = item.signal; inner.appendChild(p);
+      if (item.example) { const ex = document.createElement('div'); ex.className = 'signal-example'; ex.textContent = item.example; inner.appendChild(ex); }
+    });
+  }));
+
+  // Fail
+  w.appendChild(mkSection('✗ FAIL — what it sounds like', 'var(--red)', 'var(--red-bg)', (inner) => {
+    card.fail.forEach(item => { const p = document.createElement('div'); p.className = 'signal-item'; p.textContent = item; inner.appendChild(p); });
+  }));
+
+  // Probe
+  w.appendChild(mkSection('+ If personality answer — probe once', 'var(--amber)', 'var(--amber-bg)', (inner) => {
+    const pp = document.createElement('div'); pp.className = 'q-text editable'; pp.contentEditable = true; pp.style.whiteSpace = 'pre-wrap'; pp.textContent = card.probe; inner.appendChild(pp);
+    const pn = document.createElement('div'); pn.style.cssText = 'font-size:12px;color:var(--text2);margin-top:8px;font-style:italic'; pn.textContent = card.note; inner.appendChild(pn);
+  }));
+
   return w;
 }
 
@@ -1330,35 +1344,40 @@ function mkCommissionInterrupt(card) {
 
 function mkGate3Branch(card) {
   const w = document.createElement('div'); w.style.marginTop = '10px';
-  const grid = document.createElement('div'); grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px';
 
-  // Yes
-  const yb = document.createElement('div'); yb.className = 'pf-col pf-pass';
-  const yh = document.createElement('div'); yh.className = 'pf-header'; yh.textContent = card.yes.label; yb.appendChild(yh);
-  const ya = document.createElement('div'); ya.style.cssText = 'font-size:13px;color:var(--green);font-weight:600;margin-top:4px'; ya.textContent = card.yes.action; yb.appendChild(ya);
-  grid.appendChild(yb);
+  function mkToggleBlock(label, color, bg, content) {
+    const wrap = document.createElement('div'); wrap.style.marginBottom = '7px';
+    const btn = document.createElement('button');
+    btn.style.cssText = `width:100%;text-align:left;padding:9px 14px;border-radius:var(--radius-sm);border:1px solid ${color};background:${bg};font-size:12px;font-weight:700;color:${color};font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center`;
+    btn.innerHTML = label + '<span style="font-size:16px;font-weight:300">+</span>';
+    const inner = document.createElement('div');
+    inner.style.cssText = `display:none;border:1px solid ${color};border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:12px 14px;background:${bg}`;
+    content(inner);
+    btn.onclick = () => {
+      const o = inner.style.display !== 'none';
+      inner.style.display = o ? 'none' : 'block';
+      btn.querySelector('span').textContent = o ? '+' : '−';
+    };
+    wrap.appendChild(btn); wrap.appendChild(inner); return wrap;
+  }
 
-  // No
-  const nb = document.createElement('div'); nb.className = 'pf-col pf-fail';
-  const nh = document.createElement('div'); nh.className = 'pf-header'; nh.textContent = card.no.label; nb.appendChild(nh);
-  grid.appendChild(nb);
-  w.appendChild(grid);
+  // Yes block
+  w.appendChild(mkToggleBlock('✓ If yes — confident and specific', 'var(--green)', 'var(--green-bg)', (inner) => {
+    const p = document.createElement('div'); p.style.cssText = 'font-size:13px;color:var(--green);font-weight:600'; p.textContent = card.yes.action; inner.appendChild(p);
+  }));
 
-  // No exit
-  const nExit = document.createElement('div'); nExit.className = 'exit-block';
-  const nLbl = document.createElement('div'); nLbl.className = 'exit-lbl'; nLbl.textContent = 'EXIT for "no" — say verbatim'; nExit.appendChild(nLbl);
-  const nSay = document.createElement('div'); nSay.className = 'exit-say editable'; nSay.contentEditable = true; nSay.style.whiteSpace = 'pre-wrap'; nSay.textContent = card.no.exit; nExit.appendChild(nSay);
-  w.appendChild(nExit);
+  // No block
+  w.appendChild(mkToggleBlock('✗ If no or unconvincing', 'var(--red)', 'var(--red-bg)', (inner) => {
+    const lbl = document.createElement('div'); lbl.className = 'exit-lbl'; lbl.textContent = 'Say verbatim'; inner.appendChild(lbl);
+    const say = document.createElement('div'); say.className = 'exit-say editable'; say.contentEditable = true; say.style.whiteSpace = 'pre-wrap'; say.textContent = card.no.exit; inner.appendChild(say);
+  }));
 
-  // Bridge toggle
-  const bt = document.createElement('button'); bt.className = 'ref-toggle'; bt.style.marginTop = '8px'; bt.textContent = '+ If they ask about a base / salary bridge';
-  const bInner = document.createElement('div'); bInner.style.display = 'none';
-  const bCard = document.createElement('div'); bCard.className = 'card'; bCard.style.borderLeft = '3px solid var(--teal)'; bCard.style.marginTop = '8px';
-  const bTag = document.createElement('span'); bTag.className = 'tag t-context'; bTag.textContent = 'SALARY BRIDGE SCRIPT'; bCard.appendChild(bTag);
-  const bText = document.createElement('div'); bText.className = 'q-text editable'; bText.contentEditable = true; bText.style.whiteSpace = 'pre-wrap'; bText.textContent = card.bridge.script; bCard.appendChild(bText);
-  bInner.appendChild(bCard);
-  bt.onclick = () => { const o = bInner.style.display !== 'none'; bInner.style.display = o ? 'none' : 'block'; bt.textContent = o ? '+ If they ask about a base / salary bridge' : '− Close'; };
-  w.appendChild(bt); w.appendChild(bInner);
+  // Bridge block
+  w.appendChild(mkToggleBlock('+ If they ask about a base / salary bridge', 'var(--teal)', 'var(--teal-bg)', (inner) => {
+    const tag = document.createElement('span'); tag.className = 'tag t-context'; tag.textContent = 'SALARY BRIDGE SCRIPT'; inner.appendChild(tag);
+    const txt = document.createElement('div'); txt.className = 'q-text editable'; txt.contentEditable = true; txt.style.whiteSpace = 'pre-wrap'; txt.textContent = card.bridge.script; inner.appendChild(txt);
+  }));
+
   return w;
 }
 
@@ -1375,6 +1394,122 @@ function mkHWTemplateArea() {
   return w;
 }
 
+
+function mkLearnBranch() {
+  const w = document.createElement('div');
+
+  const opener = document.createElement('div');
+  opener.className = 'card';
+  const opTag = document.createElement('span'); opTag.className = 'tag t-say'; opTag.textContent = 'SAY';
+  opener.appendChild(opTag);
+  const opText = document.createElement('div'); opText.className = 'q-text';
+  opText.textContent = '\u201cSo to begin, I want to understand your situation a little bit better.\u201d';
+  opener.appendChild(opText);
+  w.appendChild(opener);
+
+  const qLbl = document.createElement('div');
+  qLbl.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin:16px 0 10px';
+  qLbl.textContent = 'Are you currently employed or in between jobs right now?';
+  w.appendChild(qLbl);
+
+  const btnRow = document.createElement('div');
+  btnRow.className = 'opts';
+  btnRow.style.marginBottom = '20px';
+
+  const contentArea = document.createElement('div');
+
+  function clearBtns() {
+    btnRow.querySelectorAll('.opt-btn').forEach(function(b) { b.classList.remove('sel-g','sel-r','sel-a'); });
+  }
+
+  function setPill(label, style) {
+    const pill = document.getElementById('employ-pill');
+    if (!pill) return;
+    pill.style.display = 'inline-block';
+    pill.style.background = style==='g' ? 'var(--green-bg)' : style==='r' ? 'var(--red-bg)' : 'var(--amber-bg)';
+    pill.style.color = style==='g' ? 'var(--green)' : style==='r' ? 'var(--red)' : 'var(--amber)';
+    pill.textContent = label;
+  }
+
+  function renderCards(cards) {
+    contentArea.innerHTML = '';
+    cards.forEach(function(card) { contentArea.appendChild(renderCard(card)); });
+  }
+
+  const empCards = [
+    { type: 'ask', text: '\u201cCan you walk me through your current or most recent role \u2014 what you do there and how long you\u2019ve been doing it?\u201d' },
+    { type: 'ask', text: '\u201cWhat do you like most about it?\u201d' },
+    { type: 'ask', text: '\u201cAnd what\u2019s not working anymore \u2014 what actually made you start looking?\u201d' },
+    { type: 'rule_toggle', label: 'If the answer is vague', text: '\u201cI\u2019m not hearing anything urgent yet. Does staying where you are another year feel okay \u2014 or does something need to change now?\u201d\n\nThen proceed to Gate 1. Do not probe further here.' },
+    { type: 'rating', label: 'Pain signal', key: 'pain' },
+  ];
+
+  const unempCards = [
+    { type: 'ask', text: '\u201cWhat happened with your last role \u2014 did you leave, or did the situation change on you?\u201d' },
+    { type: 'context', text: 'Neutral tone. The way they tell the story matters as much as the content.' },
+    { type: 'ask', text: '\u201cIs that situation different now \u2014 is whatever pushed you out resolved on your end?\u201d' },
+    { type: 'say', text: '\u201cI want to be upfront about something important \u2014 this role is 100% commission from day one. Most people earn between $0 and $300 in their first week while they\u2019re learning the process.\n\nI\u2019ve seen genuinely talented people not make it through that window \u2014 not because they couldn\u2019t do the job, but because financial pressure caught up with them before they had a chance to ramp.\u201d' },
+    { type: 'ask', text: '\u201cWhat does your situation look like over the next 30 to 60 days? Do you have something covering your basics while you get started \u2014 or is income something you need right away?\u201d' },
+    { type: 'listen', items: [
+      'Has coverage (savings, partner, family, benefits, part-time) \u2192 viable. Continue to Gate 1.',
+      'Honest about risk, has a specific plan \u2192 viable.',
+      'Needs income immediately, no backup \u2192 Timing exit.',
+    ]},
+    { type: 'exit_block', label: 'TIMING EXIT \u2014 say verbatim', text: '\u201cEverything you\u2019ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you\u2019re forced to quit before you have a real chance.\n\nWhat I\u2019d suggest: stabilize your income first \u2014 even part-time \u2014 so when you come into this, you\u2019re choosing it, not depending on it. When your situation changes, reach back out.\u201d' },
+  ];
+
+  const irrCards = [
+    { type: 'ask', text: '\u201cCan you walk me through what your work situation looks like right now \u2014 what kind of work are you doing and how consistent is it?\u201d' },
+    { type: 'ask', text: '\u201cAnd what made you start looking for something different?\u201d' },
+    { type: 'say', text: '\u201cI want to be upfront about something \u2014 this role is 100% commission from day one. In the first few weeks while you\u2019re ramping, you may earn very little.\n\nWith your income being irregular right now \u2014 what does your financial situation look like over the next 30 to 60 days? Do you have something covering your basics?\u201d' },
+    { type: 'listen', items: [
+      'Has coverage (savings, partner income, family support) \u2192 viable. Continue.',
+      'Needs income immediately with nothing specific \u2192 Timing exit.',
+    ]},
+    { type: 'rule_toggle', label: 'If the answer is vague', text: '\u201cI\u2019m not hearing anything urgent yet. Does staying where you are another year feel okay \u2014 or does something need to change now?\u201d\n\nThen proceed to Gate 1.' },
+    { type: 'rating', label: 'Pain signal', key: 'pain' },
+  ];
+
+  const empBtn = document.createElement('button');
+  empBtn.className = 'opt-btn';
+  empBtn.textContent = 'Currently employed';
+  empBtn.onclick = function() { clearBtns(); empBtn.classList.add('sel-g'); state.answers.employment='employed'; setPill('Currently employed','g'); saveState(); renderCards(empCards); };
+
+  const unempBtn = document.createElement('button');
+  unempBtn.className = 'opt-btn';
+  unempBtn.textContent = 'Not employed';
+  unempBtn.onclick = function() { clearBtns(); unempBtn.classList.add('sel-r'); state.answers.employment='unemployed'; setPill('Not employed','r'); saveState(); renderCards(unempCards); };
+
+  const irrBtn = document.createElement('button');
+  irrBtn.className = 'opt-btn';
+  irrBtn.textContent = 'Irregular / on-call';
+  irrBtn.onclick = function() { clearBtns(); irrBtn.classList.add('sel-a'); state.answers.employment='irregular'; setPill('Irregular / on-call','a'); saveState(); renderCards(irrCards); };
+
+  btnRow.appendChild(empBtn);
+  btnRow.appendChild(unempBtn);
+  btnRow.appendChild(irrBtn);
+  w.appendChild(btnRow);
+  w.appendChild(contentArea);
+
+  if (state.answers.employment === 'employed') empBtn.onclick();
+  else if (state.answers.employment === 'unemployed') unempBtn.onclick();
+  else if (state.answers.employment === 'irregular') irrBtn.onclick();
+
+  return w;
+}
+
+function mkRuleToggle(card) {
+  const w = document.createElement('div'); w.style.marginBottom = '8px';
+  const btn = document.createElement('button'); btn.className = 'ref-toggle';
+  btn.textContent = card.label ? '+ ' + card.label : '+ If vague — what to say';
+  const inner = document.createElement('div'); inner.style.display = 'none';
+  const eb = document.createElement('div'); eb.className = 'exit-block';
+  const lbl = document.createElement('div'); lbl.className = 'exit-lbl'; lbl.textContent = 'SAY'; eb.appendChild(lbl);
+  const say = document.createElement('div'); say.className = 'exit-say editable'; say.contentEditable = true; say.style.whiteSpace = 'pre-wrap'; say.textContent = card.text; eb.appendChild(say);
+  inner.appendChild(eb);
+  btn.onclick = () => { const o = inner.style.display !== 'none'; inner.style.display = o ? 'none' : 'block'; btn.textContent = o ? (card.label ? '+ ' + card.label : '+ If vague — what to say') : '− Close'; };
+  w.appendChild(btn); w.appendChild(inner); return w;
+}
 function exportSummary() {
   const lines=['PROLIANCE — PA APPRENTICE CALL SUMMARY','Recruiter: '+state.recruiter,'Candidate: '+(state.candidate||'Unnamed'),'Date: '+new Date().toLocaleDateString(),'','EMPLOYMENT: '+(state.answers.employment||'—'),'LANE: '+(state.answers.lane||'—'),'GATE 1: '+(state.answers.gate1_passed||'—'),'GATE 2: '+(state.answers.gate2_passed||'—'),'GATE 3: '+(state.answers.gate3_passed||'—'),'BUCKET: '+(state.answers.bucket||'—'),'VERDICT: '+(state.answers.verdict||'—'),''];
   if(state.flags.length){lines.push('FLAGS:');state.flags.forEach(f=>lines.push('  ['+f.color.toUpperCase()+'] '+f.time+': '+f.text));lines.push('');}
