@@ -297,14 +297,15 @@ textarea:focus{border-color:var(--blue)}
 </div>
 <script>
 const STEPS = [
+
   // ─── STEP 1: FRAME ───
   {
     id: 'frame',
     label: 'Frame the call',
     section: 'Opening',
     cards: [
-      { type: 'context', text: 'Target: 30–45 seconds. This is what lowers the guard — do not skip it.' },
-      { type: 'say', text: '"Hi [candidate], this is [recruiter] with Proliance. Thanks for taking the time."\n\n"I\'m not the decision maker here — my role is really to slow things down, understand why you\'re exploring this, and help you figure out if this actually makes sense for you right now."\n\n"I\'ll be honest with you as we go — if it aligns, I\'ll tell you. If it doesn\'t, I\'ll tell you that too."' },
+      { type: 'context', text: 'Mindset: Help people. Target 30\u201345 seconds. Do not skip.' },
+      { type: 'say', locked: true, text: '\u201cHi [candidate], this is [recruiter] with Proliance.\u201d\n\nRapport \u2014 \u201cHow are you doing today?\u201d\n\n\u201cI\u2019m not the final decision maker here. My role is really to help you understand the opportunity and see if it actually makes sense for you right now. At the same time I\u2019ll get a feel for what you\u2019re looking for and whether you\u2019d be a strong fit on our end.\u201d\n\n\u201cI\u2019ll be very upfront as we go \u2014 if it aligns I\u2019ll let you know. If it doesn\u2019t, I\u2019ll be honest about that too. Does that sound fair?\u201d' },
     ]
   },
 
@@ -318,39 +319,28 @@ const STEPS = [
     ]
   },
 
-    // ─── STEP 3: GATE 1 ───
+  // ─── STEP 3: GATE 1 ───
   {
     id: 'gate1',
-    label: 'Gate 1 — Sales identity',
+    label: 'Gate 1 \u2014 What\u2019s breaking',
     section: 'The Gates',
     gate: true,
     gateNum: 1,
-    gateTitle: 'Did they choose sales — or were they pointed here?',
+    gateTitle: 'Is something actually breaking \u2014 or is this just dissatisfaction?',
     cards: [
-      { type: 'ask', text: '"[candidate], of all the directions you could go — what made sales the one you wanted to pursue?"' },
+      { type: 'ask', text: '\u201cIf you stay exactly where you are for the next six months \u2014 same job, same income, same situation \u2014 what\u2019s your biggest concern?\u201d' },
+      { type: 'rule_toggle', label: 'If vague or no urgency \u2014 follow up', text: '\u201cIs that something that fixes itself over time \u2014 or does it get worse the longer you wait?\u201d\n\nIf it fixes itself or they\u2019re not sure \u2014 exit.\nIf it gets worse \u2014 continue.' },
       {
-        type: 'gate1_signals',
-        pass: [
-          { signal: 'Named a specific reason they chose sales — not a personality trait, a decision.', example: null },
-          { signal: 'Connected it to something they want to build, earn, or prove.', example: 'Luigi: "I fell in love with the process. I studied sales on my own for years — audio books, YouTube, talking to people across industries. I realized the only thing that doesn\'t cap me is commission."' },
-          { signal: 'Has explored or applied to similar roles on their own.', example: 'Miguel: Connected commission directly to his body shop experience without being asked — "you reap what you sow, the faster you work the more it comes in." That\'s a decision, not a personality trait.' },
-          { signal: 'Chose sales before knowing the company — arrived already believing it.', example: 'James T: Already a high performer at his restaurant, recognized he was giving more than his income reflected. He didn\'t need to be convinced sales could work — he came in already knowing it.' },
-        ],
-        fail: [
-          '"I\'m a people person." / "I enjoy talking to people." — personality, not a decision.',
-          '"My friend said I\'d be good at it." / "People say I\'m great with people." — pointed here, not pulled.',
-          '"It looked interesting." / "I\'ve been applying to a lot of things." — exploring, not choosing.',
-          '"I know I have the gift of gab." / "I talk well with people." — trait, not intent.',
-          '"I enjoy dealing with people." — comfort, not direction.',
-        ],
-        probe: '"That tells me you\'d be comfortable with people — but what made you want sales specifically, not customer service or account management or something else?"',
-        note: 'If after one probe they still can\'t name a specific reason — Gate 1 is closed.'
+        type: 'gate1_picker',
+        question: 'What\u2019s actually driving them? Pick one:',
+        opts: [
+          { label: 'Financial pressure', val: 'financial', style: 'b' },
+          { label: 'Lack of growth', val: 'growth', style: 'b' },
+          { label: 'Environment / boredom', val: 'environment', style: 'b' },
+        ]
       },
       {
-        type: 'exit_block',
-        label: 'EXIT — say verbatim',
-        text: '"We\'re specifically looking for people who\'ve researched this space and are moving toward it with a clear reason — that matters a lot in how people hold up when things get hard. From what you\'ve shared, it sounds like you\'re still figuring out the direction. I don\'t think this is the right timing — but when that becomes clearer, feel free to reach back out."'
-      },
+type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHere\u2019s what I\u2019m noticing \u2014 everything you\u2019re describing sounds more like dissatisfaction than something that\u2019s actually breaking. And that\u2019s OK, but I want to be honest with you. The people who push through the hard weeks in this role usually have something specific they can\u2019t afford to lose. Without that, it tends to feel optional when it gets tough. I don\u2019t want to set you up for that. Let\u2019s leave it here for now \u2014 and if something changes and the urgency becomes clearer, reach back out.\u201d' },
       { type: 'gate_pass', key: 'gate1' }
     ]
   },
@@ -361,187 +351,159 @@ const STEPS = [
     label: 'Driver lanes',
     section: 'The Gates',
     cards: [
-      { type: 'context', text: 'Pick the lane that matches what they told you in Learn. If it\'s unclear — open the toggle below to find the right lane. Once you\'re in — stay in it.' },
+      { type: 'context', text: 'Use the lane that matches what they told you in Gate 1. Deepen the problem first \u2014 then connect it to the role. Do not pitch until the connection lands.' },
       { type: 'lane_menu_toggle' },
       {
         type: 'lane_choice',
         question: 'Which lane?',
         opts: [
-          { label: 'Lane A — Financial', val: 'A', style: 'b' },
-          { label: 'Lane B — Growth / new skills', val: 'B', style: 'b' },
-          { label: 'Lane C — Environment / challenge', val: 'C', style: 'b' },
+          { label: 'Lane A \u2014 Financial', val: 'A', style: 'b' },
+          { label: 'Lane B \u2014 Growth / new skills', val: 'B', style: 'b' },
+          { label: 'Lane C \u2014 Environment / challenge', val: 'C', style: 'b' },
         ]
       },
       {
         type: 'lane_content',
         lanes: {
           A: [
+            { type: 'divider_label', text: 'DEEPEN THE PROBLEM' },
+            { type: 'ask', text: '\u201cWhat does your income look like right now \u2014 and what would it need to be for things to actually feel different?\u201d' },
+            { type: 'ask', text: '\u201cWhat specifically is not getting covered right now because of where your income is?\u201d' },
+            { type: 'ask', text: '\u201cIf nothing changes in six months \u2014 same pay, same job \u2014 what\u2019s the first thing that actually breaks for you?\u201d' },
             { type: 'divider_label', text: 'RISK APPETITE' },
-            { type: 'context', text: 'Set the context before asking — don\'t fire this question cold.' },
-            { type: 'say', text: '"[candidate], before we go further I want to understand how you think when it comes to risk — because that matters a lot for how this works."\n\n"If you had two job offers right now — one is easy, stable, guaranteed pay every two weeks. The other is harder, real risk involved, but the upside is significantly higher — $60K to $100K a year if you put in the work."\n\n"Which one do you take — and why?"' },
-            { type: 'commission_interrupt', text: 'If they ask "is this commission?" before you get there:\n\n"Yes — and that\'s actually something I want to walk you through in a few minutes. Before that, I want to understand how you think about risk first — it\'ll make that conversation make more sense."\n\nThen continue with the question.' },
+            { type: 'context', text: 'Set context before asking \u2014 don\u2019t fire this cold.' },
+            { type: 'say', text: '\u201cIf you had two job offers right now \u2014 one is easy, stable, guaranteed pay every two weeks. The other is harder, real risk involved, but the upside is $60K to $100K a year if you put in the work.\u201d\n\n\u201cWhich one do you take \u2014 and why?\u201d' },
+            { type: 'commission_interrupt', text: 'If they ask "is this commission?" before you get there:\n\n\u201cYes \u2014 and I want to walk you through that in a few minutes. Before that, I want to understand how you think about risk first.\u201d\n\nThen continue.' },
             { type: 'listen', items: [
-              'Picks option 2 with a specific reason → strong signal. Continue.',
-              'Picks option 2 vaguely → probe: "What specifically about the upside matters to you right now?"',
-              'Picks option 1 or hesitates → "What gives you pause about the risk?" Dispositional safety-seeker → Bucket 7. Real obligations → continue.',
+              'Picks high upside with specific reason \u2192 strong signal. Continue.',
+              'Picks stability or hesitates \u2192 "What gives you pause about the risk?" Dispositional = Bucket 7. Real obligations = continue.',
             ]},
-
-            { type: 'divider_label', text: 'DEEPENING THE PAIN' },
-            { type: 'ask', text: '"You mentioned [what they said in Learn]. What I want to understand is — what\'s the real consequence if that doesn\'t change? Specifically, what gets worse for you personally over the next six months if nothing moves?"' },
-
-            { type: 'divider_label', text: 'FINDING THE ANCHOR' },
-            { type: 'ask', text: '"What\'s the specific thing you keep putting off because the money isn\'t there yet — something concrete, not a feeling."' },
-
             { type: 'divider_label', text: 'EARNINGS TARGET' },
-            { type: 'ask', text: '"What would you need to be earning for it to feel like you\'re actually moving forward — do you have a number in your head?"' },
+            { type: 'ask', text: '\u201cWhat would you need to be earning for it to feel like you\u2019re actually moving forward \u2014 do you have a number in your head?\u201d' },
+            { type: 'divider_label', text: 'CONNECT TO THE ROLE' },
+            { type: 'say', text: '\u201cWhat you just described \u2014 [mirror their specific fact] \u2014 that\u2019s exactly the problem this role is built to solve. You\u2019re not capped here. What you put in is what you get out.\u201d\n\n\u201cThe question isn\u2019t whether the money is there \u2014 it is. The question is whether you can hold on through the weeks where it hasn\u2019t clicked yet.\u201d' },
           ],
           B: [
-            { type: 'divider_label', text: 'THE CEILING' },
-            { type: 'ask', text: '"[candidate], what is your current role actually doing for you in terms of growth right now — and where is it falling short from what you expected?"' },
-
-            { type: 'divider_label', text: 'THE CATALYST' },
-            { type: 'ask', text: '"Was there a specific moment — something that happened — that made you realize you needed to make a move?"' },
-            { type: 'context', text: 'Someone with real urgency will have a moment. Someone casually exploring usually won\'t. No moment = higher risk of Bucket 2 or 6.' },
-
-            { type: 'divider_label', text: 'WHY SALES' },
-            { type: 'ask', text: '"Of all the ways you could build new skills — what made sales the specific direction you wanted to go?"' },
-
-            { type: 'divider_label', text: 'THE CONSEQUENCE' },
-            { type: 'ask', text: '"If you don\'t build this over the next year — same place, same role — what does that actually mean for you personally?"' },
+            { type: 'divider_label', text: 'WHAT GROWTH MEANS TO THEM' },
+            { type: 'ask', text: '“When you say you want to grow — what does that actually look like for you? Is it building a skill, earning a title, becoming someone people come to, something else?”' },
+            { type: 'ask', text: '“Why sales specifically as the thing you want to get better at — not customer service, not management, not something else?”' },
+            { type: 'ask', text: '“What does being good at sales actually mean for your life — not just the job, what does it open up for you?”' },
+            { type: 'divider_label', text: 'EXPERIENCE CHECK' },
+            { type: 'ask', text: '“Have you done any selling before — formally or informally? What did you learn about yourself from it?”' },
+            { type: 'context', text: 'Not a gate — just intelligence. Someone who’s sold before and loved it is a different pitch than someone drawn to the idea. Both can move forward.' },
+            { type: 'divider_label', text: 'CONNECT TO THE ROLE' },
+            { type: 'say', text: '“What we’ve seen is that people come from [background match] with no sales background and within six months they’re licensed, leading, closing their own deals.”\n\n“The growth here isn’t theoretical. It’s structured, it’s fast, and it’s tied directly to what you earn. The better you get, the more you make — there’s no waiting for someone to notice.”' },
           ],
           C: [
-            { type: 'divider_label', text: 'WHAT\'S MISSING' },
-            { type: 'ask', text: '"[candidate], what about your current role feels too easy or not pushing you anymore — is it the pace, the level of responsibility, or something else?"' },
-
-            { type: 'divider_label', text: 'DEFINE THE CHALLENGE' },
-            { type: 'ask', text: '"When you say you want a challenge — what do you actually mean? More pressure, more responsibility, or faster feedback on how you\'re performing?"' },
-            { type: 'context', text: '"Excitement" and "meeting new people" are red flags. "Pressure" and "accountability" are good signals.' },
-
-            { type: 'divider_label', text: 'HISTORY OF DISCOMFORT' },
-            { type: 'ask', text: '"When was the last time you put yourself into something uncomfortable — not because you had to, but because you chose to? What did you choose and what made it hard?"' },
-
-            { type: 'divider_label', text: 'D2D REALITY CHECK' },
-            { type: 'say', text: '"I want to be honest about what the challenge looks like here. It\'s not variety. Most days look very similar — you\'re knocking doors, getting rejected, and coming back the next day and doing it again. The challenge is showing up consistently when the results are lagging and the novelty is gone."\n\n"What part of that do you think would be hardest for you day-to-day?"' },
-
-            { type: 'divider_label', text: 'WHAT SUSTAINS THEM' },
-            { type: 'ask', text: '"Once the newness is gone — and it goes fast — what do you think would actually keep you going on a hard week? Something specific, not a feeling."' },
+            { type: 'divider_label', text: 'WHAT IS WRONG WITH THE CURRENT ENVIRONMENT' },
+            { type: 'ask', text: '“What is it about the people or the energy around you right now that isn’t working?”' },
+            { type: 'divider_label', text: 'WHAT GOOD LOOKS LIKE' },
+            { type: 'ask', text: '“Describe the environment you’d actually want to be in. What does it feel like, what are the people like, what’s the energy?”' },
+            { type: 'divider_label', text: 'THE HONEST TEST' },
+            { type: 'say', text: '“The environment here is competitive and fast. People push each other. But it only feels good when you’re producing — when the deals aren’t coming, it gets uncomfortable fast.” “Does that sound like what you’re looking for — or does that sound like a lot?”' },
+            { type: 'listen', items: [
+              'Leans in → ask the credibility check below, then connect and hand off to commission.',
+              'Hesitates → "What gives you pause?" If fear of performance pressure → one more probe. If "too intense" → clean exit.',
+            ]},
+            { type: 'rule_toggle', label: 'Credibility check — if they lean in', text: '“When was the last time you were in an environment like that — what was it and how did you perform?”\n\nIf they can name a real example → credible. Continue.\nIf they can’t → they’re imagining a version of themselves. Note it and watch the commission reaction.' },
+            { type: 'divider_label', text: 'CONNECT TO THE ROLE' },
+            { type: 'say', text: '“What you’re looking for — [mirror what they described] — is actually what we’re built around. The people here are competitive, they hold each other accountable, and the culture moves fast.” “But I want to be honest — the environment only feels good when you’re producing. If the numbers aren’t there, the environment gets hard. So what we need to know is whether you’re the kind of person who steps up when it’s uncomfortable — not just when it’s easy.”' },
+            {
+              type: 'exit_block',
+              label: 'EXIT — if it’s just boredom',
+              text: '“What I’m hearing is that you want something different but nothing is actually broken yet. The people who push through the hard weeks here usually have something specific they can’t afford to lose. Without that this tends to feel optional when it gets tough. Let’s leave it here for now.”'
+            },
           ],
+
         }
       }
     ]
   },
 
-  // ─── STEP 5: GATE 2 ───
+  // ─── STEP 5: ROLE OVERVIEW ───
   {
-    id: 'gate2',
-    label: 'Gate 2 — Pain + Anchor',
-    section: 'The Gates',
-    gate: true,
-    gateNum: 2,
-    gateTitle: 'Is the pain structural — and is there a specific anchor?',
+    id: 'role',
+    label: 'Role overview',
+    section: 'Role Overview',
     cards: [
+      { type: 'context', text: 'You\u2019ve found the fact. You\u2019ve connected it to the role. Now show them what the job actually looks like.' },
       {
-        type: 'gate2_check',
-        questions: [
-          { key: 'g2_pain', ask: '"[candidate], if nothing changes for you in the next 12 months — same situation, same income — what specifically breaks? Not how would you feel. What actually breaks?"' },
-          { key: 'g2_anchor', ask: '"And what\'s the specific thing you keep putting off because of where you are right now — not a feeling, something concrete."' },
-        ],
-        passItems: [
-          'Structural pain — a fact that doesn\'t fix itself. Body, paycheck structure, obligations, specific deadline.',
-          'Specific anchor — a person, a goal with a timeline, a concrete thing they keep putting off.',
-        ],
-        failItems: [
-          '"I\'d feel stuck." "I\'d be disappointed." — feelings are not structural pain.',
-          '"I want to grow." "I want to be successful." — directions are not anchors.',
-          'Can\'t name what they\'re putting off — nothing is actually at stake.',
-        ],
-        ref: [
-          { label: 'Real pain examples', examples: ['Miguel: body breaking down after 5 years of manual labor — fact, doesn\'t fix itself', 'Luigi: car sales income tied to election cycles — industry-wide ceiling, not a feeling', 'James T: moved out, debt growing, tip income has a hard ceiling — three compounding facts'] },
-          { label: 'Real anchor examples', examples: ['Miguel: 3 younger siblings who look up to him — named unprompted, came back to it without being asked', 'Luigi: family — building recession-proof income for them specifically, named a concrete goal', 'James T: independence — debt to clear, moved out, needs income that grows with effort'] },
+        type: 'beats',
+        title: 'Industry & mission \u2014 four beats, in order',
+        beats: [
+          { label: 'Beat 1 \u2014 The right', text: '\u201cA lot of homeowners don\u2019t know that when there are storm damages on their roof \u2014 the majority of the cost to fix or replace that should be covered by their insurance. Homeowners should not pay out of pocket. That\u2019s what the insurance is there for.\u201d' },
+          { label: 'Beat 2 \u2014 The problem', text: '\u201cBut the reality is most homeowners don\u2019t know that. And instead of stepping in, insurance companies drag the process, make it confusing \u2014 and in most cases, they\u2019ll deny claims even when there\u2019s visible damage.\u201d' },
+          { label: 'Beat 3 \u2014 The solution', text: '\u201cThis is where we come in. We guide homeowners through the entire process \u2014 from inspection, to paperwork, all the way through construction. And if the insurance company denies the claim, we step in and fight for them.\u201d' },
+          { label: 'Beat 4 \u2014 The meaning', text: '\u201cTo some it\u2019s just a job. But the more you\u2019re out there, on the front lines, you really see how much this helps people. They don\u2019t have to come out of pocket \u2014 that\u2019s money they can use for groceries, for savings, for things that actually matter.\u201d' },
         ]
       },
+      { type: 'say', text: '\u201cAt the start, your role is focused. You go door-to-door in areas where we know there\u2019s been storm damage. You offer a free roof inspection \u2014 when someone\u2019s interested, you schedule it with the team leader and they do the inspection and close the deal. Same day.\u201d\n\n\u201cYou\u2019re not doing this alone. You\u2019re paired with a mentor in the field from day one. Leaders here don\u2019t manage from a desk. They\u2019re out there. That\u2019s the culture.\u201d' },
+      { type: 'ask', text: '\u201cHow does that land for you, [candidate]? Some people hear this and feel the mission. Others hear about a sales job. Which one are you feeling right now?\u201d' },
       {
-        type: 'exit_block',
-        label: 'EXIT — say verbatim',
-        text: '"If you can\'t name what\'s actually at stake yet, this role is going to feel optional — and optional doesn\'t hold up when the going gets tough. I\'d rather you come back when the reason is solid. Let\'s pause here."'
+        type: 'growth_investment',
+        say: '\u201cHere at Proliance, growth is not a slogan \u2014 it\u2019s what we actually care about most. We recently had members pass their examination as Licensed Public Adjusters \u2014 some in under six months.\u201d',
+        ask: '\u201c[candidate], if you become part of the team \u2014 what kind of growth do you want to see in yourself?\u201d',
+        note: '\u201cI\u2019ll take note of that \u2014 I want our team to know exactly how to support you.\u201d',
+        followup: '\u201cAnd what if you\u2019re already great at that \u2014 what would you do with that skill set? Do you want to be in leadership one day?\u201d'
       },
-      { type: 'gate_pass', key: 'gate2' }
+      {
+        type: 'social_proof_mini',
+        note: 'Click a name. Use the one that matches this candidate\u2019s background.',
+        roster: [
+          { name: 'Michelle', background: 'Bartender \u2014 Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She went through the slow weeks, stayed anyway, and within her first month she was setting appointments consistently. She\u2019s now a licensed public adjuster leading her own team.' },
+          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice \u2014 $800\u2013$900/week', story: 'Mimi came from the food industry. She went through the hard weeks and stayed. She\u2019s now earning $800 to $900 a week and outperforming most of the team.' },
+          { name: 'Sean', background: 'Warehouse \u2014 no sales background', role: 'Team Lead \u2014 promoted in under a month', story: 'Sean came from the warehouse with zero sales experience. He just showed up every day and did the work. Within a month he was being trained for leadership.' },
+        ]
+      },
     ]
   },
 
-  // ─── STEP 6: GATE 3 ───
+  // ─── STEP 6: COMMISSION + RUNWAY ───
   {
     id: 'gate3',
-    label: 'Gate 3 — Commission + Runway',
+    label: 'Commission + Runway',
     section: 'The Gates',
     gate: true,
-    gateNum: 3,
-    gateTitle: 'Can they survive the ramp — and do they believe they can earn?',
+    gateNum: 2,
+    gateTitle: 'Can they hold on long enough to let us get them there?',
     cards: [
-      { type: 'context', text: 'Connect the commission to what they told you. Frame it as the vehicle for their specific goal — then be honest about the difficulty, then challenge them.' },
-
-      { type: 'divider_label', text: 'CONNECT IT TO THEIR SITUATION' },
-      { type: 'say', text: '"[candidate], you mentioned [what they said — their financial goal, their pain, their anchor]. I want to show you how this actually gets you there."\n\n"But before I tell you about the role — I want to be straight with you about how the pay works, because you deserve to know this upfront."\n\n"This is 100% commission. No base. Your income is completely tied to your performance."' },
-
+      { type: 'divider_label', text: 'ANCHOR BRIDGE' },
+      { type: 'ask', text: '\u201cBefore I walk you through the pay structure \u2014 what\u2019s the specific thing you\u2019re trying to solve or build toward right now? I want to make sure what we\u2019re offering actually connects to that.\u201d' },
+      { type: 'context', text: 'If they name something specific \u2014 a person, a goal, a concrete thing they keep putting off \u2014 that\u2019s your anchor. If they can\u2019t, note it. Don\u2019t exit on it but watch for it in the commission reaction.' },
       { type: 'divider_label', text: 'THE HONEST REALITY' },
-      { type: 'say', text: '"Here\'s what I want you to know — you will want to quit. Probably in week two or three when you haven\'t set an appointment yet and you\'re wondering if this was the right call."\n\n"That\'s not a warning to scare you off. That\'s just what happens before it clicks. Every single person on our team went through it."\n\n"The ones who made it through that window are the ones who had a real reason to keep going — not just ambition, something specific."' },
-
+      { type: 'say', text: '\u201cThe ones who pushed through that window \u2014 the slow weeks, the rejection, the days where nothing clicked \u2014 they\u2019re now earning more than they ever did in a regular job. Some of them are licensed public adjusters. Some are leading their own teams. All of that in less than six months.\u201d\n\n\u201cWe invest in the right person upfront. We give you the training, the script, a mentor in the field with you from day one. We even put a safety net under you for that first week while you\u2019re ramping up.\u201d\n\n\u201cBut this isn\u2019t a punch in, punch out job. It\u2019s going to ask something of you before it gives something back.\u201d' },
+      { type: 'divider_label', text: 'THE ASK' },
+      { type: 'say', text: '\u201cSo I want to ask you honestly \u2014 knowing all of that, and knowing what you told me about [mirror their specific reason] \u2014 do you think this is worth it for you? And can you hold on long enough to let us get you there?\u201d' },
       { type: 'divider_label', text: 'RUNWAY CHECK' },
-      { type: 'ask', text: '"So I want to ask you honestly — what does your situation look like over the next 30 to 60 days? What\'s covering your basics while you\'re ramping?"' },
+      { type: 'ask', text: '\u201cWhat does your situation look like over the next 30 to 60 days? What\u2019s covering your basics while you\u2019re ramping?\u201d' },
       { type: 'listen', items: [
-        'Has specific coverage (savings, partner income, part-time, family support) → viable. Continue.',
-        'Honest about the risk, has a specific plan → viable. Self-awareness is a good sign.',
-        '"I\'ll figure it out" with no specifics → Bucket 3. Exit Speech 1.',
-        'Needs income immediately, no backup → Timing exit.',
+        'Has specific coverage (savings, partner income, part-time, family support) \u2192 viable. Continue.',
+        'Honest about the risk, has a specific plan \u2192 viable.',
+        '\u201cI\u2019ll figure it out\u201d with no specifics \u2192 exit.',
+        'Needs income immediately, no backup \u2192 timing exit.',
       ]},
-
+      { type: 'divider_label', text: 'PAY STRUCTURE' },
+      { type: 'pay', text: '\u201cPay is straight commission. For every appointment you set that signs \u2014 you earn between $200 and $300.\u201d\n\n\u201cOur team on the lower end consistently earns $800 to $1,200 a week. Our top performers earn $2,000 to $3,000 a week. We pay weekly. No ceiling.\u201d\n\n\u201cEveryone starts at the apprentice level. Consistency and initiative move you into leadership \u2014 at that point you\u2019re closing deals yourself at 5 to 7% on jobs that average $25,000 to $30,000.\u201d' },
       { type: 'divider_label', text: 'PUSH / PULL' },
-      { type: 'push_pull',
-        say: '"Here\'s what we can do — we will train you. You\'ll be in the field with a mentor from day one. You\'re not figuring this out alone."\n\n"We\'ve had people come from [background match] with zero sales experience and be earning consistently by week three. The training is there. The support is there."\n\n"The question isn\'t whether we can get you there. It\'s whether you can hold on long enough to let us."',
-        ask: '"Based on everything — do you believe you can do that?"'
+      {
+        type: 'push_pull',
+        say: '\u201cWe\u2019ve had people come from [background match] with zero sales experience and be earning consistently by week three. The training is there. The support is there.\u201d\n\n\u201cThe question isn\u2019t whether we can get you there. It\u2019s whether you can hold on long enough to let us.\u201d',
+        ask: '\u201cBased on everything \u2014 do you believe you can do that?\u201d'
       },
-
       {
         type: 'gate3_branch',
-        yes: { label: 'If yes — confident and specific', action: 'Gate 3 open. Continue to role overview.' },
-        no: { label: 'If no or unconvincing', exit: '"I appreciate you being honest with me — that actually tells me a lot. If you\'re not sure you can hold on through that window, this probably isn\'t the right timing. The role will still be here when you\'re in a different place. Let\'s pause here."' },
-        bridge: { label: 'If they ask about a base or guaranteed pay during ramp', script: '"I hear you — and that\'s actually something we can look at for the right person."\n\n"Here\'s how it works: for candidates where we see real potential and there\'s a logistics barrier — not a motivation barrier — we can sometimes offer a salary arrangement during the training period before transitioning fully to commission."\n\n"But I want to be honest with you — that\'s not something we offer everyone. It\'s for people who we genuinely believe are going to be strong performers and just need a runway to get started."\n\n"Based on what you\'ve told me today, let me take note of that and bring it to the hiring manager. If it\'s something they want to explore, they\'ll bring it up in the next conversation."' }
+        yes: { label: 'If yes \u2014 confident and specific', action: 'Move to role play.' },
+        no: { label: 'If no or unconvincing', exit: '\u201cI appreciate you being honest with me \u2014 that actually tells me a lot. If you\u2019re not sure you can hold on through that window, this probably isn\u2019t the right timing. The role will still be here when you\u2019re in a different place. Let\u2019s pause here.\u201d' },
+        bridge: { label: 'If they ask about a base / salary bridge', script: '\u201cI hear you \u2014 and that\u2019s actually something we can look at for the right person.\u201d\n\n\u201cFor candidates where we see real potential and there\u2019s a logistics barrier \u2014 not a motivation barrier \u2014 we can sometimes offer a salary arrangement during the training period.\u201d\n\n\u201cBut that\u2019s not something we offer everyone. It\u2019s for people who we genuinely believe are going to be strong performers and just need a runway to get started.\u201d\n\n\u201cBased on what you\u2019ve told me today, let me take note of that and bring it to the hiring manager.\u201d' }
       },
-
-      {
-        type: 'social_proof_mini',
-        note: 'Click a name. Use the one that matches this candidate\'s background.',
-        roster: [
-          { name: 'Michelle', background: 'Bartender — Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She understood people — but had never sold anything. She went through the slow weeks, stayed anyway, and within her first month she was setting appointments consistently. She\'s now a licensed public adjuster leading her own team.' },
-          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice — $800–$900/week', story: 'Mimi came from the food industry. Same energy you need for D2D — on your feet all day, dealing with people, handling rejection with a smile. She went through the hard weeks and stayed. She\'s now earning $800 to $900 a week and outperforming most of the team.' },
-          { name: 'Sean', background: 'Warehouse — no sales background', role: 'Team Lead — promoted in under a month', story: 'Sean came from the warehouse with zero sales experience. He just showed up every day and did the work. Within a month he was being trained for leadership. The only thing that separated him was that he didn\'t stop when it got uncomfortable.' },
-        ]
-      },
+      { type: 'divider_label', text: 'ROLE PLAY' },
+      { type: 'say', text: '\u201cPerfect. Let\u2019s do a quick role play so you can feel what day one actually looks like.\u201d\n\n\u201cI\u2019m going to be the homeowner. You knock on my door and offer the free inspection. Don\u2019t overthink it \u2014 just talk to me the way you\u2019d talk to anyone. Ready?\u201d' },
+      { type: 'context', text: 'Watch for: natural tone, comfort with rejection, ability to pivot when the homeowner pushes back. You\u2019re not looking for perfect. You\u2019re looking for coachable.' },
       { type: 'gate_pass', key: 'gate3' }
     ]
   },
 
-  // ─── STEP 7: LANE D ───
-  {
-    id: 'lane_d',
-    label: 'Lane D — Not employed',
-    section: 'The Gates',
-    cards: [
-      { type: 'context', text: 'Run this when "not currently employed" is selected at the start. If they pass — continue to Gate 1. If they fail — timing exit immediately, do not continue the interview.' },
-      { type: 'ask', text: '"[candidate], what happened with your last role — did you leave, or did the situation change on you?"' },
-      { type: 'context', text: 'Neutral tone. The way they tell the story matters as much as the content.' },
-      { type: 'ask', text: '"Is that situation different now — is whatever pushed you out resolved on your end?"' },
-      { type: 'say', text: '"I want to be upfront about something important — and I\'m telling you this because it matters for you, not just for us."\n\n"This role is 100% commission from day one. Most people earn between $0 and $300 in their first week while they\'re learning the process."\n\n"I\'ve seen genuinely talented people not make it through that window — not because they couldn\'t do the job, but because financial pressure caught up with them before they had a chance to ramp."' },
-      { type: 'ask', text: '"What does your situation look like over the next 30 to 60 days? Do you have something covering your basics while you get started — or is income something you need right away?"' },
-      { type: 'listen', items: [
-        'Has coverage (savings, partner, family support, benefits, part-time) → viable. Continue to Gate 1.',
-        'Honest about risk, has a specific plan → viable.',
-        '"I\'ll figure it out" with nothing specific → Timing exit.',
-        'Needs income immediately, no backup → Timing exit.',
-      ]},
-      { type: 'exit_block', label: 'TIMING EXIT — say verbatim', text: '"Everything you\'ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you\'re forced to quit before you have a real chance."\n\n"What I\'d suggest: stabilize your income first — even part-time — so when you come into this, you\'re choosing it, not depending on it. When your situation changes, reach back out — I\'d genuinely want to revisit this with you."' },
-    ]
-  },
+  // ─── STEP 7: BUCKET ───
 
   // ─── STEP 8: BUCKET ───
   {
@@ -669,6 +631,7 @@ const STEPS = [
     ]
   }
 ];
+
 
 // ─── STATE ───────────────────────────────────────────────────────
 let state = {
@@ -909,6 +872,7 @@ function renderCard(card) {
     case 'rule_toggle': return mkRuleToggle(card);
     case 'divider_label': return mkDividerLabel(card.text);
     case 'lane_menu_toggle': return mkLaneMenuToggle();
+    case 'gate1_picker': return mkGate1Picker(card);
     case 'gate1_signals': return mkGate1Signals(card);
     case 'commission_interrupt': return mkCommissionInterrupt(card);
     case 'gate3_branch': return mkGate3Branch(card);
@@ -1405,6 +1369,9 @@ function mkLearnBranch() {
   const opText = document.createElement('div'); opText.className = 'q-text';
   opText.textContent = '\u201cSo to begin, I want to understand your situation a little bit better.\u201d';
   opener.appendChild(opText);
+  const opQ = document.createElement('div'); opQ.className = 'q-text'; opQ.style.marginTop = '10px';
+  opQ.textContent = '\u201cWhat is it that you are doing right now?\u201d';
+  opener.appendChild(opQ);
   w.appendChild(opener);
 
   const qLbl = document.createElement('div');
@@ -1437,35 +1404,37 @@ function mkLearnBranch() {
   }
 
   const empCards = [
-    { type: 'ask', text: '\u201cCan you walk me through your current or most recent role \u2014 what you do there and how long you\u2019ve been doing it?\u201d' },
-    { type: 'ask', text: '\u201cWhat do you like most about it?\u201d' },
-    { type: 'ask', text: '\u201cAnd what\u2019s not working anymore \u2014 what actually made you start looking?\u201d' },
+    { type: 'ask', locked: true, text: '\u201cCan you walk me through your current or most recent role \u2014 what you do there and how long you\u2019ve been doing it?\u201d' },
+    { type: 'ask', locked: true, text: '1. What is your day to day like and responsibilities?\n2. How long have you been doing it?' },
+    { type: 'ask', locked: true, text: '\u201cWhat do you like most about it?\u201d' },
+    { type: 'rule_toggle', label: 'If their job sounds great', text: '\u201cFrom the outside, your role looks [stable/growing/challenging] \u2014 but from the inside, something must have pushed you to make a move. What is that?\u201d' },
+    { type: 'rule_toggle', label: 'If their job doesn\u2019t sound great', text: '\u201cHow long have you been feeling that?\u201d\n\n\u201cFor [X amount of time] \u2014 what made you stay, and what triggered you to finally leave?\u201d\n\n\u201cYou knew what you were signing up for to begin with \u2014 what made you still apply?\u201d' },
+    { type: 'context', text: 'Mirror the main problem back to them. Then choose the Driver Lane that matches: Financial / New Skills / Growth / New Environment.' },
     { type: 'rule_toggle', label: 'If the answer is vague', text: '\u201cI\u2019m not hearing anything urgent yet. Does staying where you are another year feel okay \u2014 or does something need to change now?\u201d\n\nThen proceed to Gate 1. Do not probe further here.' },
     { type: 'rating', label: 'Pain signal', key: 'pain' },
   ];
 
   const unempCards = [
-    { type: 'ask', text: '\u201cWhat happened with your last role \u2014 did you leave, or did the situation change on you?\u201d' },
-    { type: 'context', text: 'Neutral tone. The way they tell the story matters as much as the content.' },
-    { type: 'ask', text: '\u201cIs that situation different now \u2014 is whatever pushed you out resolved on your end?\u201d' },
-    { type: 'say', text: '\u201cI want to be upfront about something important \u2014 this role is 100% commission from day one. Most people earn between $0 and $300 in their first week while they\u2019re learning the process.\n\nI\u2019ve seen genuinely talented people not make it through that window \u2014 not because they couldn\u2019t do the job, but because financial pressure caught up with them before they had a chance to ramp.\u201d' },
-    { type: 'ask', text: '\u201cWhat does your situation look like over the next 30 to 60 days? Do you have something covering your basics while you get started \u2014 or is income something you need right away?\u201d' },
+    { type: 'ask', locked: true, text: '\u201cWhat happened with your last role \u2014 did you leave, or did the situation change on you?\u201d' },
+    { type: 'say', locked: true, text: '\u201cI want to be upfront about something \u2014 this is a performance-based role. Most people on our team earn between $800 to $1,200 in a week. Our top performers earn $2,000 to $3,000 in a week.\u201d\n\n\u201cBut it wasn\u2019t always like that \u2014 especially during the training period, there were weeks when they were earning $0 to $700. We understand that because they\u2019re still in the learning process.\u201d\n\n\u201cWe invest in you upfront. We train you in the field. You\u2019ll be with a mentor from day one. We\u2019ve had people come from [background match] with zero sales experience and be earning consistently by week three.\u201d\n\n\u201cThe training is there. The support is there. The question isn\u2019t whether we can get you there \u2014 it\u2019s whether you can hold on long enough to let us.\u201d' },
+    { type: 'ask', locked: true, text: '\u201cSo I want to ask you \u2014 if you had to switch to a paid by performance role, with proper training, do you have something covering your basic needs while you get trained up \u2014 or is income something you need straight away?\u201d' },
     { type: 'listen', items: [
       'Has coverage (savings, partner, family, benefits, part-time) \u2192 viable. Continue to Gate 1.',
-      'Honest about risk, has a specific plan \u2192 viable.',
       'Needs income immediately, no backup \u2192 Timing exit.',
     ]},
     { type: 'exit_block', label: 'TIMING EXIT \u2014 say verbatim', text: '\u201cEverything you\u2019ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you\u2019re forced to quit before you have a real chance.\n\nWhat I\u2019d suggest: stabilize your income first \u2014 even part-time \u2014 so when you come into this, you\u2019re choosing it, not depending on it. When your situation changes, reach back out.\u201d' },
   ];
 
   const irrCards = [
-    { type: 'ask', text: '\u201cCan you walk me through what your work situation looks like right now \u2014 what kind of work are you doing and how consistent is it?\u201d' },
-    { type: 'ask', text: '\u201cAnd what made you start looking for something different?\u201d' },
-    { type: 'say', text: '\u201cI want to be upfront about something \u2014 this role is 100% commission from day one. In the first few weeks while you\u2019re ramping, you may earn very little.\n\nWith your income being irregular right now \u2014 what does your financial situation look like over the next 30 to 60 days? Do you have something covering your basics?\u201d' },
+    { type: 'ask', locked: true, text: '\u201cCan you walk me through what your work situation looks like right now \u2014 what kind of work are you doing and how consistent is it?\u201d' },
+    { type: 'ask', locked: true, text: '\u201cAnd what made you start looking for something different?\u201d' },
+    { type: 'say', locked: true, text: '\u201cI want to be upfront about something \u2014 this is a performance-based role. Most people on our team earn between $800 to $1,200 in a week. Our top performers earn $2,000 to $3,000 in a week.\u201d\n\n\u201cBut it wasn\u2019t always like that \u2014 especially during the training period, there were weeks when they were earning $0 to $700. We understand that because they\u2019re still in the learning process.\u201d\n\n\u201cWe invest in you upfront. We train you in the field. You\u2019ll be with a mentor from day one. We\u2019ve had people come from [background match] with zero sales experience and be earning consistently by week three.\u201d\n\n\u201cThe training is there. The support is there. The question isn\u2019t whether we can get you there \u2014 it\u2019s whether you can hold on long enough to let us.\u201d' },
+    { type: 'ask', locked: true, text: '\u201cWith your income being irregular right now \u2014 what does your financial situation look like over the next 30 to 60 days? Do you have something covering your basics?\u201d' },
     { type: 'listen', items: [
       'Has coverage (savings, partner income, family support) \u2192 viable. Continue.',
       'Needs income immediately with nothing specific \u2192 Timing exit.',
     ]},
+    { type: 'exit_block', label: 'TIMING EXIT \u2014 say verbatim', text: '\u201cEverything you\u2019ve told me suggests you could do this well. But stepping into a commission-only role when your income is already inconsistent puts you in a position where you\u2019re forced to quit before you have a real chance.\n\nWhat I\u2019d suggest: stabilize your income first \u2014 even part-time \u2014 so when you come into this, you\u2019re choosing it, not depending on it. When your situation changes, reach back out.\u201d' },
     { type: 'rule_toggle', label: 'If the answer is vague', text: '\u201cI\u2019m not hearing anything urgent yet. Does staying where you are another year feel okay \u2014 or does something need to change now?\u201d\n\nThen proceed to Gate 1.' },
     { type: 'rating', label: 'Pain signal', key: 'pain' },
   ];
@@ -1510,6 +1479,68 @@ function mkRuleToggle(card) {
   btn.onclick = () => { const o = inner.style.display !== 'none'; inner.style.display = o ? 'none' : 'block'; btn.textContent = o ? (card.label ? '+ ' + card.label : '+ If vague — what to say') : '− Close'; };
   w.appendChild(btn); w.appendChild(inner); return w;
 }
+
+function mkGate1Picker(card) {
+  const w = document.createElement('div');
+
+  const ql = document.createElement('div');
+  ql.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px';
+  ql.textContent = card.question;
+  w.appendChild(ql);
+
+  const contentArea = document.createElement('div'); contentArea.style.marginTop = '12px';
+  const btnRow = document.createElement('div'); btnRow.className = 'opts'; btnRow.style.marginBottom = '14px';
+
+  const laneProbes = {
+    financial: [
+      { type: 'divider_label', text: 'PROBE — FINANCIAL' },
+      { type: 'ask', text: '“What does your income look like right now — and what would it need to be for things to actually feel different?”' },
+      { type: 'ask', text: '“What specifically is not getting covered right now because of where your income is?”' },
+      { type: 'ask', text: '“If nothing changes in six months — same pay, same job — what’s the first thing that actually breaks for you?”' },
+    ],
+    growth: [
+      { type: 'divider_label', text: 'PROBE — GROWTH' },
+      { type: 'ask', text: '“How long have you been in this role — and what were you expecting to happen by now that hasn’t?”' },
+      { type: 'ask', text: '“Is there something specific you’ve been waiting for — a promotion, more responsibility, a title — that keeps not coming?”' },
+      { type: 'ask', text: '“If you stayed another year, what specifically would you be missing out on — not how would you feel, what actually doesn’t happen for you?”' },
+    ],
+    environment: [
+      { type: 'divider_label', text: 'PROBE — ENVIRONMENT' },
+      { type: 'ask', text: '“What specifically about your current environment is the problem — the people, the pace, the culture, something else?”' },
+      { type: 'ask', text: '“Has something happened recently that made it worse — or has it always been like this?”' },
+      { type: 'ask', text: '“If your environment changed tomorrow — same job, different team, different manager — would that be enough? Or is it deeper than that?”' },
+      { type: 'context', text: 'If changing the environment would fix it — exit. If it’s deeper — find what’s underneath. Usually financial or growth wearing an environment mask. Switch lanes if needed.' },
+    ],
+  };
+
+  function clearBtns() {
+    btnRow.querySelectorAll('.opt-btn').forEach(function(b) { b.classList.remove('sel-b','sel-g','sel-r','sel-a'); });
+  }
+
+  card.opts.forEach(function(o) {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = o.label;
+    btn.onclick = function() {
+      clearBtns(); btn.classList.add('sel-b');
+      state.answers['gate1_driver'] = o.val;
+      saveState();
+      contentArea.innerHTML = '';
+      const cards = laneProbes[o.val] || [];
+      cards.forEach(function(c) { contentArea.appendChild(renderCard(c)); });
+    };
+    if (state.answers['gate1_driver'] === o.val) {
+      btn.classList.add('sel-b');
+      setTimeout(function() { btn.onclick(); }, 0);
+    }
+    btnRow.appendChild(btn);
+  });
+
+  w.appendChild(btnRow);
+  w.appendChild(contentArea);
+  return w;
+}
+
 function exportSummary() {
   const lines=['PROLIANCE — PA APPRENTICE CALL SUMMARY','Recruiter: '+state.recruiter,'Candidate: '+(state.candidate||'Unnamed'),'Date: '+new Date().toLocaleDateString(),'','EMPLOYMENT: '+(state.answers.employment||'—'),'LANE: '+(state.answers.lane||'—'),'GATE 1: '+(state.answers.gate1_passed||'—'),'GATE 2: '+(state.answers.gate2_passed||'—'),'GATE 3: '+(state.answers.gate3_passed||'—'),'BUCKET: '+(state.answers.bucket||'—'),'VERDICT: '+(state.answers.verdict||'—'),''];
   if(state.flags.length){lines.push('FLAGS:');state.flags.forEach(f=>lines.push('  ['+f.color.toUpperCase()+'] '+f.time+': '+f.text));lines.push('');}
@@ -1537,6 +1568,7 @@ function openHistory() {
 function closeHistory(){ document.getElementById('hist-modal').classList.remove('open'); }
 
 initLogin();
+
 
 </script>
 </body>
