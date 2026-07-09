@@ -6,27 +6,30 @@
   <title>Proliance — PA Apprentice Recruiting Script</title>
   <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#ffffff;--bg2:#f7f7f6;--bg3:#f0efed;
-  --text:#1a1a1a;--text2:#666;--text3:#999;
-  --border:rgba(0,0,0,0.10);--border2:rgba(0,0,0,0.18);
-  --radius:10px;--radius-sm:6px;
-  --blue-bg:#E6F1FB;--blue:#185FA5;
-  --green-bg:#EAF3DE;--green:#3B6D11;
-  --amber-bg:#FAEEDA;--amber:#BA7517;
-  --red-bg:#FCEBEB;--red:#A32D2D;
-  --purple-bg:#EEEDFE;--purple:#534AB7;
-  --teal-bg:#E1F5EE;--teal:#0F6E56;
-  --gray-bg:#F1EFE8;--gray:#5F5E5A;
+  --bg:#FDFCFA;--bg2:#F5F1EA;--bg3:#EEE8DD;
+  --text:#221F1B;--text2:#6C6459;--text3:#A79C8A;
+  --border:rgba(34,31,27,0.09);--border2:rgba(34,31,27,0.17);
+  --radius:13px;--radius-sm:8px;
+  --blue-bg:#E7EEF1;--blue:#2B5266;
+  --green-bg:#E9EFDE;--green:#4B6B2E;
+  --amber-bg:#FAEFD9;--amber:#93611A;
+  --red-bg:#FBEAE6;--red:#9B3B2C;
+  --purple-bg:#EFE9F3;--purple:#63508A;
+  --teal-bg:#E2EFEA;--teal:#1F5F51;
+  --gray-bg:#F1ECE2;--gray:#6B6459;
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
 }
-html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html,body{height:100%;font-family:var(--sans);background:var(--bg2);color:var(--text);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
 
 /* LOGIN */
 #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg2)}
-.login-box{background:var(--bg);border:1px solid var(--border2);border-radius:14px;padding:40px 44px;width:360px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
-.login-logo{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:28px}
-.login-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px}
+.login-box{background:var(--bg);border:1px solid var(--border2);border-radius:18px;padding:44px 44px;width:370px;text-align:center;box-shadow:0 8px 32px rgba(34,31,27,0.09)}
+.login-logo{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.login-title{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
 .login-sub{font-size:13px;color:var(--text2);margin-bottom:32px}
 .user-btns{display:flex;flex-direction:column;gap:10px}
 .user-btn{padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg);font-size:14px;font-weight:500;font-family:inherit;color:var(--text);cursor:pointer;transition:all .13s}
@@ -38,7 +41,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
 .app-inner{display:flex;flex:1;overflow:hidden;min-height:0}
 
 /* TOPBAR */
-.topbar{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
+.topbar{display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0;flex-wrap:wrap}
 .topbar-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0;flex-wrap:wrap}
 .topbar-right{display:flex;align-items:center;gap:6px}
 .topbar-logo{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);white-space:nowrap}
@@ -63,11 +66,11 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
 .prog-fill{height:100%;background:var(--blue);transition:width .3s}
 
 /* SIDEBAR */
-#sidebar{width:220px;min-width:220px;border-right:1px solid var(--border);overflow-y:auto;background:var(--bg);flex-shrink:0}
+#sidebar{width:224px;min-width:224px;border-right:1px solid var(--border);overflow-y:auto;background:var(--bg2);flex-shrink:0}
 .sb-sec{padding:12px 14px 4px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3)}
-.sb-item{display:flex;align-items:center;gap:8px;padding:7px 10px;margin:1px 6px;border-radius:var(--radius-sm);cursor:pointer;font-size:12.5px;color:var(--text2);transition:background .12s}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 10px;margin:1px 6px;border-radius:var(--radius-sm);cursor:pointer;font-size:12.5px;color:var(--text2);transition:background .12s;border-left:2px solid transparent}
 .sb-item:hover{background:var(--bg2)}
-.sb-item.active{background:var(--bg2);color:var(--text);font-weight:600}
+.sb-item.active{background:var(--bg);color:var(--text);font-weight:600;border-left-color:var(--blue)}
 .sb-dot{width:7px;height:7px;border-radius:50%;background:#d0d0cc;flex-shrink:0;transition:background .2s}
 .sb-item.done .sb-dot{background:var(--green)}
 .sb-item.active .sb-dot{background:var(--blue)}
@@ -76,12 +79,12 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
 
 /* SCROLL */
 #scroll-area{flex:1;overflow-y:auto;padding:22px 26px 60px;background:var(--bg)}
-.step-eye{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
-.step-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:18px}
+.step-eye{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.step-title{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--text);margin-bottom:18px;letter-spacing:-.01em}
 
 /* CARDS */
-.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;position:relative;transition:border-color .15s}
-.card:hover{border-color:var(--border2)}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px;margin-bottom:11px;position:relative;transition:box-shadow .15s,border-color .15s;box-shadow:0 1px 2px rgba(34,31,27,0.03)}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(34,31,27,0.06)}
 .card:hover .edit-hint{opacity:1}
 .edit-hint{position:absolute;top:8px;right:10px;font-size:10px;color:var(--text3);opacity:0;transition:opacity .2s;pointer-events:none}
 .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-bottom:8px;letter-spacing:.04em}
@@ -103,7 +106,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
 .choice-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:10px}
 .choice-q{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
 .opts{display:flex;flex-wrap:wrap;gap:7px}
-.opt-btn{padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text);transition:all .13s}
+.opt-btn{padding:7px 15px;border-radius:999px;border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text);transition:all .13s}
 .opt-btn:hover{background:var(--bg3)}
 .opt-btn.sel-g{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
 .opt-btn.sel-r{border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:700}
@@ -134,9 +137,9 @@ textarea:focus{border-color:var(--blue)}
 
 /* NAV */
 .nav-row{display:flex;gap:9px;margin-top:20px}
-.btn-primary{padding:9px 20px;border-radius:var(--radius-sm);background:#1a1a1a;color:#fff;border:none;font-size:13px;font-family:inherit;font-weight:700;cursor:pointer;transition:opacity .15s}
-.btn-primary:hover{opacity:.82}
-.btn-sec{padding:9px 14px;border-radius:var(--radius-sm);background:transparent;color:var(--text2);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;transition:background .13s}
+.btn-primary{padding:10px 22px;border-radius:999px;background:var(--text);color:#fff;border:none;font-size:13px;font-family:inherit;font-weight:600;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.85}
+.btn-sec{padding:10px 16px;border-radius:999px;background:transparent;color:var(--text2);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;transition:background .13s}
 .btn-sec:hover{background:var(--bg2)}
 
 /* BUCKET */
@@ -156,7 +159,7 @@ textarea:focus{border-color:var(--blue)}
 .db-lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
 .db-q{font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.55}
 .d-opts{display:flex;flex-wrap:wrap;gap:7px}
-.d-btn{padding:7px 13px;border-radius:var(--radius-sm);border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text);transition:all .13s}
+.d-btn{padding:7px 14px;border-radius:999px;border:1px solid var(--border2);font-size:13px;font-family:inherit;cursor:pointer;background:var(--bg);color:var(--text);transition:all .13s}
 .d-btn:hover{background:var(--bg2)}
 .d-g{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700}
 .d-a{border-color:var(--amber);background:var(--amber-bg);color:var(--amber);font-weight:700}
@@ -200,9 +203,9 @@ textarea:focus{border-color:var(--blue)}
 .recent-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);font-size:12px;font-family:inherit;cursor:pointer;color:var(--text2);transition:all .13s}
 .recent-btn:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
 .recruiter-tag{font-size:11px;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:20px;white-space:nowrap}
-.gate-header{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:14px 18px;margin-bottom:18px}
-.gate-badge{background:#1B3A6B;color:#fff;border-radius:6px;padding:8px 14px;font-weight:700;font-size:13px;white-space:nowrap}
-.gate-name{font-weight:700;font-size:15px}
+.gate-header{display:flex;align-items:center;gap:14px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius);padding:15px 19px;margin-bottom:18px;box-shadow:0 1px 2px rgba(34,31,27,0.03)}
+.gate-badge{background:var(--blue);color:#fff;border-radius:7px;padding:8px 14px;font-weight:700;font-size:13px;white-space:nowrap;font-family:var(--serif)}
+.gate-name{font-family:var(--serif);font-weight:600;font-size:16px}
 .gate-sub{font-size:12px;color:var(--text2);margin-top:2px}
 .signal-box{border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px}
 .pass-box{background:var(--green-bg)}
@@ -298,41 +301,127 @@ textarea:focus{border-color:var(--blue)}
 <script>
 const STEPS = [
 
-  // ─── STEP 1: FRAME ───
+  // ─── STEP 0: SETUP ───
   {
-    id: 'frame',
-    label: 'Frame the call',
+    id: 'setup',
+    label: 'Candidate & call setup',
     section: 'Opening',
     cards: [
-      { type: 'context', text: 'Mindset: Help people. Target 30\u201345 seconds. Do not skip.' },
-      { type: 'say', locked: true, text: '\u201cHi [candidate], this is [recruiter] with Proliance.\u201d\n\nRapport \u2014 \u201cHow are you doing today?\u201d\n\n\u201cI\u2019m not the final decision maker here. My role is really to help you understand the opportunity and see if it actually makes sense for you right now. At the same time I\u2019ll get a feel for what you\u2019re looking for and whether you\u2019d be a strong fit on our end.\u201d\n\n\u201cI\u2019ll be very upfront as we go \u2014 if it aligns I\u2019ll let you know. If it doesn\u2019t, I\u2019ll be honest about that too. Does that sound fair?\u201d' },
+      { type: 'context', text: 'Fill this in before you dial. No scripted language here — just call prep.' },
+      { type: 'setup_fields' },
+      { type: 'note', text: 'Once both fields are filled in — dial the number, then move to the next step: Introduction.' },
     ]
   },
 
-  // ─── STEP 2: LEARN ───
+  // ─── STEP 1: INTRODUCTION ───
   {
-    id: 'learn',
-    label: 'Learn their situation',
+    id: 'frame',
+    label: 'Introduction',
     section: 'Opening',
     cards: [
+      { type: 'context', text: 'Dial first, then open with this. Target 15–20 seconds before the okay-time check.' },
+      { type: 'say', locked: true, text: '“Hi, is this [candidate]? This is [recruiter] — the reason for my call is to discuss your job application for the [position] here at Proliance.”' },
+      { type: 'ask', locked: true, text: '“Is now an okay time?”' },
+      { type: 'intro_branch' },
+    ]
+  },
+
+  // ─── STEP 2: RAPPORT ───
+  {
+    id: 'rapport',
+    label: 'Rapport',
+    section: 'Opening',
+    cards: [
+      { type: 'context', text: 'Rapport works best as elaboration, not interrogation. Give them something easy to run with — a one-word answer just forces you to do the next question’s heavy lifting.' },
+      { type: 'ask', locked: true, text: '“Thanks for making time. How are you doing today?”' },
+      { type: 'ask', locked: true, text: '“Are you calling from work today, or are you at home?”' },
+      {
+        type: 'phrase_bank', label: 'If they say HOME — pick one', color: 'blue',
+        options: [
+          '“Nice. Has it been one of those productive work-from-home days, or are you squeezing this call in between everything else?”',
+          '“Working from home definitely has its perks. What’s your favorite part about it?”',
+          '“I always find people either love working from home or can’t wait to get out of the house. Which camp are you in?”',
+          '“Nice. Is that your normal setup these days, or just today?”',
+          '“Nice. Is this where you usually work from, or are you enjoying a day off today?”',
+        ]
+      },
+      {
+        type: 'phrase_bank', label: 'If they say WORK — pick one', color: 'amber',
+        options: [
+          '“Busy day over there, or did we catch you at a good time?”',
+          '“Ah, gotcha. Busy environment, or are you able to sneak away for a few minutes?”',
+          '“Oh nice. Without giving away any trade secrets, what kind of day has it been over there?”',
+        ]
+      },
+      {
+        type: 'phrase_bank', label: 'Universal follow-ups — either answer', color: 'green',
+        options: [
+          '“What’s today looked like for you so far?” — people naturally tell a story with this one.',
+          '“Mondays and Fridays always have a different vibe. How’s today been?” (adapt to whatever day it is)',
+          '“How’s your week been?”',
+          '“Anything interesting keeping you busy lately?” — often surfaces projects, kids, travel, moving, hiring.',
+        ]
+      },
+      {
+        type: 'phrase_bank', label: 'Forced-choice hack — use anytime it feels flat', color: 'purple',
+        options: [
+          '“Has today been pretty calm, or has it been one thing after another?”',
+          '“Are you someone who likes working remotely, or do you actually miss being in the office?”',
+          '“Are you an early bird, or does your day usually get busy later on?”',
+        ]
+      },
+      {
+        type: 'dialogue_example',
+        lines: [
+          { speaker: 'You', text: '“How are you doing today?”' },
+          { speaker: 'Candidate', text: '“Good!”' },
+          { speaker: 'You', text: '“Glad to hear it. Are you at home today or at work?”' },
+          { speaker: 'Candidate', text: '“At work.”' },
+          { speaker: 'You', text: '“Nice. Busy day, or did we catch you at a good time?”' },
+          { speaker: 'Candidate', text: '“Pretty busy — we’ve been short-staffed.”' },
+          { speaker: 'You', text: '“I can imagine. Hopefully this call gives you a nice change of pace for a few minutes.”' },
+        ]
+      },
+      { type: 'note', text: 'Mindset: don’t think “what’s my next rapport question” — think “what about that answer could I be curious about for another 20 seconds?” Acknowledging what they said (like the last line above) often builds more rapport than another clever question. Once it feels natural, move to Goals.' },
+    ]
+  },
+
+  // ─── STEP 3: GOALS ───
+  {
+    id: 'goals',
+    label: 'Goals',
+    section: 'Opening',
+    cards: [
+      { type: 'say', locked: true, text: 'GOAL\n\n“The goal here is to learn a little bit about you — your skills, experience, your financial goals — and whether we can help you achieve those in this position. I also want to share a little bit about the job so you can see if you actually like it.”\n\n“At the same time, I also want to find out if you’d be a good fit for our team, since this is a pathway to becoming a licensed Public Adjuster.”\n\n“If it all makes sense, we can move forward with the next steps.”' },
+    ]
+  },
+
+  // ─── STEP 4: GETTING TO KNOW THEM (cascading employment gate) ───
+  {
+    id: 'learn',
+    label: 'Getting to know them',
+    section: 'Opening',
+    cards: [
+      { type: 'context', text: 'This section forces a bucket. Employed candidates split three ways; unemployed candidates split by how they stayed afloat, then by priority. Every path either lands them in Gate 1 / Driver Lanes, or exits them here.' },
+      { type: 'say', locked: true, text: '“Perfect! So to begin, I just want to know — are you employed, unemployed, or in between jobs?”' },
       { type: 'learn_branch' }
     ]
   },
 
-  // ─── STEP 3: GATE 1 ───
+  // ─── STEP 5: GATE 1 ───
   {
     id: 'gate1',
-    label: 'Gate 1 \u2014 What\u2019s breaking',
+    label: 'Gate 1 — What’s breaking',
     section: 'The Gates',
     gate: true,
     gateNum: 1,
-    gateTitle: 'Is something actually breaking \u2014 or is this just dissatisfaction?',
+    gateTitle: 'Is something actually breaking — or is this just dissatisfaction?',
     cards: [
-      { type: 'ask', text: '\u201cIf you stay exactly where you are for the next six months \u2014 same job, same income, same situation \u2014 what\u2019s your biggest concern?\u201d' },
-      { type: 'rule_toggle', label: 'If vague or no urgency \u2014 follow up', text: '\u201cIs that something that fixes itself over time \u2014 or does it get worse the longer you wait?\u201d\n\nIf it fixes itself or they\u2019re not sure \u2014 exit.\nIf it gets worse \u2014 continue.' },
+      { type: 'ask', text: '“If you stay exactly where you are for the next six months — same job, same income, same situation — what’s your biggest concern?”' },
+      { type: 'rule_toggle', label: 'If vague or no urgency — follow up', text: '“Is that something that fixes itself over time — or does it get worse the longer you wait?”\n\nIf it fixes itself or they’re not sure — exit.\nIf it gets worse — continue.' },
       {
         type: 'gate1_picker',
-        question: 'What\u2019s actually driving them? Pick one:',
+        question: 'What’s actually driving them? Pick one:',
         opts: [
           { label: 'Financial pressure', val: 'financial', style: 'b' },
           { label: 'Lack of growth', val: 'growth', style: 'b' },
@@ -340,26 +429,28 @@ const STEPS = [
         ]
       },
       {
-type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHere\u2019s what I\u2019m noticing \u2014 everything you\u2019re describing sounds more like dissatisfaction than something that\u2019s actually breaking. And that\u2019s OK, but I want to be honest with you. The people who push through the hard weeks in this role usually have something specific they can\u2019t afford to lose. Without that, it tends to feel optional when it gets tough. I don\u2019t want to set you up for that. Let\u2019s leave it here for now \u2014 and if something changes and the urgency becomes clearer, reach back out.\u201d' },
+type: 'exit_block', label: 'EXIT — if nothing is breaking', text: '“Here’s what I’m noticing — everything you’re describing sounds more like dissatisfaction than something that’s actually breaking. And that’s OK, but I want to be honest with you. The people who push through the hard weeks in this role usually have something specific they can’t afford to lose. Without that, it tends to feel optional when it gets tough. I don’t want to set you up for that. Let’s leave it here for now — and if something changes and the urgency becomes clearer, reach back out.”' },
       { type: 'gate_pass', key: 'gate1' }
     ]
   },
 
-  // ─── STEP 4: DRIVER LANES ───
+  // ─── STEP 6: DRIVER LANES ───
   {
     id: 'lane_questions',
     label: 'Driver lanes',
     section: 'The Gates',
     cards: [
-      { type: 'context', text: 'Use the lane that matches what they told you in Gate 1. Deepen the problem first \u2014 then connect it to the role. Do not pitch until the connection lands.' },
+      { type: 'context', text: 'Use the lane that matches what they told you in Gate 1. Deepen the problem first — then connect it to the role. Do not pitch until the connection lands.' },
+      { type: 'say', text: '“I’m here to understand what you’re looking for — or hoping for — in your next job opportunity.”' },
+      { type: 'note', text: 'Hint: ask for their pain point directly before choosing a lane — e.g. “What’s the one thing missing from where you are now that you’re hoping to find in your next role?” Their answer tells you which lane to use.' },
       { type: 'lane_menu_toggle' },
       {
         type: 'lane_choice',
         question: 'Which lane?',
         opts: [
-          { label: 'Lane A \u2014 Financial', val: 'A', style: 'b' },
-          { label: 'Lane B \u2014 Growth / new skills', val: 'B', style: 'b' },
-          { label: 'Lane C \u2014 Environment / challenge', val: 'C', style: 'b' },
+          { label: 'Lane A — Financial', val: 'A', style: 'b' },
+          { label: 'Lane B — Growth / new skills', val: 'B', style: 'b' },
+          { label: 'Lane C — Environment / challenge', val: 'C', style: 'b' },
         ]
       },
       {
@@ -367,21 +458,21 @@ type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHe
         lanes: {
           A: [
             { type: 'divider_label', text: 'DEEPEN THE PROBLEM' },
-            { type: 'ask', text: '\u201cWhat does your income look like right now \u2014 and what would it need to be for things to actually feel different?\u201d' },
-            { type: 'ask', text: '\u201cWhat specifically is not getting covered right now because of where your income is?\u201d' },
-            { type: 'ask', text: '\u201cIf nothing changes in six months \u2014 same pay, same job \u2014 what\u2019s the first thing that actually breaks for you?\u201d' },
+            { type: 'ask', text: '“What does your income look like right now — and what would it need to be for things to actually feel different?”' },
+            { type: 'ask', text: '“What specifically is not getting covered right now because of where your income is?”' },
+            { type: 'ask', text: '“If nothing changes in six months — same pay, same job — what’s the first thing that actually breaks for you?”' },
             { type: 'divider_label', text: 'RISK APPETITE' },
-            { type: 'context', text: 'Set context before asking \u2014 don\u2019t fire this cold.' },
-            { type: 'say', text: '\u201cIf you had two job offers right now \u2014 one is easy, stable, guaranteed pay every two weeks. The other is harder, real risk involved, but the upside is $60K to $100K a year if you put in the work.\u201d\n\n\u201cWhich one do you take \u2014 and why?\u201d' },
-            { type: 'commission_interrupt', text: 'If they ask "is this commission?" before you get there:\n\n\u201cYes \u2014 and I want to walk you through that in a few minutes. Before that, I want to understand how you think about risk first.\u201d\n\nThen continue.' },
+            { type: 'context', text: 'Set context before asking — don’t fire this cold.' },
+            { type: 'say', text: '“If you had two job offers right now — one is easy, stable, guaranteed pay every two weeks. The other is harder, real risk involved, but the upside is $60K to $100K a year if you put in the work.”\n\n“Which one do you take — and why?”' },
+            { type: 'commission_interrupt', text: 'If they ask "is this commission?" before you get there:\n\n“Yes — and I want to walk you through that in a few minutes. Before that, I want to understand how you think about risk first.”\n\nThen continue.' },
             { type: 'listen', items: [
-              'Picks high upside with specific reason \u2192 strong signal. Continue.',
-              'Picks stability or hesitates \u2192 "What gives you pause about the risk?" Dispositional = Bucket 7. Real obligations = continue.',
+              'Picks high upside with specific reason → strong signal. Continue.',
+              'Picks stability or hesitates → "What gives you pause about the risk?" Dispositional = Bucket 7. Real obligations = continue.',
             ]},
             { type: 'divider_label', text: 'EARNINGS TARGET' },
-            { type: 'ask', text: '\u201cWhat would you need to be earning for it to feel like you\u2019re actually moving forward \u2014 do you have a number in your head?\u201d' },
+            { type: 'ask', text: '“What would you need to be earning for it to feel like you’re actually moving forward — do you have a number in your head?”' },
             { type: 'divider_label', text: 'CONNECT TO THE ROLE' },
-            { type: 'say', text: '\u201cWhat you just described \u2014 [mirror their specific fact] \u2014 that\u2019s exactly the problem this role is built to solve. You\u2019re not capped here. What you put in is what you get out.\u201d\n\n\u201cThe question isn\u2019t whether the money is there \u2014 it is. The question is whether you can hold on through the weeks where it hasn\u2019t clicked yet.\u201d' },
+            { type: 'say', text: '“What you just described — [mirror their specific fact] — that’s exactly the problem this role is built to solve. You’re not capped here. What you put in is what you get out.”\n\n“The question isn’t whether the money is there — it is. The question is whether you can hold on through the weeks where it hasn’t clicked yet.”' },
           ],
           B: [
             { type: 'divider_label', text: 'WHAT GROWTH MEANS TO THEM' },
@@ -420,92 +511,98 @@ type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHe
     ]
   },
 
-  // ─── STEP 5: ROLE OVERVIEW ───
+  // ─── STEP 7: COMMISSION RUNWAY (employed track, full disclosure) ───
+  {
+    id: 'commission_runway',
+    label: 'Commission runway',
+    section: 'The Gates',
+    gate: true,
+    gateNum: 2,
+    gateTitle: 'Can they actually live on 100% commission long enough to get good at it?',
+    showIf: () => state.answers.employment === 'unemployed',
+    cards: [
+      { type: 'context', text: 'This is the full pay disclosure + comfort check. Employed candidates who reached Driver Lanes land here. Personalize the first line with what they told you.' },
+      { type: 'say', locked: true, text: '“Before we move forward, there’s something important I want to be upfront about regarding our pay structure — especially because [mirror what they told you].”\n\n“This role is performance-based, which means pay is 100% commission. For us, we do this because we want control over our income — it reflects our effort and results, and there’s no cap.”\n\n“The average amount most people on our team earn is between $1,000 to $1,500 a week, and our top performers earn $2,000 to $3,000.”\n\n“But it wasn’t always like that — there were weeks when they were only earning $500 to $600, especially in their first few weeks. That’s the reality in sales — some days are really good, some days are tough.”\n\n“I’ve seen talented people not thrive in this setup — not because they were bad at the job, but because they weren’t financially or mentally ready to step into a straight commission opportunity.”' },
+      { type: 'divider_label', text: 'QUESTION STOP' },
+      { type: 'ask', text: '“So let me ask you — are you comfortable switching to 100% commission, or is a stable income something you need right now?”' },
+      { type: 'rule_toggle', label: 'Follow-up if they hesitate', text: '“What’s going to cover your basic needs?”\n\n“So I want to ask you — if you switch to a paid-by-performance role, do you have something covering your basic needs, or is stable income something you need right now?”' },
+      {
+        type: 'commission_choice',
+        question: 'What did they choose?',
+        key: 'commission_comfort',
+        opts: [
+          { label: 'Comfortable with commission', val: 'comfortable', style: 'g' },
+          { label: 'Needs stable income', val: 'stable', style: 'r' },
+        ],
+        stableContent: [
+          { type: 'divider_label', text: 'IF THEY CHOSE STABLE INCOME' },
+          { type: 'ask', text: '“I understand — a stable income is what you need. If we were to provide you with that guaranteed pay, what would make that the right decision on our end?”' },
+          { type: 'ask', text: '“I understand. Can you tell me a little more about why having a stable income is important for you right now?”' },
+          { type: 'context', text: 'This is not an automatic exit — use judgment. Real, immediate need with no runway → treat like a timing exit. Soft preference with some flexibility → note it as a flag and continue to Role Overview.' },
+        ],
+        comfortableContent: [
+          { type: 'note', text: '“Some candidates get excited by the potential of earning six figures and growing into leadership — but once they’re in the field, they realize they have to lock in and stay focused.”\n\n“This isn’t just a punch-in, punch-out job — for us, this role at Proliance is a solution: financial growth, professional growth, or personal growth.”' },
+        ]
+      },
+      { type: 'gate_pass', key: 'commission_runway' }
+    ]
+  },
+
+  // ─── STEP 8: ROLE OVERVIEW ───
   {
     id: 'role',
     label: 'Role overview',
     section: 'Role Overview',
     cards: [
-      { type: 'context', text: 'You\u2019ve found the fact. You\u2019ve connected it to the role. Now show them what the job actually looks like.' },
+      { type: 'context', text: 'You’ve found the fact. You’ve connected it to the role. Now pitch it — Industry, then Door to Door, then Schedule and Pay, then hand off to Homework.' },
+      { type: 'divider_label', text: 'INDUSTRY' },
       {
         type: 'beats',
-        title: 'Industry & mission \u2014 four beats, in order',
+        title: 'Industry & mission — four beats, in order',
         beats: [
-          { label: 'Beat 1 \u2014 The right', text: '\u201cA lot of homeowners don\u2019t know that when there are storm damages on their roof \u2014 the majority of the cost to fix or replace that should be covered by their insurance. Homeowners should not pay out of pocket. That\u2019s what the insurance is there for.\u201d' },
-          { label: 'Beat 2 \u2014 The problem', text: '\u201cBut the reality is most homeowners don\u2019t know that. And instead of stepping in, insurance companies drag the process, make it confusing \u2014 and in most cases, they\u2019ll deny claims even when there\u2019s visible damage.\u201d' },
-          { label: 'Beat 3 \u2014 The solution', text: '\u201cThis is where we come in. We guide homeowners through the entire process \u2014 from inspection, to paperwork, all the way through construction. And if the insurance company denies the claim, we step in and fight for them.\u201d' },
-          { label: 'Beat 4 \u2014 The meaning', text: '\u201cTo some it\u2019s just a job. But the more you\u2019re out there, on the front lines, you really see how much this helps people. They don\u2019t have to come out of pocket \u2014 that\u2019s money they can use for groceries, for savings, for things that actually matter.\u201d' },
+          { label: 'Beat 1 — The right', text: '“A lot of homeowners don’t know that when there are storm damages on their roof — the majority of the cost to fix or replace that should be covered by their insurance. Homeowners should not pay out of pocket. That’s what the insurance is there for.”' },
+          { label: 'Beat 2 — The problem', text: '“But the reality is most homeowners don’t know that. And instead of stepping in, insurance companies drag the process, make it confusing — and in most cases, they’ll deny claims even when there’s visible damage.”' },
+          { label: 'Beat 3 — The solution', text: '“This is where we come in. We guide homeowners through the entire process — from inspection, to paperwork, all the way through construction. And if the insurance company denies the claim, we step in and fight for them.”' },
+          { label: 'Beat 4 — The meaning', text: '“To some it’s just a job. But the more you’re out there, on the front lines, you really see how much this helps people. They don’t have to come out of pocket — that’s money they can use for groceries, for savings, for things that actually matter.”' },
         ]
       },
-      { type: 'say', text: '\u201cAt the start, your role is focused. You go door-to-door in areas where we know there\u2019s been storm damage. You offer a free roof inspection \u2014 when someone\u2019s interested, you schedule it with the team leader and they do the inspection and close the deal. Same day.\u201d\n\n\u201cYou\u2019re not doing this alone. You\u2019re paired with a mentor in the field from day one. Leaders here don\u2019t manage from a desk. They\u2019re out there. That\u2019s the culture.\u201d' },
-      { type: 'ask', text: '\u201cHow does that land for you, [candidate]? Some people hear this and feel the mission. Others hear about a sales job. Which one are you feeling right now?\u201d' },
+      { type: 'divider_label', text: 'DOOR TO DOOR' },
+      { type: 'say', text: '“At the start, your role is focused. You go door-to-door in areas where we know there’s been storm damage. You offer a free roof inspection — when someone’s interested, you schedule it with the team leader and they do the inspection and close the deal. Same day.”\n\n“You’re not doing this alone. You’re paired with a mentor in the field from day one. Leaders here don’t manage from a desk. They’re out there. That’s the culture.”' },
+      { type: 'ask', text: '“How does that land for you, [candidate]? Some people hear this and feel the mission. Others hear about a sales job. Which one are you feeling right now?”' },
       {
         type: 'growth_investment',
-        say: '\u201cHere at Proliance, growth is not a slogan \u2014 it\u2019s what we actually care about most. We recently had members pass their examination as Licensed Public Adjusters \u2014 some in under six months.\u201d',
-        ask: '\u201c[candidate], if you become part of the team \u2014 what kind of growth do you want to see in yourself?\u201d',
-        note: '\u201cI\u2019ll take note of that \u2014 I want our team to know exactly how to support you.\u201d',
-        followup: '\u201cAnd what if you\u2019re already great at that \u2014 what would you do with that skill set? Do you want to be in leadership one day?\u201d'
+        say: '“Here at Proliance, growth is not a slogan — it’s what we actually care about most. We recently had members pass their examination as Licensed Public Adjusters — some in under six months.”',
+        ask: '“[candidate], if you become part of the team — what kind of growth do you want to see in yourself?”',
+        note: '“I’ll take note of that — I want our team to know exactly how to support you.”',
+        followup: '“And what if you’re already great at that — what would you do with that skill set? Do you want to be in leadership one day?”'
       },
       {
         type: 'social_proof_mini',
-        note: 'Click a name. Use the one that matches this candidate\u2019s background.',
+        note: 'Click a name. Use the one that matches this candidate’s background.',
         roster: [
-          { name: 'Michelle', background: 'Bartender \u2014 Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She went through the slow weeks, stayed anyway, and within her first month she was setting appointments consistently. She\u2019s now a licensed public adjuster leading her own team.' },
-          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice \u2014 $800\u2013$900/week', story: 'Mimi came from the food industry. She went through the hard weeks and stayed. She\u2019s now earning $800 to $900 a week and outperforming most of the team.' },
-          { name: 'Sean', background: 'Warehouse \u2014 no sales background', role: 'Team Lead \u2014 promoted in under a month', story: 'Sean came from the warehouse with zero sales experience. He just showed up every day and did the work. Within a month he was being trained for leadership.' },
+          { name: 'Michelle', background: 'Bartender — Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She went through the slow weeks, stayed anyway, and within her first month she was setting appointments consistently. She’s now a licensed public adjuster leading her own team.' },
+          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice — $800–$900/week', story: 'Mimi came from the food industry. She went through the hard weeks and stayed. She’s now earning $800 to $900 a week and outperforming most of the team.' },
+          { name: 'Sean', background: 'Warehouse — no sales background', role: 'Team Lead — promoted in under a month', story: 'Sean came from the warehouse with zero sales experience. He just showed up every day and did the work. Within a month he was being trained for leadership.' },
         ]
       },
-    ]
-  },
-
-  // ─── STEP 6: COMMISSION + RUNWAY ───
-  {
-    id: 'gate3',
-    label: 'Commission + Runway',
-    section: 'The Gates',
-    gate: true,
-    gateNum: 2,
-    gateTitle: 'Can they hold on long enough to let us get them there?',
-    cards: [
-      { type: 'divider_label', text: 'ANCHOR BRIDGE' },
-      { type: 'ask', text: '\u201cBefore I walk you through the pay structure \u2014 what\u2019s the specific thing you\u2019re trying to solve or build toward right now? I want to make sure what we\u2019re offering actually connects to that.\u201d' },
-      { type: 'context', text: 'If they name something specific \u2014 a person, a goal, a concrete thing they keep putting off \u2014 that\u2019s your anchor. If they can\u2019t, note it. Don\u2019t exit on it but watch for it in the commission reaction.' },
-      { type: 'divider_label', text: 'THE HONEST REALITY' },
-      { type: 'say', text: '\u201cThe ones who pushed through that window \u2014 the slow weeks, the rejection, the days where nothing clicked \u2014 they\u2019re now earning more than they ever did in a regular job. Some of them are licensed public adjusters. Some are leading their own teams. All of that in less than six months.\u201d\n\n\u201cWe invest in the right person upfront. We give you the training, the script, a mentor in the field with you from day one. We even put a safety net under you for that first week while you\u2019re ramping up.\u201d\n\n\u201cBut this isn\u2019t a punch in, punch out job. It\u2019s going to ask something of you before it gives something back.\u201d' },
-      { type: 'divider_label', text: 'THE ASK' },
-      { type: 'say', text: '\u201cSo I want to ask you honestly \u2014 knowing all of that, and knowing what you told me about [mirror their specific reason] \u2014 do you think this is worth it for you? And can you hold on long enough to let us get you there?\u201d' },
-      { type: 'divider_label', text: 'RUNWAY CHECK' },
-      { type: 'ask', text: '\u201cWhat does your situation look like over the next 30 to 60 days? What\u2019s covering your basics while you\u2019re ramping?\u201d' },
-      { type: 'listen', items: [
-        'Has specific coverage (savings, partner income, part-time, family support) \u2192 viable. Continue.',
-        'Honest about the risk, has a specific plan \u2192 viable.',
-        '\u201cI\u2019ll figure it out\u201d with no specifics \u2192 exit.',
-        'Needs income immediately, no backup \u2192 timing exit.',
-      ]},
-      { type: 'divider_label', text: 'PAY STRUCTURE' },
-      { type: 'pay', text: '\u201cPay is straight commission. For every appointment you set that signs \u2014 you earn between $200 and $300.\u201d\n\n\u201cOur team on the lower end consistently earns $800 to $1,200 a week. Our top performers earn $2,000 to $3,000 a week. We pay weekly. No ceiling.\u201d\n\n\u201cEveryone starts at the apprentice level. Consistency and initiative move you into leadership \u2014 at that point you\u2019re closing deals yourself at 5 to 7% on jobs that average $25,000 to $30,000.\u201d' },
-      { type: 'divider_label', text: 'PUSH / PULL' },
-      {
-        type: 'push_pull',
-        say: '\u201cWe\u2019ve had people come from [background match] with zero sales experience and be earning consistently by week three. The training is there. The support is there.\u201d\n\n\u201cThe question isn\u2019t whether we can get you there. It\u2019s whether you can hold on long enough to let us.\u201d',
-        ask: '\u201cBased on everything \u2014 do you believe you can do that?\u201d'
-      },
-      {
-        type: 'gate3_branch',
-        yes: { label: 'If yes \u2014 confident and specific', action: 'Move to role play.' },
-        no: { label: 'If no or unconvincing', exit: '\u201cI appreciate you being honest with me \u2014 that actually tells me a lot. If you\u2019re not sure you can hold on through that window, this probably isn\u2019t the right timing. The role will still be here when you\u2019re in a different place. Let\u2019s pause here.\u201d' },
-        bridge: { label: 'If they ask about a base / salary bridge', script: '\u201cI hear you \u2014 and that\u2019s actually something we can look at for the right person.\u201d\n\n\u201cFor candidates where we see real potential and there\u2019s a logistics barrier \u2014 not a motivation barrier \u2014 we can sometimes offer a salary arrangement during the training period.\u201d\n\n\u201cBut that\u2019s not something we offer everyone. It\u2019s for people who we genuinely believe are going to be strong performers and just need a runway to get started.\u201d\n\n\u201cBased on what you\u2019ve told me today, let me take note of that and bring it to the hiring manager.\u201d' }
-      },
+      { type: 'divider_label', text: 'SCHEDULE AND PAY' },
+      { type: 'pay', text: '“Pay is straight commission. For every appointment you set that signs — you earn between $200 and $300.”\n\n“Our team on the lower end consistently earns $800 to $1,200 a week. Our top performers earn $2,000 to $3,000 a week. We pay weekly. No ceiling.”' },
+      { type: 'say', text: '“This role starts at the apprentice level — everyone begins here to learn the ropes. If you grow quickly and prove you want to level up, we’ll invest in you — [training, licensing support, mentorship — fill in what applies].”' },
+      { type: 'say', text: '“Typically within about six months, apprentices who are consistent and coachable move into a leadership role and begin pursuing their Public Adjuster license. We cover the upfront cost for apprentices to take the exam — materials, study sessions, everything that’ll help you pass.”' },
+      { type: 'say', text: '“Once licensed, your pay moves from per-appointment to a percentage of each project. A typical roofing job is about $25,000 to $30,000, and leaders earn roughly 5 to 7% per closed project — that’s around $1,500 to $2,100 for a single closed deal. Now imagine closing three or more in a week.”' },
+      { type: 'note', text: '“No pressure — but that’s what I want you to aim for if you want to truly change your situation.”' },
+      { type: 'say', text: '“Moving up in this role isn’t just about bigger paychecks — it’s also about personal growth and building the habits to sustain that success. If you join us, we don’t want you thinking small anymore — the paycheck-to-paycheck mindset. Aim for the license. Aim to close your own deals.”' },
+      { type: 'context', text: 'In this type of career, it’s easy to feel discouraged by rejection and missed quotas — this is a real test of how committed they are. Watch how they react to this framing.' },
+      { type: 'ask', text: '“We’re based in Westmont — can you get there consistently? This is full-time, around 40 hours a week in the field. Does that work for you right now?”' },
       { type: 'divider_label', text: 'ROLE PLAY' },
-      { type: 'say', text: '\u201cPerfect. Let\u2019s do a quick role play so you can feel what day one actually looks like.\u201d\n\n\u201cI\u2019m going to be the homeowner. You knock on my door and offer the free inspection. Don\u2019t overthink it \u2014 just talk to me the way you\u2019d talk to anyone. Ready?\u201d' },
-      { type: 'context', text: 'Watch for: natural tone, comfort with rejection, ability to pivot when the homeowner pushes back. You\u2019re not looking for perfect. You\u2019re looking for coachable.' },
-      { type: 'gate_pass', key: 'gate3' }
+      { type: 'say', text: '“Perfect. Let’s do a quick role play so you can feel what day one actually looks like.”\n\n“I’m going to be the homeowner. You knock on my door and offer the free inspection. Don’t overthink it — just talk to me the way you’d talk to anyone. Ready?”' },
+      { type: 'context', text: 'Watch for: natural tone, comfort with rejection, ability to pivot when the homeowner pushes back. You’re not looking for perfect. You’re looking for coachable.' },
+      { type: 'divider_label', text: 'HOMEWORK' },
+      { type: 'note', text: 'Once the role play feels good — assign the bucket, then continue to the next step: Homework.' },
     ]
   },
 
-  // ─── STEP 7: BUCKET ───
-
-  // ─── STEP 8: BUCKET ───
+  // ─── STEP 9: BUCKET ───
   {
     id: 'bucket',
     label: 'Assign bucket',
@@ -516,67 +613,26 @@ type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHe
         type: 'bucket_picker',
         buckets: [
           { num: 1, label: 'Move forward', sub: 'Chose sales intentionally. Names consequence of staying. Has chosen discomfort before.', action: 'Send homework now', cls: 'sel-b1' },
-          { num: 2, label: 'Interested, not urgent', sub: '"I\'d be fine either way." Nothing breaks if they wait.', action: 'Exit Speech 1', cls: 'sel-b2' },
+          { num: 2, label: 'Likes current job, not close to sales', sub: 'Enjoys their day-to-day but the only issue is a situational pain (manager, schedule, environment). No pull toward sales.', action: 'Exit — suggest lateral move', cls: 'sel-b2' },
           { num: 3, label: 'Too busy / overloaded', sub: 'Juggling too much. Treats this as a side project.', action: 'Exit Speech 1', cls: 'sel-b3' },
           { num: 4, label: 'Underestimates the role', sub: 'Overconfident without specifics. No D2D acknowledgment.', action: 'Exit Speech 1', cls: 'sel-b4' },
           { num: 5, label: 'Too agreeable', sub: 'Mirrors your language. "That makes sense" to everything.', action: 'Exit Speech 2', cls: 'sel-b5' },
           { num: 6, label: 'Exploring', sub: 'Sales is one of several options. No specific pull.', action: 'Exit Speech 3', cls: 'sel-b6' },
           { num: 7, label: 'Avoidance / fear', sub: 'Needs guarantees. Hesitates around rejection and risk.', action: 'Exit Speech 3', cls: 'sel-b7' },
           { num: 8, label: 'No direction', sub: '"I just want something different." No clear move toward anything.', action: 'Exit Speech 3', cls: 'sel-b8' },
+          { num: 9, label: 'Income too unstable to switch', sub: 'Needs income now (employed-stable-income-needed with no flex, or unemployed and inconsistency is a real financial risk).', action: 'Timing exit', cls: 'sel-b7' },
         ]
       },
       {
         type: 'exit_speeches',
         speeches: [
-          { num: 1, label: 'Exit Speech 1 — Buckets 2, 3, 4', text: '"That makes sense — and honestly, when things aren\'t uncomfortable yet, it\'s harder to commit to something demanding."\n\n"Sales requires choosing discomfort on purpose. Without a strong reason behind it, most people lose momentum once it gets hard."\n\n"I don\'t want to move you forward before that\'s solid. Let\'s pause here — if after sitting with it you feel clear that this is something you want to step into intentionally, you can reach back out and we can revisit."' },
-          { num: 2, label: 'Exit Speech 2 — Bucket 5', text: '"I want to pause and be honest with you."\n\n"I\'m hearing a lot of agreement — but I\'m not hearing a decision that\'s actually coming from you yet. Door-to-door works best when someone already has a personal reason for choosing it, not one they discover during the interview."\n\n"I don\'t want to move you forward unless that decision is solid. Let\'s pause here."' },
+          { num: 2, label: 'Exit Speech — Bucket 2 (likes job, not close to sales)', text: '“That makes sense.”\n\n“Sales requires choosing discomfort on purpose. Without a strong reason behind it, most people lose momentum once it gets hard.”\n\n“I don’t want to move you forward before that’s solid. Let’s pause here — if after sitting with it you feel a clear reason that this is something you want to step into intentionally, you can reach back out and we can revisit.”' },
+          { num: 1, label: 'Exit Speech 1 — Buckets 3, 4', text: '"That makes sense — and honestly, when things aren\'t uncomfortable yet, it\'s harder to commit to something demanding."\n\n"Sales requires choosing discomfort on purpose. Without a strong reason behind it, most people lose momentum once it gets hard."\n\n"I don\'t want to move you forward before that\'s solid. Let\'s pause here — if after sitting with it you feel clear that this is something you want to step into intentionally, you can reach back out and we can revisit."' },
+          { num: 2.5, label: 'Exit Speech 2 — Bucket 5', text: '"I want to pause and be honest with you."\n\n"I\'m hearing a lot of agreement — but I\'m not hearing a decision that\'s actually coming from you yet. Door-to-door works best when someone already has a personal reason for choosing it, not one they discover during the interview."\n\n"I don\'t want to move you forward unless that decision is solid. Let\'s pause here."' },
           { num: 3, label: 'Exit Speech 3 — Buckets 6, 7, 8', text: '"From what you\'ve shared, it sounds like you know you want to leave your current situation — but you haven\'t fully landed on what you\'re actually moving toward."\n\n"What usually happens when someone steps into a demanding role without that clarity is they realize a week or two in they didn\'t really choose it — they just wanted out."\n\n"Let\'s pause here. Take some time to get clear on what you actually want your next chapter to look like. When that becomes clear, you\'re welcome to reach back out."' },
+          { num: 9, label: 'Timing Exit — Bucket 9 (income too unstable)', text: '“Everything you’ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you’re forced to quit before you have a real chance.”\n\n“What I’d suggest: stabilize your income first — even part-time — so when you come into this, you’re choosing it, not depending on it. When your situation changes, reach back out.”' },
         ]
       }
-    ]
-  },
-
-  // ─── STEP 9: ROLE OVERVIEW ───
-  {
-    id: 'role',
-    label: 'Role overview',
-    section: 'Role Overview',
-    bucket1Only: true,
-    cards: [
-      { type: 'context', text: 'Bucket 1 only. All three gates must be open before this section.' },
-      {
-        type: 'beats',
-        title: 'Industry & mission — four beats, in order',
-        beats: [
-          { label: 'Beat 1 — The right', text: '"A lot of homeowners don\'t know that when there are storm damages on their roof — the majority of the cost to fix or replace that should be covered by their insurance. Homeowners should not pay out of pocket. That\'s what the insurance is there for."' },
-          { label: 'Beat 2 — The problem', text: '"But the reality is most homeowners don\'t know that. And instead of stepping in, insurance companies drag the process, make it confusing — and in most cases, they\'ll deny claims even when there\'s visible damage."' },
-          { label: 'Beat 3 — The solution', text: '"This is where we come in. We guide homeowners through the entire process — from inspection, to paperwork, all the way through construction. And if the insurance company denies the claim, we step in and fight for them."' },
-          { label: 'Beat 4 — The meaning', text: '"To some it\'s just a job. But the more you\'re out there, on the front lines, you really see how much this helps people. They don\'t have to come out of pocket — that\'s money they can use for groceries, for savings, for things that actually matter."' },
-        ]
-      },
-      { type: 'ask', text: '"How does that land for you, [candidate]? Some people hear this and feel the mission. Others hear about a sales job. Which one are you feeling right now?"' },
-      { type: 'say', text: 'DAY TO DAY:\n"At the start, your role is focused. You go door-to-door in areas where we know there\'s been storm damage. You offer a free roof inspection — when someone\'s interested, you schedule it."\n\n"You\'re not doing this alone. You\'re paired with a mentor in the field with you. When you set an appointment, they do the inspection and close the deal. Same day."\n\n"Leaders here don\'t manage from a desk. They\'re out there. That\'s the culture."' },
-      { type: 'ask', text: '"What\'s harder for you personally, [candidate] — starting a conversation with a complete stranger, or letting go quickly when someone says no?"' },
-      {
-        type: 'growth_investment',
-        say: '"Here at Proliance, growth is not a slogan — it\'s what we actually care about most. Recently we had two members pass their examination as Licensed Public Adjusters."',
-        ask: '"[candidate], if you become part of the team — what kind of growth do you want to see in yourself?"',
-        note: '"I\'ll take note of that — I want our team to know exactly how to support you."',
-        followup: '"And what if you\'re already great at that — what would you do with that skill set? Do you want to be in leadership one day?"'
-      },
-      {
-        type: 'social_proof_mini',
-        note: 'Click a name. Use the one that matches this candidate\'s background.',
-        roster: [
-          { name: 'Michelle', background: 'Bartender — Red Lobster', role: 'Licensed PA + Team Lead', story: 'Michelle came from bartending with zero sales experience. She understood people — but had never sold anything. She went through the slow weeks, stayed anyway, and within her first month she was setting appointments consistently. She\'s now a licensed public adjuster leading her own team.' },
-          { name: 'Mimi', background: 'Food service industry', role: 'Apprentice — $800–$900/week', story: 'Mimi came from the food industry. Same energy you need for D2D — on your feet all day, dealing with people, handling rejection with a smile. She went through the hard weeks and stayed. She\'s now earning $800 to $900 a week and outperforming most of the team.' },
-          { name: 'Sean', background: 'Warehouse — no sales background', role: 'Team Lead — promoted in under a month', story: 'Sean came from the warehouse with zero sales experience. He just showed up every day and did the work. Within a month he was being trained for leadership. The only thing that separated him was that he didn\'t stop when it got uncomfortable.' },
-        ]
-      },
-      { type: 'pay', text: '"Pay is straight commission. For every appointment you set that signs — you earn between $200 and $300."\n\n"Our team on the lower end consistently earns $600 to $1,000 a week. If you commit to one signed appointment a week — that\'s $1,000 to $1,500. Our commission rate is about twice the industry average."\n\n"We pay weekly. No ceiling."\n\n"Everyone starts at the apprentice level. Consistency and initiative move you into leadership — at that point you\'re closing deals yourself at 5 to 7% on jobs that average $25,000 to $30,000."' },
-      { type: 'ask', text: '"[candidate], does that land where you need it to — based on what you told me earlier?"' },
-      { type: 'rule', text: 'Stop after the question. The right candidate doesn\'t need convincing. If they ask for more — give it. Do not over-explain.' },
-      { type: 'ask', text: '"We\'re based in Westmont — can you get there consistently? This is full-time, around 40 hours a week in the field. Does that work for you right now?"' },
     ]
   },
 
@@ -592,7 +648,7 @@ type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHe
         paths: [
           { label: 'Path 1 — Clear Bucket 1 (send during the call)', color: 'green', say: '"Before we wrap up — I\'m going to send you our Instagram page right now. It\'s a documentary of what we actually do in the field. Real rejections, how we turn no into yes. Real moments, not a highlight reel."\n\n"After you watch it — I need you to text me back today before 4pm. One question: did anything change for you after watching, and what specifically?"', rule: 'If they won\'t confirm the 4pm deadline — do not send. "I\'ll try" or "probably" = Bucket 2 → Exit Speech 1.' },
           { label: 'Path 2 — 50/50 (second call protocol)', color: 'amber', say: '"I think there\'s something here, but I want to make sure before we go further."\n\n"I\'m sending you our Instagram page. Watch it — text me back before 4pm today: did anything change, and what specifically?"\n\n"If your answer tells me this is genuinely something you want to step into — I\'ll call you back and we\'ll move forward."', rule: 'Specific engaged answer → Bucket 1, proceed. Vague → Bucket 2, Exit Speech 1. No response by 4pm → Bucket 6, done.' },
-          { label: 'Path 3 — Buckets 2–8', color: 'red', say: 'Exit speech → end call → no homework sent.', rule: null }
+          { label: 'Path 3 — Buckets 2–9', color: 'red', say: 'Exit speech → end call → no homework sent.', rule: null }
         ]
       },
       { type: 'hw_template_area' }
@@ -636,12 +692,34 @@ type: 'exit_block', label: 'EXIT \u2014 if nothing is breaking', text: '\u201cHe
 // ─── STATE ───────────────────────────────────────────────────────
 let state = {
   recruiter: null, candidate: '', currentStep: 0,
-  answers: {}, flags: [], notes: {}, startTime: null,
+  answers: {}, flags: [], notes: {}, startTime: null, textOverrides: {},
 };
 
 function s(text) {
   if (!text) return text;
-  return text.replace(/\[candidate\]/g, state.candidate||'[candidate]').replace(/\[recruiter\]/g, state.recruiter||'[recruiter]');
+  return text.replace(/\[candidate\]/g, state.candidate||'[candidate]')
+             .replace(/\[recruiter\]/g, state.recruiter||'[recruiter]')
+             .replace(/\[position\]/g, (state.answers && state.answers.position) || '[position]');
+}
+
+function textHash(str) {
+  let h = 0;
+  str = str || '';
+  for (let i=0;i<str.length;i++) { h = (h*31 + str.charCodeAt(i))|0; }
+  return h.toString(36);
+}
+
+function getOverride(key, fallback) {
+  if (state.textOverrides && Object.prototype.hasOwnProperty.call(state.textOverrides, key)) {
+    return state.textOverrides[key];
+  }
+  return fallback;
+}
+
+function setOverride(key, value) {
+  if (!state.textOverrides) state.textOverrides = {};
+  state.textOverrides[key] = value;
+  saveState();
 }
 
 function saveState() {
@@ -720,6 +798,10 @@ function initApp() {
   });
   document.getElementById('new-btn').onclick = newInterview;
   document.querySelectorAll('.flag-btn').forEach(btn => btn.addEventListener('click', () => addFlag(btn.dataset.color)));
+  if (STEPS[state.currentStep] && !stepVisible(STEPS[state.currentStep])) {
+    const alt = nextVisibleIndex(state.currentStep-1);
+    state.currentStep = alt>=0 ? alt : 0;
+  }
   buildSidebar(); renderStep(state.currentStep); renderFlags(); updateProgress();
 }
 
@@ -733,11 +815,25 @@ function newInterview() {
   saveState(); buildSidebar(); renderStep(0); updateProgress(); renderFlags();
 }
 
+// ─── STEP VISIBILITY (conditional steps, e.g. Commission Runway for unemployed only) ───
+function stepVisible(step) {
+  return !step.showIf || step.showIf();
+}
+function nextVisibleIndex(i) {
+  for (let n=i+1; n<STEPS.length; n++) { if (stepVisible(STEPS[n])) return n; }
+  return -1;
+}
+function prevVisibleIndex(i) {
+  for (let n=i-1; n>=0; n--) { if (stepVisible(STEPS[n])) return n; }
+  return -1;
+}
+
 // ─── SIDEBAR ─────────────────────────────────────────────────────
 function buildSidebar() {
   const sb = document.getElementById('sidebar'); sb.innerHTML='';
   let lastSection=null;
   STEPS.forEach((step,i) => {
+    if (!stepVisible(step)) return;
     if (step.section!==lastSection) {
       if (lastSection) { const d=document.createElement('div'); d.className='sb-divider'; sb.appendChild(d); }
       const sec=document.createElement('div'); sec.className='sb-sec'; sec.textContent=step.section; sb.appendChild(sec);
@@ -772,6 +868,10 @@ function updateSidebar() {
 }
 
 function goStep(i) {
+  if (STEPS[i] && !stepVisible(STEPS[i])) {
+    const alt = nextVisibleIndex(i-1);
+    i = alt>=0 ? alt : i;
+  }
   state.currentStep=i; saveState(); buildSidebar(); renderStep(i); updateProgress();
   document.getElementById('scroll-area').scrollTop=0;
 }
@@ -816,7 +916,7 @@ function renderStep(idx) {
     const title=document.createElement('div'); title.className='step-title'; title.textContent=step.label; area.appendChild(title);
   }
 
-  step.cards.forEach(card=>area.appendChild(renderCard(card,step)));
+  step.cards.forEach((card,ci)=>area.appendChild(renderCard(card, step.id+'_'+ci)));
 
   // Notes toggle
   const key='notes_'+step.id;
@@ -831,52 +931,49 @@ function renderStep(idx) {
   ntBtn.onclick=()=>{const o=nw.style.display!=='none';nw.style.display=o?'none':'block';ntBtn.textContent=o?(hasNote||state.notes[key]?'📝 Notes (saved)':'+ Add notes'):'− Hide notes';};
 
   const nav=document.createElement('div'); nav.className='nav-row';
-  if (idx>0) { const b=document.createElement('button'); b.className='btn-sec'; b.textContent='← Back'; b.onclick=()=>goStep(idx-1); nav.appendChild(b); }
-  if (idx<STEPS.length-1) { const b=document.createElement('button'); b.className='btn-primary'; b.textContent=idx===STEPS.length-2?'Debrief →':'Next →'; b.onclick=()=>goStep(idx+1); nav.appendChild(b); }
+  const prevIdx=prevVisibleIndex(idx), nextIdx=nextVisibleIndex(idx);
+  if (prevIdx>=0) { const b=document.createElement('button'); b.className='btn-sec'; b.textContent='← Back'; b.onclick=()=>goStep(prevIdx); nav.appendChild(b); }
+  if (nextIdx>=0) { const b=document.createElement('button'); b.className='btn-primary'; b.textContent=nextIdx===STEPS.length-1?'Debrief →':'Next →'; b.onclick=()=>goStep(nextIdx); nav.appendChild(b); }
   area.appendChild(nav);
 }
 
 // ─── CARD RENDERERS ──────────────────────────────────────────────
-function renderCard(card) {
+function renderCard(card, ctx) {
   switch(card.type) {
     case 'context': return mkContext(card.text);
-    case 'say': return mkTag('say','SAY',s(card.text));
-    case 'ask': return mkTag('ask','ASK',s(card.text));
-    case 'note': return mkTag('note','NOTE',s(card.text));
-    case 'rule': return mkTag('rule','RULE',s(card.text));
-    case 'pay': return mkTag('say','PAY STRUCTURE',s(card.text));
+    case 'say': return mkTag('say','SAY',card.text, ctx);
+    case 'ask': return mkTag('ask','ASK',card.text, ctx);
+    case 'note': return mkTag('note','NOTE',card.text, ctx);
+    case 'rule': return mkTag('rule','RULE',card.text, ctx);
+    case 'pay': return mkTag('say','PAY STRUCTURE',card.text, ctx);
     case 'listen': return mkListen(card);
-    case 'exit_block': return mkExitBlock(card);
-    case 'employment': return mkEmployment(card);
-    case 'unemployed_redirect': return mkUnemployedRedirect();
+    case 'exit_block': return mkExitBlock(card, ctx);
     case 'lane_choice': return mkLaneChoice(card);
-    case 'lane_content': return mkLaneContent(card);
-    case 'gate1_signals': return mkGate1Signals(card);
-    case 'gate2_check': return mkGate2Check(card);
-    case 'commission_personalized': return mkCommissionPersonalized(card);
-    case 'push_pull': return mkPushPull(card);
-    case 'social_proof_mini': return mkSocialProof(card);
-    case 'bridge_box': return mkBridgeBox(card);
+    case 'lane_content': return mkLaneContent(card, ctx);
+    case 'commission_choice': return mkCommissionChoice(card, ctx);
     case 'gate_pass': return mkGatePass(card);
     case 'bucket_picker': return mkBucketPicker(card);
-    case 'exit_speeches': return mkExitSpeeches(card);
-    case 'beats': return mkBeats(card);
-    case 'growth_investment': return mkGrowthInvestment(card);
-    case 'hw_paths': return mkHWPaths(card);
+    case 'exit_speeches': return mkExitSpeeches(card, ctx);
+    case 'beats': return mkBeats(card, ctx);
+    case 'growth_investment': return mkGrowthInvestment(card, ctx);
+    case 'hw_paths': return mkHWPaths(card, ctx);
     case 'debrief_questions': return mkDebrief(card);
     case 'verdict': return mkVerdict(card);
     case 'notes_area': return mkNotesArea(card);
     case 'save_export': return mkSaveExport();
     case 'rating': return mkRating(card);
     case 'learn_branch': return mkLearnBranch();
-    case 'rule_toggle': return mkRuleToggle(card);
+    case 'rule_toggle': return mkRuleToggle(card, ctx);
     case 'divider_label': return mkDividerLabel(card.text);
     case 'lane_menu_toggle': return mkLaneMenuToggle();
-    case 'gate1_picker': return mkGate1Picker(card);
-    case 'gate1_signals': return mkGate1Signals(card);
+    case 'gate1_picker': return mkGate1Picker(card, ctx);
     case 'commission_interrupt': return mkCommissionInterrupt(card);
-    case 'gate3_branch': return mkGate3Branch(card);
     case 'hw_template_area': return mkHWTemplateArea();
+    case 'social_proof_mini': return mkSocialProof(card, ctx);
+    case 'setup_fields': return mkSetupFields();
+    case 'intro_branch': return mkIntroBranch();
+    case 'phrase_bank': return mkPhraseBank(card, ctx);
+    case 'dialogue_example': return mkDialogueExample(card, ctx);
     default: return document.createElement('div');
   }
 }
@@ -885,10 +982,16 @@ function mkContext(text) {
   const p=document.createElement('p'); p.className='context-text'; p.textContent=text; return p;
 }
 
-function mkTag(type,label,text) {
+function mkTag(type,label,rawText,ctx) {
   const c=document.createElement('div'); c.className='card';
   const t=document.createElement('span'); t.className='tag t-'+type; t.textContent=label; c.appendChild(t);
-  const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap'; p.textContent=text; c.appendChild(p);
+  const hint=document.createElement('span'); hint.className='edit-hint'; hint.textContent='✎ editable'; c.appendChild(hint);
+  const key=(ctx||'x')+':'+type+':'+textHash(rawText);
+  const stored=getOverride(key, rawText);
+  const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap';
+  p.textContent=s(stored);
+  p.addEventListener('input',()=>{ setOverride(key, p.textContent); });
+  c.appendChild(p);
   return c;
 }
 
@@ -902,7 +1005,6 @@ function mkListen(card) {
     const bg=isPass?'var(--green-bg)':isFail?'var(--red-bg)':'var(--bg2)';
     const labelText=isPass?'PASS':isFail?'FAIL':'→';
     const bodyText=isPass?item.slice(5):isFail?item.slice(5):item;
-    // Split on — or : to get short label vs detail
     const dashIdx=bodyText.indexOf(' — ');
     const hasDetail=dashIdx>-1;
     const shortText=hasDetail?bodyText.slice(0,dashIdx):bodyText;
@@ -925,50 +1027,21 @@ function mkListen(card) {
   return w;
 }
 
-function mkExitBlock(card) {
+function mkExitBlock(card, ctx) {
   const w=document.createElement('div');
   const eb=document.createElement('div'); eb.className='exit-block';
   const lbl=document.createElement('div'); lbl.className='exit-lbl'; lbl.textContent=card.label||'EXIT — say verbatim'; eb.appendChild(lbl);
-  const say=document.createElement('div'); say.className='exit-say editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap'; say.textContent=s(card.text); eb.appendChild(say);
+  const key=(ctx||'x')+':exit:'+textHash(card.text);
+  const stored=getOverride(key, card.text);
+  const say=document.createElement('div'); say.className='exit-say editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap';
+  say.textContent=s(stored);
+  say.addEventListener('input',()=>{ setOverride(key, say.textContent); });
+  eb.appendChild(say);
   w.appendChild(eb); return w;
 }
 
-function mkEmployment(card) {
-  const w=document.createElement('div'); w.className='choice-card';
-  const q=document.createElement('div'); q.className='choice-q'; q.textContent=card.question; w.appendChild(q);
-  const opts=document.createElement('div'); opts.className='opts';
-  card.opts.forEach(o=>{
-    const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.label;
-    const cls={g:'sel-g',r:'sel-r',a:'sel-a'}[o.style]||'sel-b';
-    if(state.answers.employment===o.val) btn.classList.add(cls);
-    btn.onclick=()=>{
-      opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-g','sel-r','sel-a','sel-b'));
-      btn.classList.add(cls); state.answers.employment=o.val;
-      const pill=document.getElementById('employ-pill');
-      pill.style.display='inline-block';
-      pill.style.background=o.style==='g'?'var(--green-bg)':o.style==='r'?'var(--red-bg)':'var(--amber-bg)';
-      pill.style.color=o.style==='g'?'var(--green)':o.style==='r'?'var(--red)':'var(--amber)';
-      pill.textContent=o.label; saveState();
-      const rd=document.querySelector('.unemployed-redirect');
-      if(rd) rd.style.display=(o.val==='unemployed'||o.val==='irregular')?'block':'none';
-    };
-    opts.appendChild(btn);
-  });
-  w.appendChild(opts); return w;
-}
-
-function mkUnemployedRedirect() {
-  const w=document.createElement('div'); w.className='unemployed-redirect';
-  w.style.display=(state.answers.employment==='unemployed'||state.answers.employment==='irregular')?'block':'none';
-  w.innerHTML=`<div class="redirect-box">⚠ <strong>Not currently employed</strong> — go to <button class="redirect-link" onclick="goToLaneD()">Lane D</button> before continuing.</div>`;
-  return w;
-}
-
-function goToLaneD() {
-  const idx=STEPS.findIndex(st=>st.id==='lane_d'); if(idx>=0) goStep(idx);
-}
-
 let currentLanes={};
+let currentLaneCtx='';
 function mkLaneChoice(card) {
   const w=document.createElement('div'); w.className='choice-card';
   const q=document.createElement('div'); q.className='choice-q'; q.textContent=card.question; w.appendChild(q);
@@ -983,112 +1056,50 @@ function mkLaneChoice(card) {
       pill.style.display='inline-block'; pill.style.background='var(--blue-bg)'; pill.style.color='var(--blue)';
       pill.textContent=o.label; saveState();
       const lc=document.querySelector('.lane-content-area');
-      if(lc){const nl=mkLaneContent({type:'lane_content',lanes:currentLanes}); nl.className='lane-content-area'; lc.replaceWith(nl);}
+      if(lc){const nl=mkLaneContent({type:'lane_content',lanes:currentLanes}, currentLaneCtx); nl.className='lane-content-area'; lc.replaceWith(nl);}
     };
     opts.appendChild(btn);
   });
   w.appendChild(opts); return w;
 }
 
-function mkLaneContent(card) {
+function mkLaneContent(card, ctx) {
   currentLanes=card.lanes;
+  currentLaneCtx=ctx||currentLaneCtx;
   const w=document.createElement('div'); w.className='lane-content-area';
   const lane=state.answers.lane;
   if(!lane){const n=document.createElement('p');n.className='context-text';n.textContent='Select a lane above to see the questions.';w.appendChild(n);return w;}
-  (card.lanes[lane]||[]).forEach(c=>w.appendChild(renderCard(c)));
+  (card.lanes[lane]||[]).forEach((c,i)=>w.appendChild(renderCard(c, currentLaneCtx+'_lane'+lane+'_'+i)));
   return w;
 }
 
-function mkGate1Signals(card) {
-  const w=document.createElement('div');
-  const pb=document.createElement('div'); pb.className='signal-box pass-box';
-  const ph=document.createElement('div'); ph.className='signal-header pass-header'; ph.textContent='✓ PASS — what it sounds like'; pb.appendChild(ph);
-  card.pass.forEach(item=>{const p=document.createElement('div');p.className='signal-item';p.textContent=item;pb.appendChild(p);}); w.appendChild(pb);
-  const fb=document.createElement('div'); fb.className='signal-box fail-box';
-  const fh=document.createElement('div'); fh.className='signal-header fail-header'; fh.textContent='✗ FAIL — what it sounds like'; fb.appendChild(fh);
-  card.fail.forEach(item=>{const p=document.createElement('div');p.className='signal-item';p.textContent=item;fb.appendChild(p);}); w.appendChild(fb);
-  const probe=document.createElement('div'); probe.className='card';
-  const pt=document.createElement('span'); pt.className='tag t-note'; pt.textContent='IF PERSONALITY ANSWER — probe once'; probe.appendChild(pt);
-  const pp=document.createElement('div'); pp.className='q-text editable'; pp.contentEditable=true; pp.style.whiteSpace='pre-wrap'; pp.textContent=card.probe; probe.appendChild(pp);
-  const pn=document.createElement('div'); pn.className='context-text'; pn.style.marginTop='8px'; pn.textContent=card.note; probe.appendChild(pn);
-  w.appendChild(probe); return w;
-}
+// commission_choice card: comfortable / stable buttons with branching content underneath
+function mkCommissionChoice(card, ctx) {
+  const w=document.createElement('div'); w.className='choice-card';
+  const q=document.createElement('div'); q.className='choice-q'; q.textContent=card.question; w.appendChild(q);
+  const opts=document.createElement('div'); opts.className='opts';
+  const contentArea=document.createElement('div'); contentArea.style.marginTop='10px';
 
-function mkGate2Check(card) {
-  const w=document.createElement('div');
-  const qh=document.createElement('div'); qh.className='gate2-q-header'; qh.textContent='Ask both — need answers to both before proceeding'; w.appendChild(qh);
-  card.questions.forEach((q,i)=>{
-    const qb=document.createElement('div'); qb.className='card gate2-q-card';
-    const num=document.createElement('span'); num.className='gate2-q-num'; num.textContent='Q'+(i+1); qb.appendChild(num);
-    const ask=document.createElement('div'); ask.className='q-text editable'; ask.contentEditable=true; ask.style.whiteSpace='pre-wrap'; ask.textContent=s(q.ask); qb.appendChild(ask);
-    w.appendChild(qb);
+  function renderChoiceContent(val) {
+    contentArea.innerHTML='';
+    const cards = val==='stable' ? card.stableContent : val==='comfortable' ? card.comfortableContent : [];
+    cards.forEach((c,i)=>contentArea.appendChild(renderCard(c, (ctx||'x')+'_comm'+val+'_'+i)));
+  }
+
+  card.opts.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.label;
+    const cls=o.style==='g'?'sel-g':o.style==='r'?'sel-r':'sel-b';
+    if(state.answers[card.key]===o.val) btn.classList.add(cls);
+    btn.onclick=()=>{
+      opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-g','sel-r','sel-b','sel-a'));
+      btn.classList.add(cls); state.answers[card.key]=o.val; saveState();
+      renderChoiceContent(o.val);
+    };
+    opts.appendChild(btn);
   });
-  const pg=document.createElement('div'); pg.className='pf-grid';
-  const pc=document.createElement('div'); pc.className='pf-col pf-pass';
-  const ph=document.createElement('div'); ph.className='pf-header'; ph.textContent='✓ Both must be present'; pc.appendChild(ph);
-  card.passItems.forEach(item=>{const p=document.createElement('div');p.className='pf-item';p.textContent=item;pc.appendChild(p);});
-  const fc=document.createElement('div'); fc.className='pf-col pf-fail';
-  const fh=document.createElement('div'); fh.className='pf-header'; fh.textContent='✗ These are not enough'; fc.appendChild(fh);
-  card.failItems.forEach(item=>{const p=document.createElement('div');p.className='pf-item';p.textContent=item;fc.appendChild(p);});
-  pg.appendChild(pc); pg.appendChild(fc); w.appendChild(pg);
-  const rt=document.createElement('button'); rt.className='ref-toggle'; rt.textContent='+ Show real examples';
-  const rw=document.createElement('div'); rw.className='ref-wrap'; rw.style.display='none';
-  rt.onclick=()=>{const o=rw.style.display!=='none';rw.style.display=o?'none':'block';rt.textContent=o?'+ Show real examples':'− Hide examples';};
-  card.ref.forEach(r=>{
-    const rb=document.createElement('div'); rb.className='ref-box';
-    const rl=document.createElement('div'); rl.className='ref-label'; rl.textContent=r.label; rb.appendChild(rl);
-    r.examples.forEach(ex=>{const p=document.createElement('div');p.className='ref-item';p.textContent=ex;rb.appendChild(p);});
-    rw.appendChild(rb);
-  });
-  w.appendChild(rt); w.appendChild(rw); return w;
-}
-
-function mkCommissionPersonalized(card) {
-  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card';
-  const t=document.createElement('span'); t.className='tag t-say'; t.textContent='SAY — personalize with what they told you'; c.appendChild(t);
-  const h=document.createElement('div'); h.className='personalize-hint'; h.textContent='💡 Replace [what they said financially] with their actual words from this call.'; c.appendChild(h);
-  const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap'; p.textContent=s(card.template); c.appendChild(p);
-  if(card.note){const n=document.createElement('div');n.className='context-text';n.style.marginTop='8px';n.textContent=card.note;c.appendChild(n);}
-  w.appendChild(c); return w;
-}
-
-function mkPushPull(card) {
-  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card'; c.style.borderLeft='3px solid var(--purple)';
-  const t=document.createElement('span'); t.className='tag'; t.style.cssText='background:var(--purple-bg);color:var(--purple)'; t.textContent='PUSH / PULL'; c.appendChild(t);
-  const say=document.createElement('div'); say.className='q-text editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap'; say.textContent=s(card.say); c.appendChild(say);
-  const at=document.createElement('span'); at.className='tag t-ask'; at.style.marginTop='10px'; at.textContent='ASK'; c.appendChild(at);
-  const ask=document.createElement('div'); ask.className='q-text editable'; ask.contentEditable=true; ask.textContent=s(card.ask); c.appendChild(ask);
-  w.appendChild(c); return w;
-}
-
-function mkSocialProof(card) {
-  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card';
-  const t=document.createElement('span'); t.className='tag t-context'; t.textContent='SOCIAL PROOF'; c.appendChild(t);
-  const n=document.createElement('div'); n.className='context-text'; n.style.marginBottom='10px'; n.textContent=card.note; c.appendChild(n);
-  card.roster.forEach(r=>{
-    const row=document.createElement('div'); row.className='sp-row';
-    const hdr=document.createElement('div'); hdr.className='sp-header';
-    hdr.innerHTML=`<div class="sp-name">${r.name}</div><div class="sp-meta">${r.background} → ${r.role}</div><span class="sp-toggle">+</span>`;
-    const det=document.createElement('div'); det.className='sp-detail'; det.style.display='none'; det.textContent=r.story;
-    hdr.onclick=()=>{const o=det.style.display!=='none';det.style.display=o?'none':'block';hdr.querySelector('.sp-toggle').textContent=o?'+':'−';};
-    row.appendChild(hdr); row.appendChild(det); c.appendChild(row);
-  });
-  w.appendChild(c); return w;
-}
-
-function mkBridgeBox(card) {
-  const w=document.createElement('div'); w.className='bridge-toggle-wrap';
-  const t=document.createElement('button'); t.className='ref-toggle'; t.textContent='+ Salary bridge criteria';
-  const inner=document.createElement('div'); inner.style.display='none';
-  t.onclick=()=>{const o=inner.style.display!=='none';inner.style.display=o?'none':'block';t.textContent=o?'+ Salary bridge criteria':'− Salary bridge criteria';};
-  const g=document.createElement('div'); g.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px';
-  const qc=document.createElement('div'); qc.className='pf-col pf-pass';
-  const qh=document.createElement('div'); qh.className='pf-header'; qh.textContent='✓ Qualifies'; qc.appendChild(qh);
-  (card.qualify||[]).forEach(tx=>{const p=document.createElement('div');p.className='pf-item';p.textContent=tx;qc.appendChild(p);});
-  const dc=document.createElement('div'); dc.className='pf-col pf-fail';
-  const dh=document.createElement('div'); dh.className='pf-header'; dh.textContent='✗ Does not qualify'; dc.appendChild(dh);
-  (card.disqualify||[]).forEach(tx=>{const p=document.createElement('div');p.className='pf-item';p.textContent=tx;dc.appendChild(p);});
-  g.appendChild(qc); g.appendChild(dc); inner.appendChild(g); w.appendChild(t); w.appendChild(inner); return w;
+  w.appendChild(opts); w.appendChild(contentArea);
+  if (state.answers[card.key]) renderChoiceContent(state.answers[card.key]);
+  return w;
 }
 
 function mkGatePass(card) {
@@ -1109,7 +1120,7 @@ function mkBucketPicker(card) {
   const w=document.createElement('div'); const g=document.createElement('div'); g.className='bucket-grid';
   card.buckets.forEach(b=>{
     const bc=document.createElement('div'); bc.className='bucket-card';
-    const sc='sel-b'+b.num; if(state.answers.bucket===b.num) bc.classList.add(sc);
+    const sc=b.cls||'sel-b'+b.num; if(state.answers.bucket===b.num) bc.classList.add(sc);
     bc.innerHTML=`<div class="bucket-num">${b.num}</div><div class="bucket-label">${b.label}</div><div class="bucket-sub">${b.sub}</div>`;
     const a=document.createElement('span'); a.className='bucket-action';
     a.style.cssText=`background:${b.num===1?'var(--green-bg)':b.num<=4?'var(--amber-bg)':'var(--red-bg)'};color:${b.num===1?'var(--green)':b.num<=4?'var(--amber)':'var(--red)'}`;
@@ -1120,48 +1131,88 @@ function mkBucketPicker(card) {
   w.appendChild(g); return w;
 }
 
-function mkExitSpeeches(card) {
+function mkExitSpeeches(card, ctx) {
   const w=document.createElement('div');
   const title=document.createElement('div'); title.className='exit-title'; title.textContent='Exit speeches — use verbatim'; w.appendChild(title);
-  card.speeches.forEach(speech=>{
+  card.speeches.forEach((speech,i)=>{
     const eb=document.createElement('div'); eb.className='exit-block'; eb.style.marginBottom='10px';
     const lbl=document.createElement('div'); lbl.className='exit-lbl'; lbl.textContent=speech.label; eb.appendChild(lbl);
-    const say=document.createElement('div'); say.className='exit-say editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap'; say.textContent=speech.text; eb.appendChild(say);
+    const key=(ctx||'x')+':speech:'+i;
+    const stored=getOverride(key, speech.text);
+    const say=document.createElement('div'); say.className='exit-say editable'; say.contentEditable=true; say.style.whiteSpace='pre-wrap';
+    say.textContent=stored;
+    say.addEventListener('input',()=>{ setOverride(key, say.textContent); });
+    eb.appendChild(say);
     w.appendChild(eb);
   });
   return w;
 }
 
-function mkBeats(card) {
+function mkBeats(card, ctx) {
   const w=document.createElement('div');
   const title=document.createElement('div'); title.className='beats-title'; title.textContent=card.title; w.appendChild(title);
-  card.beats.forEach(b=>{
+  card.beats.forEach((b,i)=>{
     const c=document.createElement('div'); c.className='card';
     const l=document.createElement('span'); l.className='tag t-say'; l.textContent=b.label; c.appendChild(l);
-    const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap'; p.textContent=s(b.text); c.appendChild(p);
+    const key=(ctx||'x')+':beat:'+i;
+    const stored=getOverride(key, b.text);
+    const p=document.createElement('div'); p.className='q-text editable'; p.contentEditable=true; p.style.whiteSpace='pre-wrap';
+    p.textContent=s(stored);
+    p.addEventListener('input',()=>{ setOverride(key, p.textContent); });
+    c.appendChild(p);
     w.appendChild(c);
   });
   return w;
 }
 
-function mkGrowthInvestment(card) {
+function mkGrowthInvestment(card, ctx) {
   const w=document.createElement('div'); const c=document.createElement('div'); c.className='card'; c.style.borderLeft='3px solid var(--purple)';
   const t=document.createElement('span'); t.className='tag'; t.style.cssText='background:var(--purple-bg);color:var(--purple)'; t.textContent='GROWTH INVESTMENT MOMENT'; c.appendChild(t);
-  [{label:'SAY',text:card.say,cls:'t-say'},{label:'ASK',text:card.ask,cls:'t-ask'},{label:'NOTE',text:card.note,cls:'t-note'},{label:'FOLLOW UP',text:card.followup,cls:'t-ask'}].forEach(item=>{
+  [{label:'SAY',text:card.say,cls:'t-say',k:'say'},{label:'ASK',text:card.ask,cls:'t-ask',k:'ask'},{label:'NOTE',text:card.note,cls:'t-note',k:'note'},{label:'FOLLOW UP',text:card.followup,cls:'t-ask',k:'followup'}].forEach(item=>{
     const l=document.createElement('span'); l.className='tag '+item.cls; l.textContent=item.label; c.appendChild(l);
-    const p=document.createElement('div'); p.className='kv-text editable'; p.contentEditable=true; p.style.cssText='white-space:pre-wrap;margin-bottom:10px'; p.textContent=s(item.text); c.appendChild(p);
+    const key=(ctx||'x')+':gi:'+item.k;
+    const stored=getOverride(key, item.text);
+    const p=document.createElement('div'); p.className='kv-text editable'; p.contentEditable=true; p.style.cssText='white-space:pre-wrap;margin-bottom:10px';
+    p.textContent=s(stored);
+    p.addEventListener('input',()=>{ setOverride(key, p.textContent); });
+    c.appendChild(p);
   });
   w.appendChild(c); return w;
 }
 
-function mkHWPaths(card) {
+function mkSocialProof(card, ctx) {
+  const w=document.createElement('div'); const c=document.createElement('div'); c.className='card';
+  const t=document.createElement('span'); t.className='tag t-context'; t.textContent='SOCIAL PROOF'; c.appendChild(t);
+  const n=document.createElement('div'); n.className='context-text'; n.style.marginBottom='10px'; n.textContent=card.note; c.appendChild(n);
+  card.roster.forEach((r,i)=>{
+    const row=document.createElement('div'); row.className='sp-row';
+    const hdr=document.createElement('div'); hdr.className='sp-header';
+    hdr.innerHTML=`<div class="sp-name">${r.name}</div><div class="sp-meta">${r.background} → ${r.role}</div><span class="sp-toggle">+</span>`;
+    const key=(ctx||'x')+':story:'+i;
+    const stored=getOverride(key, r.story);
+    const det=document.createElement('div'); det.className='sp-detail editable'; det.contentEditable=true; det.style.display='none';
+    det.textContent=stored;
+    det.addEventListener('click', e=>e.stopPropagation());
+    det.addEventListener('input',()=>{ setOverride(key, det.textContent); });
+    hdr.onclick=()=>{const o=det.style.display!=='none';det.style.display=o?'none':'block';hdr.querySelector('.sp-toggle').textContent=o?'+':'−';};
+    row.appendChild(hdr); row.appendChild(det); c.appendChild(row);
+  });
+  w.appendChild(c); return w;
+}
+
+function mkHWPaths(card, ctx) {
   const w=document.createElement('div');
-  card.paths.forEach(p=>{
+  card.paths.forEach((p,i)=>{
     const cols={green:['var(--green-bg)','var(--green)'],amber:['var(--amber-bg)','var(--amber)'],red:['var(--red-bg)','var(--red)']};
-    const [bg,col]=cols[p.color]||['var(--bg2)','var(--text2)'];
+    const pair=cols[p.color]||['var(--bg2)','var(--text2)']; const bg=pair[0], col=pair[1];
     const box=document.createElement('div'); box.style.cssText=`border-left:3px solid ${col};background:${bg};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;margin-bottom:10px`;
     const lbl=document.createElement('div'); lbl.style.cssText=`font-size:11px;font-weight:700;color:${col};text-transform:uppercase;margin-bottom:6px`; lbl.textContent=p.label; box.appendChild(lbl);
-    const say=document.createElement('div'); say.style.cssText='font-size:13px;color:var(--text);line-height:1.7;font-style:italic;white-space:pre-wrap'; say.textContent=s(p.say); box.appendChild(say);
+    const key=(ctx||'x')+':hw:'+i;
+    const stored=getOverride(key, p.say);
+    const say=document.createElement('div'); say.className='editable'; say.contentEditable=true; say.style.cssText='font-size:13px;color:var(--text);line-height:1.7;font-style:italic;white-space:pre-wrap';
+    say.textContent=s(stored);
+    say.addEventListener('input',()=>{ setOverride(key, say.textContent); });
+    box.appendChild(say);
     if(p.rule){const r=document.createElement('div');r.style.cssText='font-size:12px;color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08)';r.textContent='⚠ '+p.rule;box.appendChild(r);}
     w.appendChild(box);
   });
@@ -1230,7 +1281,6 @@ function mkRating(card) {
   w.appendChild(row); return w;
 }
 
-
 function mkDividerLabel(text) {
   const w = document.createElement('div');
   w.style.cssText = 'font-size:10px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;color:var(--text3);margin:18px 0 6px;padding-bottom:5px;border-bottom:2px solid var(--border2)';
@@ -1259,43 +1309,6 @@ function mkLaneMenuToggle() {
   return w;
 }
 
-function mkGate1Signals(card) {
-  const w = document.createElement('div');
-
-  function mkSection(btnLabel, btnColor, btnBg, buildFn) {
-    const wrap = document.createElement('div'); wrap.style.marginBottom = '7px';
-    const btn = document.createElement('button');
-    btn.style.cssText = `width:100%;text-align:left;padding:9px 14px;border-radius:var(--radius-sm);border:1px solid ${btnColor};background:${btnBg};font-size:12px;font-weight:700;color:${btnColor};font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center`;
-    btn.innerHTML = btnLabel + '<span style="font-size:16px;font-weight:300">+</span>';
-    const inner = document.createElement('div');
-    inner.style.cssText = `display:none;border:1px solid ${btnColor};border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:12px 14px;background:${btnBg}`;
-    buildFn(inner);
-    btn.onclick = () => { const o = inner.style.display !== 'none'; inner.style.display = o ? 'none' : 'block'; btn.querySelector('span').textContent = o ? '+' : '−'; };
-    wrap.appendChild(btn); wrap.appendChild(inner); return wrap;
-  }
-
-  // Pass
-  w.appendChild(mkSection('✓ PASS — what it sounds like', 'var(--green)', 'var(--green-bg)', (inner) => {
-    card.pass.forEach(item => {
-      const p = document.createElement('div'); p.className = 'signal-item'; p.textContent = item.signal; inner.appendChild(p);
-      if (item.example) { const ex = document.createElement('div'); ex.className = 'signal-example'; ex.textContent = item.example; inner.appendChild(ex); }
-    });
-  }));
-
-  // Fail
-  w.appendChild(mkSection('✗ FAIL — what it sounds like', 'var(--red)', 'var(--red-bg)', (inner) => {
-    card.fail.forEach(item => { const p = document.createElement('div'); p.className = 'signal-item'; p.textContent = item; inner.appendChild(p); });
-  }));
-
-  // Probe
-  w.appendChild(mkSection('+ If personality answer — probe once', 'var(--amber)', 'var(--amber-bg)', (inner) => {
-    const pp = document.createElement('div'); pp.className = 'q-text editable'; pp.contentEditable = true; pp.style.whiteSpace = 'pre-wrap'; pp.textContent = card.probe; inner.appendChild(pp);
-    const pn = document.createElement('div'); pn.style.cssText = 'font-size:12px;color:var(--text2);margin-top:8px;font-style:italic'; pn.textContent = card.note; inner.appendChild(pn);
-  }));
-
-  return w;
-}
-
 function mkCommissionInterrupt(card) {
   const w = document.createElement('div');
   const box = document.createElement('div');
@@ -1303,45 +1316,6 @@ function mkCommissionInterrupt(card) {
   const lbl = document.createElement('div'); lbl.style.cssText = 'font-size:10px;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px'; lbl.textContent = 'IF THEY ASK "IS THIS COMMISSION?" — handle without losing flow';
   const txt = document.createElement('div'); txt.style.cssText = 'font-size:13px;color:var(--text);line-height:1.65;font-style:italic'; txt.textContent = card.text;
   box.appendChild(lbl); box.appendChild(txt); w.appendChild(box);
-  return w;
-}
-
-function mkGate3Branch(card) {
-  const w = document.createElement('div'); w.style.marginTop = '10px';
-
-  function mkToggleBlock(label, color, bg, content) {
-    const wrap = document.createElement('div'); wrap.style.marginBottom = '7px';
-    const btn = document.createElement('button');
-    btn.style.cssText = `width:100%;text-align:left;padding:9px 14px;border-radius:var(--radius-sm);border:1px solid ${color};background:${bg};font-size:12px;font-weight:700;color:${color};font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center`;
-    btn.innerHTML = label + '<span style="font-size:16px;font-weight:300">+</span>';
-    const inner = document.createElement('div');
-    inner.style.cssText = `display:none;border:1px solid ${color};border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:12px 14px;background:${bg}`;
-    content(inner);
-    btn.onclick = () => {
-      const o = inner.style.display !== 'none';
-      inner.style.display = o ? 'none' : 'block';
-      btn.querySelector('span').textContent = o ? '+' : '−';
-    };
-    wrap.appendChild(btn); wrap.appendChild(inner); return wrap;
-  }
-
-  // Yes block
-  w.appendChild(mkToggleBlock('✓ If yes — confident and specific', 'var(--green)', 'var(--green-bg)', (inner) => {
-    const p = document.createElement('div'); p.style.cssText = 'font-size:13px;color:var(--green);font-weight:600'; p.textContent = card.yes.action; inner.appendChild(p);
-  }));
-
-  // No block
-  w.appendChild(mkToggleBlock('✗ If no or unconvincing', 'var(--red)', 'var(--red-bg)', (inner) => {
-    const lbl = document.createElement('div'); lbl.className = 'exit-lbl'; lbl.textContent = 'Say verbatim'; inner.appendChild(lbl);
-    const say = document.createElement('div'); say.className = 'exit-say editable'; say.contentEditable = true; say.style.whiteSpace = 'pre-wrap'; say.textContent = card.no.exit; inner.appendChild(say);
-  }));
-
-  // Bridge block
-  w.appendChild(mkToggleBlock('+ If they ask about a base / salary bridge', 'var(--teal)', 'var(--teal-bg)', (inner) => {
-    const tag = document.createElement('span'); tag.className = 'tag t-context'; tag.textContent = 'SALARY BRIDGE SCRIPT'; inner.appendChild(tag);
-    const txt = document.createElement('div'); txt.className = 'q-text editable'; txt.contentEditable = true; txt.style.whiteSpace = 'pre-wrap'; txt.textContent = card.bridge.script; inner.appendChild(txt);
-  }));
-
   return w;
 }
 
@@ -1358,129 +1332,25 @@ function mkHWTemplateArea() {
   return w;
 }
 
-
-function mkLearnBranch() {
-  const w = document.createElement('div');
-
-  const opener = document.createElement('div');
-  opener.className = 'card';
-  const opTag = document.createElement('span'); opTag.className = 'tag t-say'; opTag.textContent = 'SAY';
-  opener.appendChild(opTag);
-  const opText = document.createElement('div'); opText.className = 'q-text';
-  opText.textContent = '\u201cSo to begin, I want to understand your situation a little bit better.\u201d';
-  opener.appendChild(opText);
-  const opQ = document.createElement('div'); opQ.className = 'q-text'; opQ.style.marginTop = '10px';
-  opQ.textContent = '\u201cWhat is it that you are doing right now?\u201d';
-  opener.appendChild(opQ);
-  w.appendChild(opener);
-
-  const qLbl = document.createElement('div');
-  qLbl.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin:16px 0 10px';
-  qLbl.textContent = 'Are you currently employed or in between jobs right now?';
-  w.appendChild(qLbl);
-
-  const btnRow = document.createElement('div');
-  btnRow.className = 'opts';
-  btnRow.style.marginBottom = '20px';
-
-  const contentArea = document.createElement('div');
-
-  function clearBtns() {
-    btnRow.querySelectorAll('.opt-btn').forEach(function(b) { b.classList.remove('sel-g','sel-r','sel-a'); });
-  }
-
-  function setPill(label, style) {
-    const pill = document.getElementById('employ-pill');
-    if (!pill) return;
-    pill.style.display = 'inline-block';
-    pill.style.background = style==='g' ? 'var(--green-bg)' : style==='r' ? 'var(--red-bg)' : 'var(--amber-bg)';
-    pill.style.color = style==='g' ? 'var(--green)' : style==='r' ? 'var(--red)' : 'var(--amber)';
-    pill.textContent = label;
-  }
-
-  function renderCards(cards) {
-    contentArea.innerHTML = '';
-    cards.forEach(function(card) { contentArea.appendChild(renderCard(card)); });
-  }
-
-  const empCards = [
-    { type: 'ask', locked: true, text: '\u201cCan you walk me through your current or most recent role \u2014 what you do there and how long you\u2019ve been doing it?\u201d' },
-    { type: 'ask', locked: true, text: '1. What is your day to day like and responsibilities?\n2. How long have you been doing it?' },
-    { type: 'ask', locked: true, text: '\u201cWhat do you like most about it?\u201d' },
-    { type: 'rule_toggle', label: 'If their job sounds great', text: '\u201cFrom the outside, your role looks [stable/growing/challenging] \u2014 but from the inside, something must have pushed you to make a move. What is that?\u201d' },
-    { type: 'rule_toggle', label: 'If their job doesn\u2019t sound great', text: '\u201cHow long have you been feeling that?\u201d\n\n\u201cFor [X amount of time] \u2014 what made you stay, and what triggered you to finally leave?\u201d\n\n\u201cYou knew what you were signing up for to begin with \u2014 what made you still apply?\u201d' },
-    { type: 'context', text: 'Mirror the main problem back to them. Then choose the Driver Lane that matches: Financial / New Skills / Growth / New Environment.' },
-    { type: 'rule_toggle', label: 'If the answer is vague', text: '\u201cI\u2019m not hearing anything urgent yet. Does staying where you are another year feel okay \u2014 or does something need to change now?\u201d\n\nThen proceed to Gate 1. Do not probe further here.' },
-    { type: 'rating', label: 'Pain signal', key: 'pain' },
-  ];
-
-  const unempCards = [
-    { type: 'ask', locked: true, text: '\u201cWhat happened with your last role \u2014 did you leave, or did the situation change on you?\u201d' },
-    { type: 'say', locked: true, text: '\u201cI want to be upfront about something \u2014 this is a performance-based role. Most people on our team earn between $800 to $1,200 in a week. Our top performers earn $2,000 to $3,000 in a week.\u201d\n\n\u201cBut it wasn\u2019t always like that \u2014 especially during the training period, there were weeks when they were earning $0 to $700. We understand that because they\u2019re still in the learning process.\u201d\n\n\u201cWe invest in you upfront. We train you in the field. You\u2019ll be with a mentor from day one. We\u2019ve had people come from [background match] with zero sales experience and be earning consistently by week three.\u201d\n\n\u201cThe training is there. The support is there. The question isn\u2019t whether we can get you there \u2014 it\u2019s whether you can hold on long enough to let us.\u201d' },
-    { type: 'ask', locked: true, text: '\u201cSo I want to ask you \u2014 if you had to switch to a paid by performance role, with proper training, do you have something covering your basic needs while you get trained up \u2014 or is income something you need straight away?\u201d' },
-    { type: 'listen', items: [
-      'Has coverage (savings, partner, family, benefits, part-time) \u2192 viable. Continue to Gate 1.',
-      'Needs income immediately, no backup \u2192 Timing exit.',
-    ]},
-    { type: 'exit_block', label: 'TIMING EXIT \u2014 say verbatim', text: '\u201cEverything you\u2019ve told me suggests you could do this well. But stepping into a commission-only role when you need income immediately puts you in a position where you\u2019re forced to quit before you have a real chance.\n\nWhat I\u2019d suggest: stabilize your income first \u2014 even part-time \u2014 so when you come into this, you\u2019re choosing it, not depending on it. When your situation changes, reach back out.\u201d' },
-  ];
-
-  const irrCards = [
-    { type: 'ask', locked: true, text: '\u201cCan you walk me through what your work situation looks like right now \u2014 what kind of work are you doing and how consistent is it?\u201d' },
-    { type: 'ask', locked: true, text: '\u201cAnd what made you start looking for something different?\u201d' },
-    { type: 'say', locked: true, text: '\u201cI want to be upfront about something \u2014 this is a performance-based role. Most people on our team earn between $800 to $1,200 in a week. Our top performers earn $2,000 to $3,000 in a week.\u201d\n\n\u201cBut it wasn\u2019t always like that \u2014 especially during the training period, there were weeks when they were earning $0 to $700. We understand that because they\u2019re still in the learning process.\u201d\n\n\u201cWe invest in you upfront. We train you in the field. You\u2019ll be with a mentor from day one. We\u2019ve had people come from [background match] with zero sales experience and be earning consistently by week three.\u201d\n\n\u201cThe training is there. The support is there. The question isn\u2019t whether we can get you there \u2014 it\u2019s whether you can hold on long enough to let us.\u201d' },
-    { type: 'ask', locked: true, text: '\u201cWith your income being irregular right now \u2014 what does your financial situation look like over the next 30 to 60 days? Do you have something covering your basics?\u201d' },
-    { type: 'listen', items: [
-      'Has coverage (savings, partner income, family support) \u2192 viable. Continue.',
-      'Needs income immediately with nothing specific \u2192 Timing exit.',
-    ]},
-    { type: 'exit_block', label: 'TIMING EXIT \u2014 say verbatim', text: '\u201cEverything you\u2019ve told me suggests you could do this well. But stepping into a commission-only role when your income is already inconsistent puts you in a position where you\u2019re forced to quit before you have a real chance.\n\nWhat I\u2019d suggest: stabilize your income first \u2014 even part-time \u2014 so when you come into this, you\u2019re choosing it, not depending on it. When your situation changes, reach back out.\u201d' },
-    { type: 'rule_toggle', label: 'If the answer is vague', text: '\u201cI\u2019m not hearing anything urgent yet. Does staying where you are another year feel okay \u2014 or does something need to change now?\u201d\n\nThen proceed to Gate 1.' },
-    { type: 'rating', label: 'Pain signal', key: 'pain' },
-  ];
-
-  const empBtn = document.createElement('button');
-  empBtn.className = 'opt-btn';
-  empBtn.textContent = 'Currently employed';
-  empBtn.onclick = function() { clearBtns(); empBtn.classList.add('sel-g'); state.answers.employment='employed'; setPill('Currently employed','g'); saveState(); renderCards(empCards); };
-
-  const unempBtn = document.createElement('button');
-  unempBtn.className = 'opt-btn';
-  unempBtn.textContent = 'Not employed';
-  unempBtn.onclick = function() { clearBtns(); unempBtn.classList.add('sel-r'); state.answers.employment='unemployed'; setPill('Not employed','r'); saveState(); renderCards(unempCards); };
-
-  const irrBtn = document.createElement('button');
-  irrBtn.className = 'opt-btn';
-  irrBtn.textContent = 'Irregular / on-call';
-  irrBtn.onclick = function() { clearBtns(); irrBtn.classList.add('sel-a'); state.answers.employment='irregular'; setPill('Irregular / on-call','a'); saveState(); renderCards(irrCards); };
-
-  btnRow.appendChild(empBtn);
-  btnRow.appendChild(unempBtn);
-  btnRow.appendChild(irrBtn);
-  w.appendChild(btnRow);
-  w.appendChild(contentArea);
-
-  if (state.answers.employment === 'employed') empBtn.onclick();
-  else if (state.answers.employment === 'unemployed') unempBtn.onclick();
-  else if (state.answers.employment === 'irregular') irrBtn.onclick();
-
-  return w;
-}
-
-function mkRuleToggle(card) {
+function mkRuleToggle(card, ctx) {
   const w = document.createElement('div'); w.style.marginBottom = '8px';
   const btn = document.createElement('button'); btn.className = 'ref-toggle';
   btn.textContent = card.label ? '+ ' + card.label : '+ If vague — what to say';
   const inner = document.createElement('div'); inner.style.display = 'none';
   const eb = document.createElement('div'); eb.className = 'exit-block';
   const lbl = document.createElement('div'); lbl.className = 'exit-lbl'; lbl.textContent = 'SAY'; eb.appendChild(lbl);
-  const say = document.createElement('div'); say.className = 'exit-say editable'; say.contentEditable = true; say.style.whiteSpace = 'pre-wrap'; say.textContent = card.text; eb.appendChild(say);
+  const key=(ctx||'x')+':ruletoggle:'+textHash(card.text);
+  const stored=getOverride(key, card.text);
+  const say = document.createElement('div'); say.className = 'exit-say editable'; say.contentEditable = true; say.style.whiteSpace = 'pre-wrap';
+  say.textContent = s(stored);
+  say.addEventListener('input',()=>{ setOverride(key, say.textContent); });
+  eb.appendChild(say);
   inner.appendChild(eb);
   btn.onclick = () => { const o = inner.style.display !== 'none'; inner.style.display = o ? 'none' : 'block'; btn.textContent = o ? (card.label ? '+ ' + card.label : '+ If vague — what to say') : '− Close'; };
   w.appendChild(btn); w.appendChild(inner); return w;
 }
 
-function mkGate1Picker(card) {
+function mkGate1Picker(card, ctx) {
   const w = document.createElement('div');
 
   const ql = document.createElement('div');
@@ -1527,7 +1397,7 @@ function mkGate1Picker(card) {
       saveState();
       contentArea.innerHTML = '';
       const cards = laneProbes[o.val] || [];
-      cards.forEach(function(c) { contentArea.appendChild(renderCard(c)); });
+      cards.forEach(function(c, i) { contentArea.appendChild(renderCard(c, (ctx||'x')+'_g1probe_'+o.val+'_'+i)); });
     };
     if (state.answers['gate1_driver'] === o.val) {
       btn.classList.add('sel-b');
@@ -1541,8 +1411,391 @@ function mkGate1Picker(card) {
   return w;
 }
 
+function mkPhraseBank(card, ctx) {
+  const colors = { blue:['var(--blue)','var(--blue-bg)'], amber:['var(--amber)','var(--amber-bg)'], green:['var(--green)','var(--green-bg)'], purple:['var(--purple)','var(--purple-bg)'] };
+  const pair = colors[card.color] || colors.blue;
+  const col = pair[0], bg = pair[1];
+  const w = document.createElement('div');
+  w.style.cssText = `border-left:3px solid ${col};background:${bg};border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;margin-bottom:10px`;
+  const lbl = document.createElement('div');
+  lbl.style.cssText = `font-size:11px;font-weight:800;color:${col};text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px`;
+  lbl.textContent = card.label;
+  w.appendChild(lbl);
+  card.options.forEach((opt, i) => {
+    const key=(ctx||'x')+':phrase:'+i;
+    const stored=getOverride(key, opt);
+    const p = document.createElement('div');
+    p.className = 'editable';
+    p.contentEditable = true;
+    p.style.cssText = `font-size:13px;color:var(--text);line-height:1.6;font-style:italic;padding:5px 0${i<card.options.length-1?';border-bottom:1px solid rgba(0,0,0,.07)':''}`;
+    p.textContent = stored;
+    p.addEventListener('input',()=>{ setOverride(key, p.textContent); });
+    w.appendChild(p);
+  });
+  return w;
+}
+
+function mkDialogueExample(card, ctx) {
+  const w = document.createElement('div'); w.className = 'card';
+  const t = document.createElement('span'); t.className = 'tag t-context'; t.textContent = 'WORKED EXAMPLE'; w.appendChild(t);
+  card.lines.forEach((line, i) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'font-size:13px;line-height:1.75;margin-top:2px;display:flex;gap:6px';
+    const speakerColor = line.speaker === 'You' ? 'var(--blue)' : 'var(--text2)';
+    const b = document.createElement('b'); b.style.color = speakerColor; b.style.flexShrink = '0'; b.textContent = line.speaker + ':';
+    const key=(ctx||'x')+':dlg:'+i;
+    const stored=getOverride(key, line.text);
+    const span = document.createElement('span'); span.className = 'editable'; span.contentEditable = true;
+    span.style.cssText = (line.speaker === 'You' ? 'font-style:italic;' : '') + 'color:var(--text)';
+    span.textContent = stored;
+    span.addEventListener('input',()=>{ setOverride(key, span.textContent); });
+    row.appendChild(b); row.appendChild(span);
+    w.appendChild(row);
+  });
+  return w;
+}
+
+// ── SETUP: candidate name + position fields ──
+function mkSetupFields() {
+  const w = document.createElement('div'); w.className='card';
+  const row = document.createElement('div'); row.style.cssText='display:flex;gap:10px;flex-wrap:wrap';
+
+  const candWrap = document.createElement('div'); candWrap.style.cssText='flex:1;min-width:200px';
+  const candLbl = document.createElement('div'); candLbl.className='notes-lbl'; candLbl.textContent='Candidate name';
+  const candInput = document.createElement('input'); candInput.className='login-input'; candInput.style.width='100%';
+  candInput.value = state.candidate || '';
+  candInput.placeholder = 'Candidate full name...';
+  candInput.addEventListener('input', () => {
+    state.candidate = candInput.value.trim();
+    saveState();
+    const topInp = document.getElementById('cand-name');
+    if (topInp) topInp.value = state.candidate;
+  });
+  candWrap.appendChild(candLbl); candWrap.appendChild(candInput);
+
+  const posWrap = document.createElement('div'); posWrap.style.cssText='flex:1;min-width:200px';
+  const posLbl = document.createElement('div'); posLbl.className='notes-lbl'; posLbl.textContent='Position applying for';
+  const posInput = document.createElement('input'); posInput.className='login-input'; posInput.style.width='100%';
+  posInput.value = (state.answers && state.answers.position) || '';
+  posInput.placeholder = 'e.g. PA Apprentice';
+  posInput.addEventListener('input', () => { state.answers.position = posInput.value.trim(); saveState(); });
+  posWrap.appendChild(posLbl); posWrap.appendChild(posInput);
+
+  row.appendChild(candWrap); row.appendChild(posWrap);
+  w.appendChild(row);
+  return w;
+}
+
+// ── INTRODUCTION: is-now-a-good-time branch, with reschedule path ──
+function mkIntroBranch() {
+  const w = document.createElement('div'); w.className='choice-card';
+  const q = document.createElement('div'); q.className='choice-q'; q.textContent='Is now an okay time?'; w.appendChild(q);
+  const opts = document.createElement('div'); opts.className='opts';
+  const contentArea = document.createElement('div'); contentArea.style.marginTop='10px';
+
+  function render(val) {
+    contentArea.innerHTML='';
+    if (val==='yes') {
+      const n = document.createElement('div'); n.className='context-text'; n.textContent='Great — continue to the next step: Rapport.';
+      contentArea.appendChild(n);
+    } else if (val==='no') {
+      contentArea.appendChild(renderCard({ type:'say', text: '“No worries — when’s a good time today or tomorrow?”' }));
+      const lbl = document.createElement('div'); lbl.className='notes-lbl'; lbl.textContent='Booked callback time';
+      contentArea.appendChild(lbl);
+      const inp = document.createElement('input'); inp.className='login-input'; inp.style.width='100%';
+      inp.placeholder='e.g. Tomorrow 3pm';
+      inp.value = state.notes.callback_time || '';
+      inp.addEventListener('input', ()=>{ state.notes.callback_time = inp.value; saveState(); });
+      contentArea.appendChild(inp);
+      const note = document.createElement('div'); note.className='context-text'; note.style.marginTop='8px';
+      note.textContent='Log this on the calendar and end the call here — do not continue to Rapport.';
+      contentArea.appendChild(note);
+    }
+  }
+
+  const yesBtn = document.createElement('button'); yesBtn.className='opt-btn'; yesBtn.textContent='Yes — good time';
+  const noBtn = document.createElement('button'); noBtn.className='opt-btn'; noBtn.textContent='No — reschedule';
+  yesBtn.onclick=()=>{ opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-g','sel-r')); yesBtn.classList.add('sel-g'); state.answers.intro_okay='yes'; saveState(); render('yes'); };
+  noBtn.onclick=()=>{ opts.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel-g','sel-r')); noBtn.classList.add('sel-r'); state.answers.intro_okay='no'; saveState(); render('no'); };
+  if(state.answers.intro_okay==='yes') yesBtn.classList.add('sel-g');
+  if(state.answers.intro_okay==='no') noBtn.classList.add('sel-r');
+  opts.appendChild(yesBtn); opts.appendChild(noBtn);
+  w.appendChild(opts); w.appendChild(contentArea);
+  if(state.answers.intro_okay) render(state.answers.intro_okay);
+  return w;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// CASCADING "GETTING TO KNOW THEM" FLOW
+// Employed  → job discussion → likes it? → close to sales?
+//   likes + close to sales      → frame + pain-point hint → Driver Lanes (skip Gate 1)
+//   doesn't like it             → "why sales, out of everything?" → Gate 1 → Driver Lanes
+//   likes + NOT close to sales  → Bucket 2, exit here
+// Unemployed → how long / what happened → how stayed afloat
+//   side gig      → probe → priority (money/growth)
+//   own business  → probe → priority (money/growth)
+//   student/union → straight to Gate 1
+//   priority money  → Commission Runway (short) → yes tight spot = Bucket exit / no = Gate 1
+//   priority growth → Gate 1
+// ══════════════════════════════════════════════════════════════════
+function mkLearnBranch() {
+  const w = document.createElement('div');
+
+  const topBtnRow = document.createElement('div');
+  topBtnRow.className = 'opts';
+  topBtnRow.style.marginBottom = '16px';
+  const contentArea = document.createElement('div');
+
+  function clearTopBtns() {
+    topBtnRow.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-g','sel-r','sel-a'));
+  }
+  function setEmployPill(label, style) {
+    const pill = document.getElementById('employ-pill');
+    if (!pill) return;
+    pill.style.display = 'inline-block';
+    pill.style.background = style==='g' ? 'var(--green-bg)' : style==='r' ? 'var(--red-bg)' : 'var(--amber-bg)';
+    pill.style.color = style==='g' ? 'var(--green)' : style==='r' ? 'var(--red)' : 'var(--amber)';
+    pill.textContent = label;
+  }
+
+  function fill(container, cards, ctx) {
+    container.innerHTML = '';
+    cards.forEach((c,i) => container.appendChild(renderCard(c, (ctx||'learn')+'_'+i)));
+  }
+
+  function mkYesNo(key, yesLabel, noLabel) {
+    const row = document.createElement('div'); row.className = 'opts'; row.style.margin = '10px 0 4px';
+    const out = { row, onPick: null };
+    function clear() { row.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-g','sel-r')); }
+    const yesBtn = document.createElement('button'); yesBtn.className = 'opt-btn'; yesBtn.textContent = yesLabel;
+    const noBtn = document.createElement('button'); noBtn.className = 'opt-btn'; noBtn.textContent = noLabel;
+    yesBtn.onclick = () => { clear(); yesBtn.classList.add('sel-g'); state.answers[key] = 'yes'; saveState(); if (out.onPick) out.onPick('yes'); };
+    noBtn.onclick = () => { clear(); noBtn.classList.add('sel-r'); state.answers[key] = 'no'; saveState(); if (out.onPick) out.onPick('no'); };
+    row.appendChild(yesBtn); row.appendChild(noBtn);
+    if (state.answers[key] === 'yes') yesBtn.classList.add('sel-g');
+    if (state.answers[key] === 'no') noBtn.classList.add('sel-r');
+    out.restore = () => { if (state.answers[key] && out.onPick) out.onPick(state.answers[key]); };
+    return out;
+  }
+
+  // ═══════════ EMPLOYED BRANCH ═══════════
+  function renderEmployed() {
+    const box = document.createElement('div');
+
+    fill(box, [
+      { type: 'ask', locked: true, text: '“Can you walk me through your current role — what you do day to day, and how long you’ve been doing it?”' },
+      { type: 'ask', locked: true, text: '“What do you like most about it?”' },
+    ], 'learn_emp_intro');
+
+    const q1Lbl = document.createElement('div');
+    q1Lbl.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin:14px 0 4px';
+    q1Lbl.textContent = 'Do they actually like their current job?';
+    box.appendChild(q1Lbl);
+
+    const likeArea = document.createElement('div');
+    const likeYN = mkYesNo('emp_likes_job', 'Likes it', 'Doesn’t like it');
+    box.appendChild(likeYN.row);
+    box.appendChild(likeArea);
+
+    likeYN.onPick = (val) => {
+      likeArea.innerHTML = '';
+      if (val === 'no') {
+        fill(likeArea, [
+          { type: 'context', text: 'Doesn’t like their current job — before jumping into Gate 1, get their reasoning for choosing sales. This creates flow instead of jumping straight into "what\'s breaking."' },
+          { type: 'ask', text: '“Out of everything you could pursue — every career, every industry — why sales? Why sales specifically?”' },
+          { type: 'note', text: 'Once you have their answer, continue to the next step: Gate 1 — What’s breaking.' },
+        ], 'learn_emp_no');
+      } else {
+        const q2Lbl = document.createElement('div');
+        q2Lbl.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin:14px 0 4px';
+        q2Lbl.textContent = 'Is what they like about it close to sales (people-facing, persuasion, targets, closing)?';
+        likeArea.appendChild(q2Lbl);
+        const closeArea = document.createElement('div');
+        const closeYN = mkYesNo('emp_close_to_sales', 'Close to sales', 'Not close to sales');
+        likeArea.appendChild(closeYN.row);
+        likeArea.appendChild(closeArea);
+        closeYN.onPick = (val2) => {
+          closeArea.innerHTML = '';
+          if (val2 === 'yes') {
+            state.answers.bucket = null;
+            fill(closeArea, [
+              { type: 'context', text: 'Likes the job AND it’s close to sales → skip Gate 1. Continue to the next step: Driver Lanes — the framing and pain-point question are there.' },
+            ], 'learn_emp_close_yes');
+          } else {
+            state.answers.bucket = 2;
+            saveState();
+            fill(closeArea, [
+              { type: 'context', text: 'Likes the job, but it’s not close to sales — the only issue is something situational (manager, schedule, environment). This is Bucket 2. Exit now, do not proceed to Gate 1.' },
+              {
+                type: 'exit_block',
+                label: 'BUCKET 2 EXIT — say verbatim',
+                text: '“If you really enjoy your day to day but you’re only just lacking [their stated reason] — why not just transfer and find another company to work with?”\n\n“That makes sense.”\n\n“Sales requires choosing discomfort on purpose. Without a strong reason behind it, most people lose momentum once it gets hard.”\n\n“I don’t want to move you forward before that’s solid. Let’s pause here — if after sitting with it you feel a clear reason that this is something you want to step into intentionally, you can reach back out and we can revisit.”'
+              },
+              { type: 'note', text: 'Take note: situational pains — manager, schedule, environment. Skip ahead to the Bucket step and log Bucket 2, then end the call.' },
+            ], 'learn_emp_close_no');
+          }
+          saveState();
+        };
+        closeYN.restore();
+      }
+      saveState();
+    };
+    likeYN.restore();
+
+    return box;
+  }
+
+  // ═══════════ UNEMPLOYED BRANCH ═══════════
+  function renderUnemployed() {
+    const box = document.createElement('div');
+
+    fill(box, [
+      { type: 'ask', locked: true, text: '“How long have you been unemployed, and what happened?”' },
+      { type: 'ask', locked: true, text: '“I’m curious — how did you stay afloat paying the bills?”' },
+    ], 'learn_unemp_intro');
+
+    const afloatLbl = document.createElement('div');
+    afloatLbl.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin:14px 0 8px';
+    afloatLbl.textContent = 'How did they stay afloat?';
+    box.appendChild(afloatLbl);
+
+    const afloatRow = document.createElement('div'); afloatRow.className = 'opts'; afloatRow.style.marginBottom = '10px';
+    const afloatArea = document.createElement('div');
+    box.appendChild(afloatRow); box.appendChild(afloatArea);
+
+    function clearAfloat() { afloatRow.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-b')); }
+
+    function renderPriority(container) {
+      container.innerHTML = '';
+      const pLbl = document.createElement('div');
+      pLbl.style.cssText = 'font-size:13px;font-weight:700;color:var(--text);margin:14px 0 8px';
+      pLbl.textContent = '“You’ve been unemployed for quite a while now — what’s your priority right now: money, or professional growth/skills?”';
+      container.appendChild(pLbl);
+
+      const pRow = document.createElement('div'); pRow.className = 'opts'; pRow.style.marginBottom = '10px';
+      const pArea = document.createElement('div');
+      container.appendChild(pRow); container.appendChild(pArea);
+
+      const moneyBtn = document.createElement('button'); moneyBtn.className = 'opt-btn'; moneyBtn.textContent = 'Money';
+      const growthBtn = document.createElement('button'); growthBtn.className = 'opt-btn'; growthBtn.textContent = 'Professional growth / skills';
+
+      function selectPriority(val, btn) {
+        pRow.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel-b'));
+        btn.classList.add('sel-b');
+        state.answers.unemp_priority = val;
+        saveState();
+        pArea.innerHTML = '';
+        if (val === 'growth') {
+          fill(pArea, [
+            { type: 'context', text: 'Priority is professional growth/skills → proceed straight to Gate 1.' },
+            { type: 'note', text: 'Continue to the next step: Gate 1 — What’s breaking.' },
+          ], 'learn_unemp_growth');
+        } else {
+          const cLbl = document.createElement('div');
+          cLbl.style.cssText = 'margin-top:10px';
+          pArea.appendChild(cLbl);
+          fill(cLbl, [
+            { type: 'divider_label', text: 'COMMISSION RUNWAY — SHORT CHECK' },
+            { type: 'ask', text: '“In sales, there are going to be bad days and there are going to be good days — is the inconsistency going to put you in a tight spot financially?”' },
+          ], 'learn_unemp_money_check');
+          const tightYN = mkYesNo('unemp_income_tight', 'Yes — would be tight', 'No — I’d manage');
+          cLbl.appendChild(tightYN.row);
+          const tightArea = document.createElement('div');
+          cLbl.appendChild(tightArea);
+          tightYN.onPick = (v) => {
+            tightArea.innerHTML = '';
+            if (v === 'no') {
+              fill(tightArea, [
+                { type: 'note', text: 'Continue to the next step: Gate 1 — What’s breaking.' },
+              ], 'learn_unemp_tight_no');
+            } else {
+              state.answers.bucket = 9;
+              saveState();
+              fill(tightArea, [
+                { type: 'exit_block', label: 'BUCKET 9 EXIT — say verbatim', text: '“I don’t want to make your situation harder than it already is. If you’re confident to bet on yourself and you know you’re going to succeed, you can reach out anytime.”' },
+                { type: 'note', text: 'If they talk well: offer contingency. Skip ahead to the Bucket step and log Bucket 9, then end the call.' },
+              ], 'learn_unemp_tight_yes');
+            }
+          };
+          tightYN.restore();
+        }
+      }
+
+      moneyBtn.onclick = () => selectPriority('money', moneyBtn);
+      growthBtn.onclick = () => selectPriority('growth', growthBtn);
+      pRow.appendChild(moneyBtn); pRow.appendChild(growthBtn);
+      if (state.answers.unemp_priority === 'money') { moneyBtn.classList.add('sel-b'); selectPriority('money', moneyBtn); }
+      if (state.answers.unemp_priority === 'growth') { growthBtn.classList.add('sel-b'); selectPriority('growth', growthBtn); }
+    }
+
+    function selectAfloat(val, btn) {
+      clearAfloat(); btn.classList.add('sel-b');
+      state.answers.unemp_afloat = val;
+      saveState();
+      afloatArea.innerHTML = '';
+      if (val === 'sidegig') {
+        fill(afloatArea, [
+          { type: 'ask', text: '“[Duration] — why don’t you just pursue that full time?”' },
+        ], 'learn_unemp_sidegig');
+        const cont = document.createElement('div'); afloatArea.appendChild(cont);
+        renderPriority(cont);
+      } else if (val === 'business') {
+        fill(afloatArea, [
+          { type: 'ask', text: '“What prevented you from pursuing it full time?”' },
+          { type: 'ask', text: '“Why not make a career out of it?”' },
+          { type: 'ask', text: '“Are you planning to just do this on the side for income flow, or are you deciding to have this as a full career?”' },
+          { type: 'ask', text: '“What’s your plan now with your business?”' },
+          { type: 'context', text: 'Mindset check: what\'s their actual plan? Vague or no plan is a soft signal, not an automatic exit.' },
+        ], 'learn_unemp_business');
+        const cont = document.createElement('div'); afloatArea.appendChild(cont);
+        renderPriority(cont);
+      } else {
+        fill(afloatArea, [
+          { type: 'context', text: 'Student or union certifications → proceed straight to Gate 1. Skip the priority question.' },
+          { type: 'note', text: 'Continue to the next step: Gate 1 — What’s breaking.' },
+        ], 'learn_unemp_student');
+      }
+    }
+
+    const sideBtn = document.createElement('button'); sideBtn.className = 'opt-btn'; sideBtn.textContent = 'Side gigs';
+    const bizBtn = document.createElement('button'); bizBtn.className = 'opt-btn'; bizBtn.textContent = 'Own business';
+    const studBtn = document.createElement('button'); studBtn.className = 'opt-btn'; studBtn.textContent = 'Student / union certs';
+    sideBtn.onclick = () => selectAfloat('sidegig', sideBtn);
+    bizBtn.onclick = () => selectAfloat('business', bizBtn);
+    studBtn.onclick = () => selectAfloat('student', studBtn);
+    afloatRow.appendChild(sideBtn); afloatRow.appendChild(bizBtn); afloatRow.appendChild(studBtn);
+    if (state.answers.unemp_afloat === 'sidegig') { sideBtn.classList.add('sel-b'); selectAfloat('sidegig', sideBtn); }
+    if (state.answers.unemp_afloat === 'business') { bizBtn.classList.add('sel-b'); selectAfloat('business', bizBtn); }
+    if (state.answers.unemp_afloat === 'student') { studBtn.classList.add('sel-b'); selectAfloat('student', studBtn); }
+
+    return box;
+  }
+
+  const empBtn = document.createElement('button'); empBtn.className = 'opt-btn'; empBtn.textContent = '🧑‍💼 Employed';
+  const unempBtn = document.createElement('button'); unempBtn.className = 'opt-btn'; unempBtn.textContent = '📋 Unemployed';
+
+  empBtn.onclick = () => {
+    clearTopBtns(); empBtn.classList.add('sel-g');
+    state.answers.employment = 'employed'; setEmployPill('Employed', 'g'); saveState();
+    contentArea.innerHTML = ''; contentArea.appendChild(renderEmployed());
+  };
+  unempBtn.onclick = () => {
+    clearTopBtns(); unempBtn.classList.add('sel-r');
+    state.answers.employment = 'unemployed'; setEmployPill('Unemployed', 'r'); saveState();
+    contentArea.innerHTML = ''; contentArea.appendChild(renderUnemployed());
+  };
+
+  topBtnRow.appendChild(empBtn); topBtnRow.appendChild(unempBtn);
+  w.appendChild(topBtnRow); w.appendChild(contentArea);
+
+  if (state.answers.employment === 'employed') { empBtn.classList.add('sel-g'); contentArea.appendChild(renderEmployed()); }
+  else if (state.answers.employment === 'unemployed') { unempBtn.classList.add('sel-r'); contentArea.appendChild(renderUnemployed()); }
+
+  return w;
+}
+
 function exportSummary() {
-  const lines=['PROLIANCE — PA APPRENTICE CALL SUMMARY','Recruiter: '+state.recruiter,'Candidate: '+(state.candidate||'Unnamed'),'Date: '+new Date().toLocaleDateString(),'','EMPLOYMENT: '+(state.answers.employment||'—'),'LANE: '+(state.answers.lane||'—'),'GATE 1: '+(state.answers.gate1_passed||'—'),'GATE 2: '+(state.answers.gate2_passed||'—'),'GATE 3: '+(state.answers.gate3_passed||'—'),'BUCKET: '+(state.answers.bucket||'—'),'VERDICT: '+(state.answers.verdict||'—'),''];
+  const lines=['PROLIANCE — PA APPRENTICE CALL SUMMARY','Recruiter: '+state.recruiter,'Candidate: '+(state.candidate||'Unnamed'),'Position: '+((state.answers&&state.answers.position)||'—'),'Date: '+new Date().toLocaleDateString(),'','EMPLOYMENT: '+(state.answers.employment||'—'),'LANE: '+(state.answers.lane||'—'),'GATE 1: '+(state.answers.gate1_passed||'—'),'COMMISSION RUNWAY: '+(state.answers.commission_runway_passed||'—'),'BUCKET: '+(state.answers.bucket||'—'),'VERDICT: '+(state.answers.verdict||'—'),''];
   if(state.flags.length){lines.push('FLAGS:');state.flags.forEach(f=>lines.push('  ['+f.color.toUpperCase()+'] '+f.time+': '+f.text));lines.push('');}
   if(state.notes.final_notes){lines.push('NOTES:');lines.push(state.notes.final_notes);}
   const blob=new Blob([lines.join('\n')],{type:'text/plain'});
@@ -1568,7 +1821,6 @@ function openHistory() {
 function closeHistory(){ document.getElementById('hist-modal').classList.remove('open'); }
 
 initLogin();
-
 
 </script>
 </body>
